@@ -120,27 +120,24 @@
             background: rgba(234, 179, 8, 0.12);
             box-shadow: 0 0 15px rgba(234, 179, 8, 0.5), inset 0 0 10px rgba(234, 179, 8, 0.2);
         }
-        .nav-icon-btn.cup-btn:hover img {
+        .nav-icon-btn.cup-btn:hover img, .nav-icon-btn.cup-btn:hover svg {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 8px #facc15) drop-shadow(0 0 15px #ec4899);
         }
 
         .nav-icon-btn.crystal-btn:hover {
             background: rgba(217, 70, 239, 0.12);
             box-shadow: 0 0 15px rgba(217, 70, 239, 0.5), inset 0 0 10px rgba(217, 70, 239, 0.2);
         }
-        .nav-icon-btn.crystal-btn:hover img {
+        .nav-icon-btn.crystal-btn:hover svg {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px #d946ef);
         }
 
         .nav-icon-btn.sword-btn:hover {
             background: rgba(56, 189, 248, 0.12);
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.2);
         }
-        .nav-icon-btn.sword-btn:hover img {
+        .nav-icon-btn.sword-btn:hover svg {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 8px #38bdf8) drop-shadow(0 0 16px #0284c7);
         }
 
         .nav-divider {
@@ -228,12 +225,13 @@
             margin-bottom: 45px;
         }
 
+        /* 3 карточки в главном меню (без таблицы тиров) */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(280px, 440px));
+            grid-template-columns: repeat(3, minmax(240px, 320px));
             gap: 22px;
             width: 100%;
-            max-width: 920px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -439,7 +437,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Новая сетка тиров 1-5 (Пустые чистые колонки под цвета сайта) */
         .tiers-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(190px, 1fr));
@@ -502,7 +499,7 @@
             background: rgba(15, 23, 42, 0.5);
             border-left: 3px solid var(--accent-blue);
             border-radius: 0 12px 12px 0;
-            padding: 15px 18px;
+            padding: 16px 20px;
             margin-bottom: 14px;
             transition: background 0.2s ease;
         }
@@ -513,15 +510,15 @@
 
         .rule-title {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #ffffff;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .rule-desc {
             color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         footer {
@@ -586,23 +583,15 @@
     <section class="hero">
         <div class="pill-badge">PVP TIERLIST PROJECT</div>
         <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Нажмите на кубок в панели сверху, чтобы посмотреть пустые сетки тиров от TIER 1 до TIER 5.</p>
+        <p class="subtitle">Используйте верхнюю панель или карточки ниже для доступа к правилам, туториалам и модам.</p>
 
+        <!-- Главное меню (3 карточки: Правила, Тиртест, Модификации) -->
         <div class="menu-grid">
-            <div class="menu-card" onclick="openModal('tiersListModal')">
-                <div>
-                    <div class="card-icon">🏆</div>
-                    <h3>Таблица тиров (1-5)</h3>
-                    <p>Официальные уровни мастерства игроков проекта.</p>
-                </div>
-                <div class="card-action">Смотреть &rarr;</div>
-            </div>
-
             <div class="menu-card" onclick="openModal('rulesModal')">
                 <div>
                     <div class="card-icon">📜</div>
                     <h3>Правила проекта</h3>
-                    <p>Администрация, регламент проверок и условия.</p>
+                    <p>Администрация, регламент проверок и общие условия.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -611,7 +600,7 @@
                 <div>
                     <div class="card-icon">🎯</div>
                     <h3>Пройти тиртест</h3>
-                    <p>Пошаговый туториал для получения роли.</p>
+                    <p>Пошаговый туториал для получения заветной роли.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -620,14 +609,14 @@
                 <div>
                     <div class="card-icon">🧩</div>
                     <h3>Запрещённые модификации</h3>
-                    <p>Список разрешённого и запрещённого ПО.</p>
+                    <p>Полный список разрешённого и запрещённого ПО.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
         </div>
     </section>
 
-    <!-- Модальное окно: Список тиров (1-5, все списки пустые в стиле сайта) -->
+    <!-- Модальное окно: Список тиров (1-5, открывается по клику на кубок) -->
     <div class="modal-overlay" id="tiersListModal" onclick="closeModalOnBackdrop(event, 'tiersListModal')">
         <div class="modal-container" style="max-width: 1250px;">
             <div class="modal-header">
@@ -681,7 +670,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно: Правила -->
+    <!-- Модальное окно: Правила проекта (Полная информация) -->
     <div class="modal-overlay" id="rulesModal" onclick="closeModalOnBackdrop(event, 'rulesModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -689,13 +678,23 @@
                 <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-title">1.1 — Решения администрации</div><div class="rule-desc">Решения администрации являются обязательными для исполнения участниками проекта.</div></div>
-                <div class="rule-card"><div class="rule-title">2.1 — Реклама</div><div class="rule-desc">Любая форма рекламы без разрешения администрации запрещена.</div></div>
+                <div class="rule-card">
+                    <div class="rule-title">1. Общие положения</div>
+                    <div class="rule-desc">1.1. Настоящие правила обязательны для соблюдения всеми участниками сообщества и серверов VTIERS.<br>1.2. Незнание правил не освобождает от ответственности за их нарушение.<br>1.3. Администрация оставляет за собой право изменять правила в любое время без предварительного уведомления.</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">2. Регламент проверок и тиртестов</div>
+                    <div class="rule-desc">2.1. Каждый игрок, проходящий на тир-роль, обязан пройти проверку от уполномоченного тестера.<br>2.2. Отказ от прохождения проверки приравнивается к признанию использования запрещенного ПО и влечет перманентный банан.<br>2.3. Запрещено использовать любые сторонние программы скрытия файлов (Anvir, Process Hacker со сторонними скриптами и т.д.) во время проверки.</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">3. Поведение в чатах и на аренах</div>
+                    <div class="rule-desc">3.1. Запрещены оскорбления, токсичность, разжигание розни и буллинг участников.<br>3.2. Запрещен спам, флуд и реклама сторонних проектов или ресурсов.</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно: Модификации -->
+    <!-- Модальное окно: Запрещённые модификации (Полная информация) -->
     <div class="modal-overlay" id="modsModal" onclick="closeModalOnBackdrop(event, 'modsModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -703,12 +702,19 @@
                 <button class="modal-close" onclick="closeModal('modsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-desc">Запрещены любые модификации, клиенты, макросы и прочие программы, дающие преимущество в PvP.</div></div>
+                <div class="rule-card">
+                    <div class="rule-title">❌ Категорически запрещенное ПО</div>
+                    <div class="rule-desc">• Любые чит-клиенты (Aristois, Meteor, Wurst и другие).<br>• Макросы на автокликер, зажим (рееклок), бэктрек и помощь в прицеливании.<br>• Модификации на хитбоксы, валлхак (ESP) и отображение невидимых сущностей.<br>• Редкие сторонние утилиты для изменения памяти игры.</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">⚠️ Условно разрешенное / Ограниченное ПО</div>
+                    <div class="rule-desc">• Модификации на оптимизацию (Sodium, Lithium, Starlight).<br>• Программы для настройки мыши/угла обзора (только стандартные настройки драйверов без макросов).<br>• Ресурспаки (рекомендуется использовать стандартные FPS-паки без скрытых полупрозрачных текстур стен).</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно: Туториал -->
+    <!-- Модальное окно: Туториал (Полная информация) -->
     <div class="modal-overlay" id="tutorialModal" onclick="closeModalOnBackdrop(event, 'tutorialModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -716,7 +722,18 @@
                 <button class="modal-close" onclick="closeModal('tutorialModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-title">Шаг 1</div><div class="rule-desc">Перейдите в наш Дискорд и создайте тикет в канале тестирования.</div></div>
+                <div class="rule-card">
+                    <div class="rule-title">Шаг 1: Подготовка</div>
+                    <div class="rule-desc">Убедитесь, что у вас установлена актуальная версия игры, стабильный интернет и настроен официальный Discord-сервер проекта.</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Шаг 2: Создание тикета</div>
+                    <div class="rule-desc">Перейдите в канал поддержки или тиртестов в Discord и нажмите кнопку создания тикета для связи с тестировщиком.</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-title">Шаг 3: Проверка и Бой</div>
+                    <div class="rule-desc">Пройдите быструю демонстрацию экрана и проверку файлов, после чего отправляйтесь на арену для подтверждения своего уровня.</div>
+                </div>
             </div>
         </div>
     </div>
