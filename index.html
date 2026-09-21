@@ -116,7 +116,6 @@
             transition: filter 0.3s ease, transform 0.3s ease;
         }
 
-        /* Ванильные подсветки при наведении */
         .nav-icon-btn.cup-btn:hover {
             background: rgba(234, 179, 8, 0.12);
             box-shadow: 0 0 15px rgba(234, 179, 8, 0.5), inset 0 0 10px rgba(234, 179, 8, 0.2);
@@ -381,7 +380,7 @@
             border-radius: 22px;
             width: 100%;
             max-width: 1150px;
-            height: 88vh;
+            height: 85vh;
             display: flex;
             flex-direction: column;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.25);
@@ -433,43 +432,6 @@
             border-color: #ef4444;
         }
 
-        .rules-tabs {
-            display: flex;
-            gap: 10px;
-            padding: 14px 28px;
-            background: rgba(9, 16, 32, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            overflow-x: auto;
-            flex-shrink: 0;
-        }
-
-        .tab-btn {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            color: var(--text-muted);
-            padding: 9px 18px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.25s ease;
-        }
-
-        .tab-btn:hover {
-            color: #ffffff;
-            border-color: rgba(56, 189, 248, 0.4);
-            background: rgba(56, 189, 248, 0.08);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
-            color: #ffffff;
-            border-color: var(--accent-blue);
-            font-weight: 700;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.45);
-        }
-
         .modal-body {
             padding: 28px;
             overflow-y: auto;
@@ -477,27 +439,13 @@
             scroll-behavior: smooth;
         }
 
-        .rules-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .rules-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Новая сетка тиров 1-5 */
+        /* Новая сетка тиров 1-5 (Пустые чистые колонки под цвета сайта) */
         .tiers-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(190px, 1fr));
             gap: 16px;
             height: 100%;
-            min-height: 500px;
+            min-height: 480px;
         }
 
         .tier-column {
@@ -509,84 +457,45 @@
             flex-direction: column;
             overflow: hidden;
             transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(2, 6, 23, 0.5);
         }
 
         .tier-column:hover {
             border-color: rgba(56, 189, 248, 0.45);
-            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.12);
+            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.15), inset 0 0 20px rgba(56, 189, 248, 0.05);
         }
 
         .tier-col-header {
             padding: 16px;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.9);
             border-bottom: 1px solid rgba(56, 189, 248, 0.15);
             text-align: center;
             font-weight: 800;
             font-size: 1.1rem;
-            letter-spacing: 1px;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+            letter-spacing: 1.5px;
         }
 
         .tier-col-content {
-            padding: 14px;
+            padding: 20px 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-
-        .tier-player-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.1);
-            border-radius: 12px;
-            padding: 10px 12px;
-            display: flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.25s ease;
-        }
-
-        .tier-player-card:hover {
-            background: rgba(56, 189, 248, 0.12);
-            border-color: rgba(56, 189, 248, 0.5);
-            transform: translateX(3px);
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
-        }
-
-        .player-skin {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            object-fit: cover;
-        }
-
-        .player-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .player-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #f1f5f9;
-        }
-
-        .player-status {
-            font-size: 0.72rem;
-            color: var(--text-muted);
+            justify-content: center;
+            flex-grow: 1;
+            background: radial-gradient(circle at center, rgba(56, 189, 248, 0.03) 0%, transparent 70%);
         }
 
         .empty-tier {
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             text-align: center;
-            margin: auto;
-            padding: 20px 0;
             font-style: italic;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px dashed rgba(56, 189, 248, 0.15);
+            padding: 14px;
+            border-radius: 12px;
+            width: 100%;
+            letter-spacing: 0.5px;
         }
 
         .rule-card {
@@ -613,20 +522,6 @@
             color: var(--text-muted);
             font-size: 0.92rem;
             line-height: 1.5;
-        }
-
-        .media-note {
-            background: rgba(56, 189, 248, 0.06);
-            border: 1px dashed rgba(56, 189, 248, 0.3);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
-            color: #cbd5e1;
-            font-size: 0.92rem;
-        }
-
-        .media-note strong {
-            color: var(--accent-blue);
         }
 
         footer {
@@ -678,9 +573,6 @@
                 <a href="javascript:void(0)" onclick="openModal('tutorialModal')" class="action-btn" title="Как пройти тиртест">
                     <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 </a>
-                <button class="action-btn" onclick="document.body.classList.toggle('light-theme')" title="Переключить тему">
-                    <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
-                </button>
                 <button class="action-btn" onclick="openModal('tutorialModal')" title="Поиск">
                     <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 </button>
@@ -694,14 +586,14 @@
     <section class="hero">
         <div class="pill-badge">PVP TIERLIST PROJECT</div>
         <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Нажмите на кубок в панели сверху, чтобы посмотреть текущий список игроков по тирам от TIER 1 до TIER 5.</p>
+        <p class="subtitle">Нажмите на кубок в панели сверху, чтобы посмотреть пустые сетки тиров от TIER 1 до TIER 5.</p>
 
         <div class="menu-grid">
             <div class="menu-card" onclick="openModal('tiersListModal')">
                 <div>
                     <div class="card-icon">🏆</div>
                     <h3>Таблица тиров (1-5)</h3>
-                    <p>Актуальный список лучших игроков проекта, распределенных по уровням мастерства.</p>
+                    <p>Официальные уровни мастерства игроков проекта.</p>
                 </div>
                 <div class="card-action">Смотреть &rarr;</div>
             </div>
@@ -710,7 +602,7 @@
                 <div>
                     <div class="card-icon">📜</div>
                     <h3>Правила проекта</h3>
-                    <p>Администрация, правила общения, регламент проверок (SS) и условия для медиа-игроков.</p>
+                    <p>Администрация, регламент проверок и условия.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -719,7 +611,7 @@
                 <div>
                     <div class="card-icon">🎯</div>
                     <h3>Пройти тиртест</h3>
-                    <p>Пошаговый туториал: от входа на Discord-сервер до получения своего тира. Всё просто — 8 шагов.</p>
+                    <p>Пошаговый туториал для получения роли.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -728,18 +620,18 @@
                 <div>
                     <div class="card-icon">🧩</div>
                     <h3>Запрещённые модификации</h3>
-                    <p>Список разрешённых и запрещённых модификаций. Обязательно ознакомьтесь перед тестом.</p>
+                    <p>Список разрешённого и запрещённого ПО.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
         </div>
     </section>
 
-    <!-- Модальное окно: Список тиров (1-5) -->
+    <!-- Модальное окно: Список тиров (1-5, все списки пустые в стиле сайта) -->
     <div class="modal-overlay" id="tiersListModal" onclick="closeModalOnBackdrop(event, 'tiersListModal')">
         <div class="modal-container" style="max-width: 1250px;">
             <div class="modal-header">
-                <h2>🏆 Официальный список <span class="gradient-text">ТИРОВ VTIERS</span></h2>
+                <h2>🏆 Официальные <span class="gradient-text">УРОВНИ ТИРОВ</span></h2>
                 <button class="modal-close" onclick="closeModal('tiersListModal')">&times;</button>
             </div>
             
@@ -747,7 +639,7 @@
                 <div class="tiers-grid">
                     <!-- TIER 1 -->
                     <div class="tier-column">
-                        <div class="tier-col-header" style="color: #facc15; text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);">TIER 1</div>
+                        <div class="tier-col-header" style="color: #facc15; text-shadow: 0 0 12px rgba(250, 204, 21, 0.4);">TIER 1</div>
                         <div class="tier-col-content">
                             <div class="empty-tier">Нет данных</div>
                         </div>
@@ -755,7 +647,7 @@
 
                     <!-- TIER 2 -->
                     <div class="tier-column">
-                        <div class="tier-col-header" style="color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.5);">TIER 2</div>
+                        <div class="tier-col-header" style="color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);">TIER 2</div>
                         <div class="tier-col-content">
                             <div class="empty-tier">Нет данных</div>
                         </div>
@@ -763,78 +655,25 @@
 
                     <!-- TIER 3 -->
                     <div class="tier-column">
-                        <div class="tier-col-header" style="color: #c084fc; text-shadow: 0 0 12px rgba(192, 132, 252, 0.5);">TIER 3</div>
+                        <div class="tier-col-header" style="color: #c084fc; text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);">TIER 3</div>
                         <div class="tier-col-content">
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/hqlc/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">hqlc</span>
-                                    <span class="player-status">Verified HT3</span>
-                                </div>
-                            </div>
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/Karas1kFort/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">Karas1kFort</span>
-                                    <span class="player-status">Verified HT3</span>
-                                </div>
-                            </div>
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/kvak114/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">kvak114</span>
-                                    <span class="player-status">Verified HT3</span>
-                                </div>
-                            </div>
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/larpscyther/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">larpscyther</span>
-                                    <span class="player-status">Verified HT3</span>
-                                </div>
-                            </div>
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/pomidor_2007/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">pomidor_2007</span>
-                                    <span class="player-status">Verified HT3</span>
-                                </div>
-                            </div>
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/quonsort151/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">quonsort151</span>
-                                    <span class="player-status">Verified HT3</span>
-                                </div>
-                            </div>
+                            <div class="empty-tier">Нет данных</div>
                         </div>
                     </div>
 
                     <!-- TIER 4 -->
                     <div class="tier-column">
-                        <div class="tier-col-header" style="color: #4ade80; text-shadow: 0 0 12px rgba(74, 222, 128, 0.5);">TIER 4</div>
+                        <div class="tier-col-header" style="color: #4ade80; text-shadow: 0 0 12px rgba(74, 222, 128, 0.4);">TIER 4</div>
                         <div class="tier-col-content">
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/TwinkKuMu/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">TwinkKuMu</span>
-                                    <span class="player-status">Verified T4</span>
-                                </div>
-                            </div>
+                            <div class="empty-tier">Нет данных</div>
                         </div>
                     </div>
 
                     <!-- TIER 5 -->
                     <div class="tier-column">
-                        <div class="tier-col-header" style="color: #fb923c; text-shadow: 0 0 12px rgba(251, 146, 60, 0.5);">TIER 5</div>
+                        <div class="tier-col-header" style="color: #fb923c; text-shadow: 0 0 12px rgba(251, 146, 60, 0.4);">TIER 5</div>
                         <div class="tier-col-content">
-                            <div class="tier-player-card">
-                                <img src="https://mc-heads.net/avatar/kw0Ta/32" alt="skin" class="player-skin">
-                                <div class="player-info">
-                                    <span class="player-name">kw0Ta</span>
-                                    <span class="player-status">Verified T5</span>
-                                </div>
-                            </div>
+                            <div class="empty-tier">Нет данных</div>
                         </div>
                     </div>
                 </div>
@@ -842,7 +681,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно: Правила проекта -->
+    <!-- Модальное окно: Правила -->
     <div class="modal-overlay" id="rulesModal" onclick="closeModalOnBackdrop(event, 'rulesModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -852,12 +691,11 @@
             <div class="modal-body">
                 <div class="rule-card"><div class="rule-title">1.1 — Решения администрации</div><div class="rule-desc">Решения администрации являются обязательными для исполнения участниками проекта.</div></div>
                 <div class="rule-card"><div class="rule-title">2.1 — Реклама</div><div class="rule-desc">Любая форма рекламы без разрешения администрации запрещена.</div></div>
-                <div class="rule-card"><div class="rule-title">3.1 — Чит-клиенты перед тестированием</div><div class="rule-desc">Запрещено хранить чит-клиенты и другое запрещённое ПО в течение 30 дней до прохождения теста.</div></div>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно: Запрещённые модификации -->
+    <!-- Модальное окно: Модификации -->
     <div class="modal-overlay" id="modsModal" onclick="closeModalOnBackdrop(event, 'modsModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -865,9 +703,7 @@
                 <button class="modal-close" onclick="closeModal('modsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-desc">Запрещены любые модификации, клиенты, макросы и прочие программы, дающие преимущество в PvP/CPvP.</div></div>
-                <div class="rule-card"><div class="rule-desc">AutoTotem / Advanced AutoTotem</div></div>
-                <div class="rule-card"><div class="rule-desc">ClickCrystal / Crystal Switcher</div></div>
+                <div class="rule-card"><div class="rule-desc">Запрещены любые модификации, клиенты, макросы и прочие программы, дающие преимущество в PvP.</div></div>
             </div>
         </div>
     </div>
@@ -880,8 +716,7 @@
                 <button class="modal-close" onclick="closeModal('tutorialModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-title">Шаг 1</div><div class="rule-desc">Перейди в наш Дискорд по кнопке вверху.</div></div>
-                <div class="rule-card"><div class="rule-title">Шаг 2</div><div class="rule-desc">Пройди авторизацию и создай тикет в канале тестирования.</div></div>
+                <div class="rule-card"><div class="rule-title">Шаг 1</div><div class="rule-desc">Перейдите в наш Дискорд и создайте тикет в канале тестирования.</div></div>
             </div>
         </div>
     </div>
