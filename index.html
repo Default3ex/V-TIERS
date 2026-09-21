@@ -503,7 +503,7 @@
             padding: 8px 10px;
             border-radius: 8px;
             border: 1px solid rgba(56, 189, 248, 0.1);
-            font-size: 0.85px;
+            font-size: 0.85rem;
         }
 
         .player img {
@@ -521,6 +521,8 @@
             white-space: nowrap;
             color: #e2e8f0;
             font-size: 0.85rem;
+            display: flex;
+            align-items: center;
         }
 
         .rule-category {
@@ -1170,16 +1172,30 @@
                 'TIER 5': '#fb923c'
             };
 
-            // Определяем тиры (если в базе пусто, покажем пустые колонки для 1-5)
             const standardTiers = ['TIER 1', 'TIER 2', 'TIER 3', 'TIER 4', 'TIER 5'];
             const groupedTiers = {};
             standardTiers.forEach(t => groupedTiers[t] = []);
 
+            // Функция нормализации LT/HT в соответствующие TIER
+            function normalizeTier(tierStr) {
+                if (!tierStr) return 'TIER 5';
+                const clean = tierStr.toString().trim().toUpperCase();
+                if (clean.includes('1')) return 'TIER 1';
+                if (clean.includes('2')) return 'TIER 2';
+                if (clean.includes('3')) return 'TIER 3';
+                if (clean.includes('4')) return 'TIER 4';
+                if (clean.includes('5')) return 'TIER 5';
+                return 'TIER 5';
+            }
+
             if (players && players.length > 0) {
                 players.forEach(p => {
-                    const tName = p.tier || 'TIER 5';
-                    if (!groupedTiers[tName]) groupedTiers[tName] = [];
-                    groupedTiers[tName].push(p);
+                    const normTier = normalizeTier(p.tier);
+                    if (groupedTiers[normTier]) {
+                        groupedTiers[normTier].push(p);
+                    } else {
+                        groupedTiers['TIER 5'].push(p);
+                    }
                 });
             }
 
@@ -1199,10 +1215,11 @@
                     tierPlayers.forEach(player => {
                         const avatar = player.avatar_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
                         const name = player.display_name || player.username || 'Игрок';
+                        const subTier = player.tier ? player.tier.toUpperCase() : '';
                         colHtml += `
                             <div class="player">
                                 <img src="${avatar}" alt="Avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                                <span><strong>${name}</strong></span>
+                                <span><strong>${name}</strong> ${subTier ? `<span style="color: #94a3b8; font-size: 0.75rem; margin-left: 6px;">(${subTier})</span>` : ''}</span>
                             </div>
                         `;
                     });
