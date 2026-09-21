@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VTIERS — Discord Bot & Community</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #39FF14;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+            background: radial-gradient(circle at center, rgba(57, 255, 20, 0.05) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--accent-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 50px 10%;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">VTIERS</div>
+        <nav>
+            <a href="#features">Возможности</a>
+            <a href="#about">О нас</a>
+            <a href="https://discord.gg/YOUR_LINK" target="_blank">Discord</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Система <span>Тир-Тестов</span> VTIERS</h1>
+        <p>Официальный бот для авто-очередей, проведения тестов и автоматической выдачи рангов на вашем сервере.</p>
+        <a href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=8" class="btn" target="_blank">Добавить бота</a>
+    </section>
+
+    <section class="features" id="features">
+        <div class="card">
+            <h3>⚡ Управление очередью</h3>
+            <p>Удобные кнопки открытия и закрытия очереди тестерами с ограничением мест.</p>
+        </div>
+        <div class="card">
+            <h3>🎫 Приватные тикеты</h3>
+            <p>Автоматическое создание каналов для дуэлей и подача заявок в Staff.</p>
+        </div>
+        <div class="card">
+            <h3>🏆 Автоматические роли</h3>
+            <p>Выдача тиров игрокам сразу после проведения теста одной командой.</p>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 VTIERS. Все права защищены.
+    </footer>
+
+</body>
+</html>
