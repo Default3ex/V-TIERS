@@ -8,7 +8,6 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: #fff; padding: 20px; }
         h1 { text-align: center; color: #39FF14; margin-bottom: 10px; }
         
-        /* Панель управления и кнопка */
         .controls { text-align: center; margin-bottom: 25px; }
         .btn-refresh {
             background: #39FF14; color: #000; border: none; padding: 10px 20px;
@@ -20,7 +19,6 @@
         .tier-block { background: #1e1e1e; padding: 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #333; }
         .tier-title { color: #39FF14; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 8px; }
         
-        /* Интерактивные карточки игроков */
         .player { 
             display: flex; align-items: center; margin: 8px 0; background: #2a2a2a; 
             padding: 8px 12px; border-radius: 6px; text-decoration: none; color: white;
@@ -30,7 +28,7 @@
         .player img { border-radius: 50%; margin-right: 12px; width: 36px; height: 36px; }
         
         .empty { color: #888; font-style: italic; }
-        #error-log { color: #ff5555; background: #2b0000; padding: 10px; border-radius: 6px; display: none; margin-bottom: 20px; }
+        #error-log { color: #ff5555; background: #2b0000; padding: 12px; border-radius: 6px; display: none; margin-bottom: 20px; border: 1px solid #ff3333; }
     </style>
 </head>
 <body>
@@ -45,8 +43,31 @@
     <div id="tiers-container">⏳ Загрузка данных с сервера...</div>
 
     <script>
-        const TARGET_URL = 'http://167.235.13.16:25337/api/tiers';
-        const API_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(TARGET_URL)}`;
+        const BOT_API = 'http://167.235.13.16:25337/api/tiers';
+
+        // Список прокси-серверов для обхода блокировок
+        const PROXIES = [
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(BOT_API)}`,
+            `https://corsproxy.io/?${encodeURIComponent(BOT_API)}`,
+            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(BOT_API)}`
+        ];
+
+        async function fetchWithFallback() {
+            let lastError = null;
+            for (const proxyUrl of PROXIES) {
+                try {
+                    const cacheBuster = proxyUrl.includes('?') ? `&t=${Date.now()}` : `?t=${Date.now()}`;
+                    const response = await fetch(proxyUrl + cacheBuster);
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                } catch (err) {
+                    lastError = err;
+                    console.warn(`Прокси ${proxyUrl} не ответил, пробуем следующий...`);
+                }
+            }
+            throw lastError || new Error('Все прокси-серверы недоступны или бот отключен.');
+        }
 
         async function loadTiers() {
             const container = document.getElementById('tiers-container');
@@ -56,14 +77,10 @@
             container.style.opacity = '0.5';
 
             try {
-                // Добавляем timestamp, чтобы обходить кэширование при частых кликах
-                const response = await fetch(`${API_URL}&t=${Date.now()}`);
-                if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
-                
-                const data = await response.json();
+                const data = await fetchWithFallback();
                 container.innerHTML = '';
 
-                if (Object.keys(data).length === 0) {
+                if (!data || Object.keys(data).length === 0) {
                     container.innerHTML = '<p class="empty">Данные о тирах пока пусты.</p>';
                     return;
                 }
@@ -76,7 +93,7 @@
                     } else {
                         players.forEach(player => {
                             html += `
-                                <a class="player" href="${player.avatar}" target="_blank" title="Нажмите, чтобы открыть аватар">
+                                <a class="player" href="${player.avatar}" target="_blank" title="Открыть аватар">
                                     <img src="${player.avatar}" alt="Avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                                     <span><strong>${player.displayName}</strong> (@${player.username})</span>
                                 </a>
@@ -90,8 +107,8 @@
             } catch (error) {
                 console.error('Ошибка API:', error);
                 errorLog.style.display = 'block';
-                errorLog.innerText = `❌ Не удалось загрузить данные: ${error.message}`;
-                container.innerHTML = '<p class="empty">Ошибка загрузки. Проверьте консоль браузера.</p>';
+                errorLog.innerText = `❌ Не удалось загрузить данные: ${error.message}. Убедитесь, что бот запущен на хостинге.`;
+                container.innerHTML = '<p class="empty">Ошибка загрузки.</p>';
             } finally {
                 container.style.opacity = '1';
             }
