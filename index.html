@@ -821,7 +821,7 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // --- Скрипт зелёного звёздного шлейфа за курсором ---
+        // --- Скрипт уменьшенных тёмно-зелёных звёздочек за курсором ---
         const canvas = document.getElementById('starTrailCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -835,15 +835,16 @@
 
         class Star {
             constructor(x, y) {
-                this.x = x + (Math.random() - 0.5) * 8;
-                this.y = y + (Math.random() - 0.5) * 8;
-                this.size = Math.random() * 6 + 3; // Размер звезды
-                this.alpha = 1; // Прозрачность
-                this.decay = Math.random() * 0.025 + 0.015; // Скорость затухания
-                this.vx = (Math.random() - 0.5) * 1.2; // Разлёт по X
-                this.vy = (Math.random() - 0.5) * 1.2 + 0.4; // Плавное падение
+                this.x = x + (Math.random() - 0.5) * 6;
+                this.y = y + (Math.random() - 0.5) * 6;
+                // Небольшой размер, чтобы звёзды были ощутимо меньше курсора
+                this.size = Math.random() * 2 + 1.5; 
+                this.alpha = 1; // Начальная прозрачность
+                this.decay = Math.random() * 0.03 + 0.02; // Скорость затухания
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8 + 0.3; // Плавное спускание вниз
                 this.rotation = Math.random() * Math.PI * 2;
-                this.rotSpeed = (Math.random() - 0.5) * 0.12;
+                this.rotSpeed = (Math.random() - 0.5) * 0.1;
             }
 
             update() {
@@ -860,12 +861,12 @@
                 ctx.rotate(this.rotation);
                 ctx.globalAlpha = Math.max(0, this.alpha);
                 
-                // Светящийся салатовый цвет
-                ctx.fillStyle = '#39FF14';
-                ctx.shadowColor = '#39FF14';
-                ctx.shadowBlur = 10;
+                // Насыщенный тёмно-зелёный цвет вместо ядовито-кислотного
+                ctx.fillStyle = '#16a34a';
+                ctx.shadowColor = '#15803d';
+                ctx.shadowBlur = 4;
 
-                // Отрисовка 5-конечной звезды
+                // Отрисовка 5-конечной звездочки
                 drawStarShape(ctx, 0, 0, 5, this.size, this.size / 2.2);
                 ctx.fill();
                 ctx.restore();
@@ -895,7 +896,7 @@
             ctx.closePath();
         }
 
-        // Спавн звёздочек при движении мыши
+        // Спавн аккуратных звёздочек при движении мыши
         window.addEventListener('mousemove', function(e) {
             for (let i = 0; i < 2; i++) {
                 particles.push(new Star(e.clientX, e.clientY));
