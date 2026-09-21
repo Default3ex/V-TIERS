@@ -38,11 +38,12 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            pointer-events: none;
+            pointer-events: none; /* Чтобы снег и курсор не блокировали нажатия мышкой */
         }
 
+        /* Снег теперь выше модальных окон, чтобы падать прямо поверх них */
         #snowCanvas {
-            z-index: 1;
+            z-index: 2000;
         }
 
         #starTrailCanvas {
