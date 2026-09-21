@@ -192,7 +192,6 @@
             cursor: pointer;
         }
 
-        /* Фоновый слой для анимации насыщенных волн */
         .menu-card::before {
             content: '';
             position: absolute;
@@ -212,7 +211,6 @@
             animation: gradientShift 4s ease infinite;
         }
 
-        /* Поднимаем содержимое карточки над анимированным фоном */
         .menu-card > * {
             position: relative;
             z-index: 1;
@@ -289,7 +287,7 @@
             text-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
         }
 
-        /* --- Modal Window (Правила) --- */
+        /* --- Modal Window (Общий стиль для правил и модов) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -523,7 +521,7 @@
         <div class="logo gradient-text">VTIERS</div>
         <nav>
             <a href="#features">Возможности</a>
-            <a href="javascript:void(0)" onclick="openModal()">Правила</a>
+            <a href="javascript:void(0)" onclick="openModal('rulesModal')">Правила</a>
             <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="btn">Discord</a>
         </nav>
     </header>
@@ -552,16 +550,16 @@
                 <div class="card-action">Открыть &rarr;</div>
             </div>
 
-            <div class="menu-card">
+            <div class="menu-card" onclick="openModal('modsModal')">
                 <div>
                     <div class="card-icon">🧩</div>
-                    <h3>Модификации</h3>
-                    <p>Список разрешённых и запрещённых модификаций. Обязательно ознакомьтесь перед тестом.</p>
+                    <h3>Запрещённые модификации</h3>
+                    <p>Список разрешённых и запрещённых модификаций, читов и оптимизаторов. Обязательно ознакомьтесь перед тестом.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
 
-            <div class="menu-card" onclick="openModal()">
+            <div class="menu-card" onclick="openModal('rulesModal')">
                 <div>
                     <div class="card-icon">📜</div>
                     <h3>Правила проекта</h3>
@@ -573,18 +571,18 @@
     </section>
 
     <!-- Модальное окно правил -->
-    <div class="modal-overlay" id="rulesModal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-overlay" id="rulesModal" onclick="closeModalOnBackdrop(event, 'rulesModal')">
         <div class="modal-container">
             <div class="modal-header">
                 <h2>📜 Правила проекта <span class="gradient-text">VTIERS</span></h2>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
             </div>
 
             <div class="rules-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-admin', event)">1. Администрация</button>
-                <button class="tab-btn" onclick="switchTab('tab-chat', event)">2. Общение</button>
-                <button class="tab-btn" onclick="switchTab('tab-checks', event)">3. Проверки и SS</button>
-                <button class="tab-btn" onclick="switchTab('tab-media', event)">4. Медиа-игроки</button>
+                <button class="tab-btn active" onclick="switchTab('tab-admin', event, 'rulesModal')">1. Администрация</button>
+                <button class="tab-btn" onclick="switchTab('tab-chat', event, 'rulesModal')">2. Общение</button>
+                <button class="tab-btn" onclick="switchTab('tab-checks', event, 'rulesModal')">3. Проверки и SS</button>
+                <button class="tab-btn" onclick="switchTab('tab-media', event, 'rulesModal')">4. Медиа-игроки</button>
             </div>
 
             <div class="modal-body">
@@ -814,38 +812,142 @@
         </div>
     </div>
 
+    <!-- Модальное окно: Запрещённые модификации -->
+    <div class="modal-overlay" id="modsModal" onclick="closeModalOnBackdrop(event, 'modsModal')">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>🧩 Запрещённые <span class="gradient-text">модификации</span></h2>
+                <button class="modal-close" onclick="closeModal('modsModal')">&times;</button>
+            </div>
+
+            <div class="rules-tabs">
+                <button class="tab-btn active" onclick="switchTab('tab-general-mods', event, 'modsModal')">Общие положения</button>
+                <button class="tab-btn" onclick="switchTab('tab-main-list', event, 'modsModal')">Основной список</button>
+                <button class="tab-btn" onclick="switchTab('tab-extra-mods', event, 'modsModal')">Дополнительно</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Вкладка 1: Общие положения -->
+                <div id="tab-general-mods" class="rules-section active">
+                    <div class="rule-card">
+                        <div class="rule-title">Общее правило о модификациях</div>
+                        <div class="rule-desc">Запрещены любые модификации, клиенты, аддоны, плагины, макросы и прочие программы, которые дают преимущество в PvP/CPvP или изменяют стандартную механику Minecraft.</div>
+                    </div>
+                </div>
+
+                <!-- Вкладка 2: Основной список -->
+                <div id="tab-main-list" class="rules-section">
+                    <div class="media-note">
+                        <strong>📌 Основной перечень запрещённого ПО:</strong> Хранение или использование любого из нижеперечисленных продуктов строго запрещено на проекте.
+                    </div>
+                    <div id="mods-list-container">
+                        <!-- Динамически заполнится через JS или выведем списком карточек -->
+                    </div>
+                </div>
+
+                <!-- Вкладка 3: Дополнительно -->
+                <div id="tab-extra-mods" class="rules-section">
+                    <div class="rule-card">
+                        <div class="rule-title">Индикаторы и HP противников</div>
+                        <div class="rule-desc">• Любые индикаторы HP противников<br>• Любые HealthBar / Health Indicator моды</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Радары, эсп и миникарты</div>
+                        <div class="rule-desc">• Миникарты с отображением игроков<br>• Player ESP / Entity ESP / Tracers / Radar</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Клиенты и макросы</div>
+                        <div class="rule-desc">• CW-HACK и подобные ему модификации/клиенты<br>• Любые AutoClicker и Macro<br>• Любые Double Bind / Multi Bind моды</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Автоматизация игровых процессов</div>
+                        <div class="rule-desc">• Любые моды, автоматизирующие swap предметов<br>• Любые моды, автоматизирующие Crystal / Anchor / Mace / Pearl действия</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Аналоги, форки и приватный софт</div>
+                        <div class="rule-desc">• Любые форки, порты, переименованные версии и аналоги перечисленных модификаций, выполняющие аналогичную функцию.<br>• Любые приватные/самописные модификации с аналогичным функционалом.</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Изменение механики и ускорение</div>
+                        <div class="rule-desc">• Любые модификации, которые изменяют механику PvP, ускоряют действия игрока или уменьшают количество необходимых действий по сравнению с ванильным клиентом</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-title">Оптимизаторы</div>
+                        <div class="rule-desc">• Любые оптимизаторы, кроме Marlow и HCsCR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         &copy; 2026 VTIERS. Все права защищены.
     </footer>
 
     <script>
-        // --- Скрипт Модального окна ---
-        function openModal() {
-            document.getElementById('rulesModal').classList.add('active');
+        // Массив модов для автоматического красивого вывода в карточки
+        const bannedMods = [
+            "Mouse Tweaks", "Item Scroller", "AutoClicker", "SnapTap", "Null Movement",
+            "Ghast", "Optimal Aim", "ElytraSwap", "Elytra Swapper", "JJElytraSwap",
+            "AutoTotem", "Advanced AutoTotem", "Inventory Totem", "BetterPvP", "PearlDetector",
+            "Accurate Block Placement", "Accurate Block Placement Reborn", "ClickCrystal / ClickCrystals",
+            "Crystal Switcher", "Crystal Switch", "Client-Side Crystals", "ClientCrystals",
+            "Shikaru's Crystal Optimizer", "Walksy Crystal Optimizer", "Hazel Crystal Optimizer (HCO)",
+            "G1ax Crystal Optimizer", "Crystal Macro Mod", "Crystalcore", "AutoCrystal",
+            "Auto Anchor", "Auto Anchor Optimizer", "SmartBlockPlacement", "Fast Block Placement",
+            "Fast Place", "Fast Right Click", "Fast Left Click", "Tweakeroo", "ElytraMace",
+            "ItemSwapX", "Swap Helper", "Macecore", "Mace Attack Assistance", "Mace Optimizer",
+            "Pearl Optimizer", "Quick Elytra", "Quick Hotkeys", "Slot Cycler",
+            "Inventory Profiles Next", "Inventory Tweaks", "Input Optimizer", "Bridging Mod",
+            "Scaffold", "AirPlace", "lwfh Airplace"
+        ];
+
+        // Генерация карточек для основного списка модов
+        const modsContainer = document.getElementById('mods-list-container');
+        bannedMods.forEach((mod, index) => {
+            const card = document.createElement('div');
+            card.className = 'rule-card';
+            card.innerHTML = `
+                <div class="rule-header">
+                    <div class="rule-title">${index + 1}. ${mod}</div>
+                    <span class="penalty-tag tag-restrict">Запрещено</span>
+                </div>
+                <div class="rule-desc">Модификация или инструмент строго запрещены правилами тир-листа.</div>
+            `;
+            modsContainer.appendChild(card);
+        });
+
+        // --- Универсальный скрипт модальных окон ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            document.getElementById('rulesModal').classList.remove('active');
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        function closeModalOnBackdrop(event) {
+        function closeModalOnBackdrop(event, modalId) {
             if (event.target.classList.contains('modal-overlay')) {
-                closeModal();
+                closeModal(modalId);
             }
         }
 
-        function switchTab(tabId, ev) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        function switchTab(tabId, ev, modalId) {
+            const modal = document.getElementById(modalId);
+            modal.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             if(ev) ev.currentTarget.classList.add('active');
 
-            document.querySelectorAll('.rules-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+            modal.querySelectorAll('.rules-section').forEach(sec => sec.classList.remove('active'));
+            modal.querySelector('#' + tabId).classList.add('active');
         }
 
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                closeModal('rulesModal');
+                closeModal('modsModal');
+            }
         });
 
         // --- Скрипт синих звёздочек за курсором ---
