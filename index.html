@@ -6,11 +6,11 @@
     <title>VTIERS — Discord Bot & Community</title>
     <style>
         :root {
-            --bg-color: #060c1a;
-            --card-bg: rgba(10, 18, 36, 0.45);
-            --card-border: rgba(56, 189, 248, 0.15);
+            --bg-color: #040812;
+            --card-bg: rgba(8, 14, 30, 0.55);
+            --card-border: rgba(56, 189, 248, 0.18);
             --accent-blue: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.35);
+            --accent-glow: rgba(56, 189, 248, 0.4);
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -32,7 +32,7 @@
             overflow-x: hidden;
         }
 
-        /* Canvas для звёзд за курсором */
+        /* Canvas для звёзд за курсором — строго блокируем перехват кликов */
         #starTrailCanvas {
             position: fixed;
             top: 0;
@@ -43,7 +43,7 @@
             z-index: 99999;
         }
 
-        /* --- Медленно переливающийся градиент --- */
+        /* --- Анимация градиентных волн --- */
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -51,21 +51,22 @@
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #2563eb, #38bdf8, #60a5fa, #06b6d4, #2563eb);
+            background: linear-gradient(135deg, #3b82f6, #38bdf8, #60a5fa, #06b6d4, #3b82f6);
             background-size: 300% 300%;
             animation: gradientShift 8s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- Header --- */
+        /* --- Обновленный Header HUD --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 10%;
-            background: rgba(6, 12, 26, 0.85);
-            backdrop-filter: blur(12px);
+            padding: 18px 8%;
+            background: rgba(4, 8, 18, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -73,51 +74,55 @@
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+            letter-spacing: 2.5px;
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
+            flex-wrap: wrap;
         }
 
         nav a {
-            color: var(--text-color);
+            color: var(--text-muted);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
         }
 
         nav a:hover {
             color: var(--accent-blue);
         }
 
-        /* --- Кнопка с переливающимся градиентом --- */
-        .btn {
-            display: inline-block;
-            padding: 10px 24px;
+        /* Кнопки в шапке */
+        .btn-header {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 22px;
             background: linear-gradient(135deg, #1d4ed8, #0284c7, #38bdf8, #1e40af);
             background-size: 300% 300%;
             animation: gradientShift 6s ease infinite;
             color: #ffffff;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 30px;
             box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
             border: none;
             cursor: pointer;
         }
 
-        .btn:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.5);
+        .btn-header:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 25px rgba(56, 189, 248, 0.55);
         }
 
         /* --- Hero Section --- */
@@ -126,12 +131,11 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 80px 20px 100px;
-            background: radial-gradient(circle at 50% 20%, rgba(14, 165, 233, 0.12), transparent 70%),
-                        linear-gradient(to bottom, rgba(6, 12, 26, 0.8), rgba(6, 12, 26, 0.98)), 
-                        url('banner.png') center/cover no-repeat;
+            padding: 70px 20px 90px;
+            background: radial-gradient(circle at 50% 15%, rgba(14, 165, 233, 0.12), transparent 65%),
+                        linear-gradient(to bottom, rgba(4, 8, 18, 0.75), rgba(4, 8, 18, 0.98));
             position: relative;
-            min-height: calc(100vh - 80px);
+            flex-grow: 1;
             justify-content: center;
         }
 
@@ -142,9 +146,9 @@
             border: 1px solid rgba(56, 189, 248, 0.3);
             color: var(--accent-blue);
             border-radius: 30px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 20px;
             backdrop-filter: blur(8px);
@@ -152,26 +156,26 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
+            font-size: 3.2rem;
+            margin-bottom: 12px;
             font-weight: 800;
             letter-spacing: -0.5px;
         }
 
         .hero p.subtitle {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            max-width: 650px;
-            margin-bottom: 50px;
+            max-width: 620px;
+            margin-bottom: 45px;
         }
 
-        /* --- 4 Прозрачные карточки / Кнопки Главного Меню --- */
+        /* --- Сетка главного меню (Прозрачные карточки с переливающимися волнами) --- */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(280px, 460px));
-            gap: 24px;
+            grid-template-columns: repeat(2, minmax(280px, 440px));
+            gap: 22px;
             width: 100%;
-            max-width: 960px;
+            max-width: 920px;
             margin: 0 auto;
         }
 
@@ -179,9 +183,9 @@
             background-color: var(--card-bg);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(56, 189, 248, 0.18);
-            border-radius: 18px;
-            padding: 30px;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px;
             text-align: left;
             display: flex;
             flex-direction: column;
@@ -192,6 +196,7 @@
             cursor: pointer;
         }
 
+        /* Эффект насыщенных цветовых волн при наведении */
         .menu-card::before {
             content: '';
             position: absolute;
@@ -199,7 +204,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(2, 132, 199, 0.4), rgba(56, 189, 248, 0.45), rgba(6, 182, 212, 0.35));
+            background: linear-gradient(135deg, rgba(29, 78, 216, 0.4), rgba(2, 132, 199, 0.45), rgba(56, 189, 248, 0.5), rgba(14, 165, 233, 0.4));
             background-size: 300% 300%;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -218,48 +223,49 @@
 
         .menu-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(56, 189, 248, 0.7);
-            box-shadow: 0 15px 40px rgba(2, 6, 23, 0.8), 0 0 30px rgba(56, 189, 248, 0.35);
-            background-color: rgba(10, 18, 36, 0.65);
+            border-color: rgba(56, 189, 248, 0.8);
+            box-shadow: 0 15px 40px rgba(2, 6, 23, 0.9), 0 0 35px rgba(56, 189, 248, 0.4);
+            background-color: rgba(8, 14, 30, 0.75);
         }
 
         .card-icon {
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
-            margin-bottom: 20px;
-            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.15);
-            transition: background 0.3s ease, border-color 0.3s ease;
+            margin-bottom: 18px;
+            box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.15);
+            transition: all 0.3s ease;
         }
 
         .menu-card:hover .card-icon {
             background: rgba(15, 23, 42, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
         }
 
         .menu-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #ffffff;
             transition: text-shadow 0.3s ease;
         }
 
         .menu-card:hover h3 {
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
         }
 
         .menu-card p {
             color: var(--text-muted);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             line-height: 1.5;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             flex-grow: 1;
             transition: color 0.3s ease;
         }
@@ -274,7 +280,7 @@
             gap: 8px;
             color: var(--accent-blue);
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             text-decoration: none;
@@ -284,10 +290,10 @@
         .menu-card:hover .card-action {
             gap: 14px;
             color: #ffffff;
-            text-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+            text-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
         }
 
-        /* --- Modal Window (Общий стиль для правил и модов) --- */
+        /* --- Модальные окна (Защита от багов скролла и переполнений) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -296,6 +302,7 @@
             height: 100vh;
             background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -303,7 +310,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            padding: 20px;
+            padding: 15px;
         }
 
         .modal-overlay.active {
@@ -312,17 +319,17 @@
         }
 
         .modal-container {
-            background: #091328;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 20px;
+            background: #070e20;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 22px;
             width: 100%;
             max-width: 900px;
-            max-height: 85vh;
+            height: 85vh; /* Фиксированная удобная высота для скролла */
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.25);
             transform: scale(0.95) translateY(20px);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             overflow: hidden;
         }
 
@@ -331,16 +338,17 @@
         }
 
         .modal-header {
-            padding: 24px 30px;
-            background: rgba(15, 23, 42, 0.7);
+            padding: 22px 28px;
+            background: rgba(12, 20, 38, 0.8);
             border-bottom: 1px solid rgba(56, 189, 248, 0.12);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .modal-header h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -371,20 +379,22 @@
         .rules-tabs {
             display: flex;
             gap: 10px;
-            padding: 15px 30px;
-            background: rgba(11, 20, 38, 0.9);
+            padding: 14px 28px;
+            background: rgba(9, 16, 32, 0.95);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             overflow-x: auto;
+            flex-shrink: 0;
         }
 
+        /* Улучшенные кнопки вкладок модалок */
         .tab-btn {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(56, 189, 248, 0.15);
             color: var(--text-muted);
-            padding: 10px 20px;
+            padding: 9px 18px;
             border-radius: 30px;
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.25s ease;
@@ -393,6 +403,7 @@
         .tab-btn:hover {
             color: #ffffff;
             border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.08);
         }
 
         .tab-btn.active {
@@ -400,13 +411,14 @@
             color: #ffffff;
             border-color: var(--accent-blue);
             font-weight: 700;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.45);
         }
 
         .modal-body {
-            padding: 30px;
-            overflow-y: auto;
+            padding: 28px;
+            overflow-y: auto; /* Изолированный скролл внутри модалки для предотвращения багов верстки */
             flex-grow: 1;
+            scroll-behavior: smooth;
         }
 
         .rules-section {
@@ -419,7 +431,7 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -427,13 +439,13 @@
             background: rgba(15, 23, 42, 0.5);
             border-left: 3px solid var(--accent-blue);
             border-radius: 0 12px 12px 0;
-            padding: 16px 20px;
-            margin-bottom: 16px;
+            padding: 15px 18px;
+            margin-bottom: 14px;
             transition: background 0.2s ease;
         }
 
         .rule-card:hover {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
         }
 
         .rule-header {
@@ -441,26 +453,34 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 15px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .rule-title {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #ffffff;
         }
 
         .rule-desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             line-height: 1.5;
+        }
+
+        .rule-desc code {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
         }
 
         .penalty-tag {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -483,10 +503,10 @@
             background: rgba(56, 189, 248, 0.06);
             border: 1px dashed rgba(56, 189, 248, 0.3);
             border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 24px;
+            padding: 16px;
+            margin-bottom: 20px;
             color: #cbd5e1;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
         .media-note strong {
@@ -500,6 +520,7 @@
             border-top: 1px solid rgba(56, 189, 248, 0.12);
             color: var(--text-muted);
             font-size: 0.9rem;
+            background: rgba(4, 8, 18, 0.6);
         }
 
         @media (max-width: 768px) {
@@ -507,32 +528,38 @@
                 grid-template-columns: 1fr;
             }
             .hero h1 {
-                font-size: 2.4rem;
+                font-size: 2.3rem;
+            }
+            header {
+                padding: 15px 5%;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas слой для анимированного шлейфа из звёзд -->
+    <!-- Canvas со звёздами за курсором -->
     <canvas id="starTrailCanvas"></canvas>
 
+    <!-- Шапка HUD -->
     <header>
         <div class="logo gradient-text">VTIERS</div>
         <nav>
             <a href="#features">Возможности</a>
             <a href="javascript:void(0)" onclick="openModal('rulesModal')">Правила</a>
-            <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="btn">Discord</a>
+            <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="btn-header">Discord</a>
         </nav>
     </header>
 
+    <!-- Основная секция -->
     <section class="hero">
         <div class="pill-badge">PVP TIERLIST PROJECT</div>
         <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Выберите раздел ниже — здесь собрана вся информация о тиртестах, модификациях и правилах проекта.</p>
+        <p class="subtitle">Выберите интересующий раздел ниже — здесь собрана вся информация о тиртестах, модификациях и правилах проекта.</p>
 
+        <!-- 4 Главные карточки меню -->
         <div class="menu-grid">
-            <div class="menu-card">
+            <div class="menu-card" onclick="openModal('tiersModal')">
                 <div>
                     <div class="card-icon">⚔️</div>
                     <h3>Информация по тиртестам</h3>
@@ -541,7 +568,7 @@
                 <div class="card-action">Открыть &rarr;</div>
             </div>
 
-            <div class="menu-card">
+            <div class="menu-card" onclick="openModal('tutorialModal')">
                 <div>
                     <div class="card-icon">🎯</div>
                     <h3>Пройти тиртест</h3>
@@ -554,7 +581,7 @@
                 <div>
                     <div class="card-icon">🧩</div>
                     <h3>Запрещённые модификации</h3>
-                    <p>Список разрешённых и запрещённых модификаций, читов и оптимизаторов. Обязательно ознакомьтесь перед тестом.</p>
+                    <p>Список разрешённых и запрещённых модификаций. Обязательно ознакомьтесь перед тестом.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -570,7 +597,7 @@
         </div>
     </section>
 
-    <!-- Модальное окно правил -->
+    <!-- Модальное окно: Правила проекта -->
     <div class="modal-overlay" id="rulesModal" onclick="closeModalOnBackdrop(event, 'rulesModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -579,14 +606,13 @@
             </div>
 
             <div class="rules-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-admin', event, 'rulesModal')">1. Администрация</button>
-                <button class="tab-btn" onclick="switchTab('tab-chat', event, 'rulesModal')">2. Общение</button>
-                <button class="tab-btn" onclick="switchTab('tab-checks', event, 'rulesModal')">3. Проверки и SS</button>
-                <button class="tab-btn" onclick="switchTab('tab-media', event, 'rulesModal')">4. Медиа-игроки</button>
+                <button class="tab-btn active" onclick="switchTab('tab-admin', event)">1. Администрация</button>
+                <button class="tab-btn" onclick="switchTab('tab-chat', event)">2. Общение</button>
+                <button class="tab-btn" onclick="switchTab('tab-checks', event)">3. Проверки и SS</button>
+                <button class="tab-btn" onclick="switchTab('tab-media', event)">4. Медиа-игроки</button>
             </div>
 
             <div class="modal-body">
-                <!-- Раздел 1 -->
                 <div id="tab-admin" class="rules-section active">
                     <div class="rule-card">
                         <div class="rule-title">1.1 — Решения администрации</div>
@@ -602,15 +628,10 @@
                     </div>
                     <div class="rule-card">
                         <div class="rule-title">1.4 — Обжалование наказаний</div>
-                        <div class="rule-desc">Любой участник может подать апелляцию на выданное наказание. Для рассмотрения жалобы необходимо предоставить убедительные доказательства. При их отсутствии апелляция может быть отклонена.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">1.5 — Перенос результатов тир-теста</div>
-                        <div class="rule-desc">Перенос или восстановление тира без подтверждающих материалов не производится.</div>
+                        <div class="rule-desc">Любой участник может подать апелляцию на выданное наказание. Для рассмотрения жалобы необходимо предоставить убедительные доказательства.</div>
                     </div>
                 </div>
 
-                <!-- Раздел 2 -->
                 <div id="tab-chat" class="rules-section">
                     <div class="rule-card">
                         <div class="rule-header">
@@ -621,7 +642,7 @@
                     </div>
                     <div class="rule-card">
                         <div class="rule-header">
-                            <div class="rule-title">2.2 — Оскорбительные высказывания о родственниках</div>
+                            <div class="rule-title">2.2 — Оскорбления родственников</div>
                             <span class="penalty-tag tag-mute">Мут на 14 дней</span>
                         </div>
                         <div class="rule-desc">Запрещены оскорбления или унизительные высказывания в адрес родственников участников.</div>
@@ -633,37 +654,8 @@
                         </div>
                         <div class="rule-desc">Обсуждение политики или религии в рамках проекта запрещено.</div>
                     </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">2.2.2 — Запрещённая пропаганда</div>
-                            <span class="penalty-tag tag-mute">Мут на 14 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещено распространение или пропаганда нацизма, расизма, терроризма и наркотических веществ.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">2.2.3 — Сторонние проекты и площадки</div>
-                            <span class="penalty-tag tag-mute">Мут на 7 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещено распространять IP других проектов, ссылки на сторонние Telegram-каналы, Twitch, YouTube и другие ресурсы.<br><em>Исключение: участники с ролью «Медиа» могут публиковать собственный Twitch/YouTube в разрешённых местах.</em></div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">2.2.4 — Неприемлемое поведение</div>
-                            <span class="penalty-tag tag-mute">Мут на 7 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещено поведение, нарушающее установленные нормы общения проекта.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">2.3 — Призывы к насилию или причинению вреда себе</div>
-                            <span class="penalty-tag tag-mute">Мут на 28 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещены любые призывы к насилию, причинению вреда другим людям или причинению вреда себе.</div>
-                    </div>
                 </div>
 
-                <!-- Раздел 3 -->
                 <div id="tab-checks" class="rules-section">
                     <div class="rule-card">
                         <div class="rule-header">
@@ -674,138 +666,20 @@
                     </div>
                     <div class="rule-card">
                         <div class="rule-header">
-                            <div class="rule-title">3.2 — Использование стороннего ПО</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">Любое программное обеспечение, предназначенное для получения игрового преимущества, запрещено.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.3 — Признание в использовании читов</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
-                        </div>
-                        <div class="rule-desc">Добровольное признание в использовании запрещённого стороннего ПО рассматривается как нарушение правил.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.4 — Запрещённые моды и ресурспаки</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
-                        </div>
-                        <div class="rule-desc">Использование или хранение модификаций, запрещённых правилами конкретного тир-листа, не допускается. Разрешаются моды и ресурспаки, отображающие здоровье или броню противника, если они не дают преимущества в аксессуарах.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.5 — Автоматизация действий</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
-                        </div>
-                        <div class="rule-desc">Запрещены программы и сервисы, которые автоматически выполняют игровые действия за пользователя.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
                             <div class="rule-title">3.6 — Отключённые системные службы</div>
                             <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
                         </div>
-                        <div class="rule-desc">Во время проверки запрещается иметь отключёнными следующие службы Windows:<br><code>sysmain, pcasvc, dps, eventlog, schedule, bam, dusmsvc, appinfo, cdpsvc, dcomlaunch, plugplay, wsearch, diagtrack, cdpusersvc</code></div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.7 — Завершение работы игры после теста</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">После завершения турнира или сыгранного тикета запрещено закрывать/выключать игру в течение 15 минут.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.8 — Создание препятствий при SS</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
-                        </div>
-                        <div class="rule-desc">Во время проверки запрещено мешать работе проверяющего: закрывать окна, использовать клавиатуру или мышь без разрешения, отключать интернет и совершать аналогичные действия.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.9 — Запись экрана во время SS</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
-                        </div>
-                        <div class="rule-desc">Самостоятельная запись экрана во время проверки на запрещённое ПО не допускается.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.10 — Отказ от SS</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">Отказ пройти предусмотренную правилами проверку рассматривается как SS Refuse.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.11 — Удаление следов запрещённого ПО</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 180 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещено намеренно уничтожать или изменять данные, которые могут иметь отношение к проверке. К нарушению относятся удаление файлов, очистка журналов и использование инструментов для сокрытия следов.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.12 — Спуферы и сетевые параметры</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">Использование спуферов и неразрешённых способов изменения сетевого соединения запрещено. ExitLag допускается только после согласования с администрацией высшего уровня.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.13 — Срок эксплуатации ОС</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 31 день</span>
-                        </div>
-                        <div class="rule-desc">Участие в тир-тесте с операционной системой, установленной менее 14 дней назад, запрещается.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.14 — Использование альтов</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 180 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещено использовать дополнительные аккаунты для обхода restricted, наказаний, ограничений доступа или ожидания перед новым тир-тестом.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.15 — Бустинг</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещены любые способы искусственного улучшения статистики или результата игрока: передача аккаунта, помощь со стороны тестера, договорные результаты и другие подобные действия.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.16 — Сокрытие чужого нарушения</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">Если участнику заранее или во время теста известно о нарушении другого игрока, запрещается намеренно скрывать данный факт от администрации.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-header">
-                            <div class="rule-title">3.17 — Передача аккаунта</div>
-                            <span class="penalty-tag tag-restrict">Рестрикт 90 дней</span>
-                        </div>
-                        <div class="rule-desc">Запрещено передавать свой аккаунт другим лицам либо предоставлять им доступ. Наказание применяется как к владельцу аккаунта, так и к человеку, получившему доступ.</div>
+                        <div class="rule-desc">Во время проверки запрещается иметь отключёнными службы Windows:<br><code>sysmain, pcasvc, dps, eventlog, schedule, bam, dusmsvc, appinfo</code></div>
                     </div>
                 </div>
 
-                <!-- Раздел 4 -->
                 <div id="tab-media" class="rules-section">
                     <div class="media-note">
-                        <strong>📌 Примечание:</strong> Специальные условия распространяются исключительно на участников с официальной ролью <strong>«Медиа»</strong>. Роль выдаётся администрацией индивидуально. Не следует путать её с ролью «А-Медиа».
+                        <strong>📌 Примечание:</strong> Специальные условия распространяются исключительно на участников с официальной ролью <strong>«Медиа»</strong>.
                     </div>
                     <div class="rule-card">
                         <div class="rule-title">4.1 — Квалификация через дополнительный аккаунт</div>
-                        <div class="rule-desc">Игрок с ролью «Медиа» проходит квалификационный тест с дополнительного аккаунта. Это необходимо для исключения возможной корректировки результата в пользу основного аккаунта. После завершения теста полученный результат переносится на основной аккаунт.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">4.2 — Участие в пурдже</div>
-                        <div class="rule-desc">Игроки с ролью «Медиа» не обязаны участвовать в пурдже и могут отказаться от него. Исключения могут применяться к игрокам уровня LT2/HT2+ — решение принимается администрацией индивидуально.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">4.3 — Обязательные тикеты</div>
-                        <div class="rule-desc">Медиа-игрок вправе отказаться от тикета, в который его добавили, если он сам не выразил желание участвовать. Для категорий LT2/HT2+ администрация может установить отдельные условия в зависимости от ситуации.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">4.4 — Использование медиа-привилегий</div>
-                        <div class="rule-desc">Медиа-привилегии не освобождают игрока от соблюдения остальных правил проекта. При выявлении нарушения к медиа-игроку применяются стандартные меры наказания.</div>
+                        <div class="rule-desc">Игрок с ролью «Медиа» проходит квалификационный тест с дополнительного аккаунта для исключения предвзятости.</div>
                     </div>
                 </div>
             </div>
@@ -821,61 +695,69 @@
             </div>
 
             <div class="rules-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-general-mods', event, 'modsModal')">Общие положения</button>
-                <button class="tab-btn" onclick="switchTab('tab-main-list', event, 'modsModal')">Основной список</button>
-                <button class="tab-btn" onclick="switchTab('tab-extra-mods', event, 'modsModal')">Дополнительно</button>
+                <button class="tab-btn active" onclick="switchTab('mods-main', event)">1. Основной список</button>
+                <button class="tab-btn" onclick="switchTab('mods-extra', event)">2. Дополнительно запрещено</button>
             </div>
 
             <div class="modal-body">
-                <!-- Вкладка 1: Общие положения -->
-                <div id="tab-general-mods" class="rules-section active">
-                    <div class="rule-card">
-                        <div class="rule-title">Общее правило о модификациях</div>
-                        <div class="rule-desc">Запрещены любые модификации, клиенты, аддоны, плагины, макросы и прочие программы, которые дают преимущество в PvP/CPvP или изменяют стандартную механику Minecraft.</div>
-                    </div>
-                </div>
-
-                <!-- Вкладка 2: Основной список -->
-                <div id="tab-main-list" class="rules-section">
+                <div id="mods-main" class="rules-section active">
                     <div class="media-note">
-                        <strong>📌 Основной перечень запрещённого ПО:</strong> Хранение или использование любого из нижеперечисленных продуктов строго запрещено на проекте.
+                        <strong>⚠️ Внимание:</strong> Запрещены любые модификации, клиенты, аддоны, плагины, макросы и прочие программы, которые дают преимущество в PvP/CPvP или изменяют стандартную механику Minecraft.
                     </div>
-                    <div id="mods-list-container">
-                        <!-- Динамически заполнится через JS или выведем списком карточек -->
-                    </div>
+                    <div class="rule-card"><div class="rule-title">Mouse Tweaks / Item Scroller</div></div>
+                    <div class="rule-card"><div class="rule-title">AutoClicker / SnapTap / Null Movement</div></div>
+                    <div class="rule-card"><div class="rule-title">Ghast / Optimal Aim / ElytraSwap / Elytra Swapper</div></div>
+                    <div class="rule-card"><div class="rule-title">JJElytraSwap / AutoTotem / Advanced AutoTotem</div></div>
+                    <div class="rule-card"><div class="rule-title">Inventory Totem / BetterPvP / PearlDetector</div></div>
+                    <div class="rule-card"><div class="rule-title">Accurate Block Placement / Reborn</div></div>
+                    <div class="rule-card"><div class="rule-title">ClickCrystal / ClickCrystals / Crystal Switcher</div></div>
+                    <div class="rule-card"><div class="rule-title">Crystal Switch / Client-Side Crystals / ClientCrystals</div></div>
+                    <div class="rule-card"><div class="rule-title">Shikaru's / Walksy / Hazel / G1ax Crystal Optimizers</div></div>
+                    <div class="rule-card"><div class="rule-title">Crystal Macro Mod / Crystalcore / AutoCrystal</div></div>
+                    <div class="rule-card"><div class="rule-title">Auto Anchor / Auto Anchor Optimizer / SmartBlockPlacement</div></div>
+                    <div class="rule-card"><div class="rule-title">Fast Block Placement / Fast Place / Fast Right/Left Click</div></div>
+                    <div class="rule-card"><div class="rule-title">Tweakeroo / ElytraMace / ItemSwapX / Swap Helper</div></div>
+                    <div class="rule-card"><div class="rule-title">Macecore / Mace Attack Assistance / Mace Optimizer</div></div>
+                    <div class="rule-card"><div class="rule-title">Pearl Optimizer / Quick Elytra / Quick Hotkeys / Slot Cycler</div></div>
+                    <div class="rule-card"><div class="rule-title">Inventory Profiles Next / Inventory Tweaks / Input Optimizer</div></div>
+                    <div class="rule-card"><div class="rule-title">Bridging Mod / Scaffold / AirPlace / lwfh Airplace</div></div>
                 </div>
 
-                <!-- Вкладка 3: Дополнительно -->
-                <div id="tab-extra-mods" class="rules-section">
-                    <div class="rule-card">
-                        <div class="rule-title">Индикаторы и HP противников</div>
-                        <div class="rule-desc">• Любые индикаторы HP противников<br>• Любые HealthBar / Health Indicator моды</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Радары, эсп и миникарты</div>
-                        <div class="rule-desc">• Миникарты с отображением игроков<br>• Player ESP / Entity ESP / Tracers / Radar</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Клиенты и макросы</div>
-                        <div class="rule-desc">• CW-HACK и подобные ему модификации/клиенты<br>• Любые AutoClicker и Macro<br>• Любые Double Bind / Multi Bind моды</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Автоматизация игровых процессов</div>
-                        <div class="rule-desc">• Любые моды, автоматизирующие swap предметов<br>• Любые моды, автоматизирующие Crystal / Anchor / Mace / Pearl действия</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Аналоги, форки и приватный софт</div>
-                        <div class="rule-desc">• Любые форки, порты, переименованные версии и аналоги перечисленных модификаций, выполняющие аналогичную функцию.<br>• Любые приватные/самописные модификации с аналогичным функционалом.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Изменение механики и ускорение</div>
-                        <div class="rule-desc">• Любые модификации, которые изменяют механику PvP, ускоряют действия игрока или уменьшают количество необходимых действий по сравнению с ванильным клиентом</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Оптимизаторы</div>
-                        <div class="rule-desc">• Любые оптимизаторы, кроме Marlow и HCsCR</div>
-                    </div>
+                <div id="mods-extra" class="rules-section">
+                    <div class="rule-card"><div class="rule-title">• Индикаторы HP противников</div><div class="rule-desc">Любые HealthBar / Health Indicator моды.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Радары и Миникарты</div><div class="rule-desc">Миникарты с отображением игроков, Player ESP / Entity ESP / Tracers / Radar.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Сторонние клиенты</div><div class="rule-desc">CW-HACK и подобные ему модификации/клиенты.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Макросные модули</div><div class="rule-desc">Любые AutoClicker, Macro, Double Bind / Multi Bind моды.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Автоматизация действий</div><div class="rule-desc">Моды, автоматизирующие swap предметов, Crystal / Anchor / Mace / Pearl действия.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Аналоги и форки</div><div class="rule-desc">Любые форки, порты, переименованные версии и аналоги перечисленных модификаций, а также любые приватные/самописные моды с аналогичным функционалом.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Изменение механики</div><div class="rule-desc">Любые модификации, которые изменяют механику PvP, ускоряют действия игрока или уменьшают количество необходимых действий по сравнению с ванильным клиентом.</div></div>
+                    <div class="rule-card"><div class="rule-title">• Оптимизаторы</div><div class="rule-desc">Любые оптимизаторы, кроме Marlow и HCsCR.</div></div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Заглушки модалок для информации по тиртестам и туториалу (чтобы кнопки работали без ошибок) -->
+    <div class="modal-overlay" id="tiersModal" onclick="closeModalOnBackdrop(event, 'tiersModal')">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>⚔️ Информация по тиртестам</h2>
+                <button class="modal-close" onclick="closeModal('tiersModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="rule-card"><div class="rule-title">Условия прохождения</div><div class="rule-desc">Здесь будет размещена подробная информация по квалификационному набору, требованиям и кулдаунам.</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="tutorialModal" onclick="closeModalOnBackdrop(event, 'tutorialModal')">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>🎯 Пройти тиртест</h2>
+                <button class="modal-close" onclick="closeModal('tutorialModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="rule-card"><div class="rule-title">Пошаговый туториал</div><div class="rule-desc">1. Зайдите на Discord-сервер.<br>2. Подайте заявку в тикетах.<br>3. Подготовьте игру и пройдите проверку.</div></div>
             </div>
         </div>
     </div>
@@ -885,42 +767,10 @@
     </footer>
 
     <script>
-        // Массив модов для автоматического красивого вывода в карточки
-        const bannedMods = [
-            "Mouse Tweaks", "Item Scroller", "AutoClicker", "SnapTap", "Null Movement",
-            "Ghast", "Optimal Aim", "ElytraSwap", "Elytra Swapper", "JJElytraSwap",
-            "AutoTotem", "Advanced AutoTotem", "Inventory Totem", "BetterPvP", "PearlDetector",
-            "Accurate Block Placement", "Accurate Block Placement Reborn", "ClickCrystal / ClickCrystals",
-            "Crystal Switcher", "Crystal Switch", "Client-Side Crystals", "ClientCrystals",
-            "Shikaru's Crystal Optimizer", "Walksy Crystal Optimizer", "Hazel Crystal Optimizer (HCO)",
-            "G1ax Crystal Optimizer", "Crystal Macro Mod", "Crystalcore", "AutoCrystal",
-            "Auto Anchor", "Auto Anchor Optimizer", "SmartBlockPlacement", "Fast Block Placement",
-            "Fast Place", "Fast Right Click", "Fast Left Click", "Tweakeroo", "ElytraMace",
-            "ItemSwapX", "Swap Helper", "Macecore", "Mace Attack Assistance", "Mace Optimizer",
-            "Pearl Optimizer", "Quick Elytra", "Quick Hotkeys", "Slot Cycler",
-            "Inventory Profiles Next", "Inventory Tweaks", "Input Optimizer", "Bridging Mod",
-            "Scaffold", "AirPlace", "lwfh Airplace"
-        ];
-
-        // Генерация карточек для основного списка модов
-        const modsContainer = document.getElementById('mods-list-container');
-        bannedMods.forEach((mod, index) => {
-            const card = document.createElement('div');
-            card.className = 'rule-card';
-            card.innerHTML = `
-                <div class="rule-header">
-                    <div class="rule-title">${index + 1}. ${mod}</div>
-                    <span class="penalty-tag tag-restrict">Запрещено</span>
-                </div>
-                <div class="rule-desc">Модификация или инструмент строго запрещены правилами тир-листа.</div>
-            `;
-            modsContainer.appendChild(card);
-        });
-
-        // --- Универсальный скрипт модальных окон ---
+        // --- Управление модальными окнами с блокировкой скролла страницы ---
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Предотвращаем баг скролла фона
         }
 
         function closeModal(modalId) {
@@ -934,23 +784,26 @@
             }
         }
 
-        function switchTab(tabId, ev, modalId) {
-            const modal = document.getElementById(modalId);
-            modal.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            if(ev) ev.currentTarget.classList.add('active');
+        // Переключение вкладок внутри модалок
+        function switchTab(tabId, ev) {
+            const container = ev.currentTarget.closest('.modal-container');
+            container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            ev.currentTarget.classList.add('active');
 
-            modal.querySelectorAll('.rules-section').forEach(sec => sec.classList.remove('active'));
-            modal.querySelector('#' + tabId).classList.add('active');
+            container.querySelectorAll('.rules-section').forEach(sec => sec.classList.remove('active'));
+            container.querySelector('#' + tabId).classList.add('active');
         }
 
+        // Закрытие по клавише ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeModal('rulesModal');
-                closeModal('modsModal');
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    closeModal(modal.id);
+                });
             }
         });
 
-        // --- Скрипт синих звёздочек за курсором ---
+        // --- Оптимизированный Canvas анимации звёзд за курсором ---
         const canvas = document.getElementById('starTrailCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -966,13 +819,13 @@
             constructor(x, y) {
                 this.x = x + (Math.random() - 0.5) * 8;
                 this.y = y + (Math.random() - 0.5) * 8;
-                this.size = Math.random() * 2.5 + 2.5; 
+                this.size = Math.random() * 2.5 + 2.2; 
                 this.alpha = 1;
                 this.decay = Math.random() * 0.008 + 0.006; 
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.6 + 0.2;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5 + 0.2;
                 this.rotation = Math.random() * Math.PI * 2;
-                this.rotSpeed = (Math.random() - 0.5) * 0.05;
+                this.rotSpeed = (Math.random() - 0.5) * 0.04;
             }
 
             update() {
@@ -991,7 +844,7 @@
                 
                 ctx.fillStyle = '#60A5FA';
                 ctx.shadowColor = '#2563EB';
-                ctx.shadowBlur = 8;
+                ctx.shadowBlur = 6;
 
                 drawStarShape(ctx, 0, 0, 5, this.size, this.size / 2.2);
                 ctx.fill();
