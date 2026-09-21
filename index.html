@@ -745,23 +745,23 @@
                 <div class="tiers-grid">
                     <div class="tier-column">
                         <div class="tier-col-header" style="color: #facc15; text-shadow: 0 0 12px rgba(250, 204, 21, 0.4);">TIER 1</div>
-                        <div class="tier-col-content"><div class="empty-tier">Нет данных</div></div>
+                        <div class="tier-col-content" id="tier-1"><div class="empty-tier">Загрузка...</div></div>
                     </div>
                     <div class="tier-column">
                         <div class="tier-col-header" style="color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);">TIER 2</div>
-                        <div class="tier-col-content"><div class="empty-tier">Нет данных</div></div>
+                        <div class="tier-col-content" id="tier-2"><div class="empty-tier">Загрузка...</div></div>
                     </div>
                     <div class="tier-column">
                         <div class="tier-col-header" style="color: #c084fc; text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);">TIER 3</div>
-                        <div class="tier-col-content"><div class="empty-tier">Нет данных</div></div>
+                        <div class="tier-col-content" id="tier-3"><div class="empty-tier">Загрузка...</div></div>
                     </div>
                     <div class="tier-column">
                         <div class="tier-col-header" style="color: #4ade80; text-shadow: 0 0 12px rgba(74, 222, 128, 0.4);">TIER 4</div>
-                        <div class="tier-col-content"><div class="empty-tier">Нет данных</div></div>
+                        <div class="tier-col-content" id="tier-4"><div class="empty-tier">Загрузка...</div></div>
                     </div>
                     <div class="tier-column">
                         <div class="tier-col-header" style="color: #fb923c; text-shadow: 0 0 12px rgba(251, 146, 60, 0.4);">TIER 5</div>
-                        <div class="tier-col-content"><div class="empty-tier">Нет данных</div></div>
+                        <div class="tier-col-content" id="tier-5"><div class="empty-tier">Загрузка...</div></div>
                     </div>
                 </div>
             </div>
@@ -1297,6 +1297,119 @@
             requestAnimationFrame(animateTrail);
         }
         animateTrail();
-    </script>
+    
+
+        // ==========================================
+        // VTIERS — Загрузка игроков из Discord API
+        // ==========================================
+        const API_URL = 'https://corsproxy.io/?http://167.235.13.16:25337/api/tiers';
+
+        async function fetchAndDisplayTiers() {
+            try {
+                console.log('Загрузка тиров из Discord...');
+
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ошибка: ${response.status}`);
+                }
+
+                const tiers = await response.json();
+                console.log('Тиры получены:', tiers);
+
+                // Очищаем контейнеры
+                for (let i = 1; i <= 5; i++) {
+                    const container = document.getElementById(`tier-${i}`);
+                    if (container) {
+                        container.innerHTML = '';
+                    }
+                }
+
+                // Добавляем игроков в соответствующие TIER 1–5
+                for (const [tierName, players] of Object.entries(tiers)) {
+                    const match = String(tierName).match(/(?:LT|HT)?(\d+)/i);
+                    if (!match) continue;
+
+                    const tierNumber = match[1];
+                    const container = document.getElementById(`tier-${tierNumber}`);
+                    if (!container) continue;
+
+                    if (!Array.isArray(players) || players.length === 0) {
+                        if (!container.innerHTML.trim()) {
+                            container.innerHTML = '<div class="empty-tier">Нет игроков</div>';
+                        }
+                        continue;
+                    }
+
+                    players.forEach(player => {
+                        const card = document.createElement('div');
+                        card.style.display = 'flex';
+                        card.style.alignItems = 'center';
+                        card.style.gap = '10px';
+                        card.style.width = '100%';
+                        card.style.marginBottom = '10px';
+                        card.style.padding = '8px';
+                        card.style.background = 'rgba(15, 23, 42, 0.6)';
+                        card.style.border = '1px solid rgba(56, 189, 248, 0.15)';
+                        card.style.borderRadius = '10px';
+                        card.style.boxSizing = 'border-box';
+
+                        const avatar = document.createElement('img');
+                        avatar.src = player.avatar || '';
+                        avatar.alt = '';
+                        avatar.width = 36;
+                        avatar.height = 36;
+                        avatar.loading = 'lazy';
+                        avatar.style.width = '36px';
+                        avatar.style.height = '36px';
+                        avatar.style.minWidth = '36px';
+                        avatar.style.borderRadius = '50%';
+                        avatar.style.objectFit = 'cover';
+                        avatar.onerror = () => {
+                            avatar.style.display = 'none';
+                        };
+
+                        const name = document.createElement('span');
+                        name.textContent = player.displayName || player.username || 'Неизвестный игрок';
+                        name.style.color = '#ffffff';
+                        name.style.fontWeight = '600';
+                        name.style.overflow = 'hidden';
+                        name.style.textOverflow = 'ellipsis';
+                        name.style.whiteSpace = 'nowrap';
+
+                        card.appendChild(avatar);
+                        card.appendChild(name);
+                        container.appendChild(card);
+                    });
+                }
+
+                // Если API вернул пустой объект
+                for (let i = 1; i <= 5; i++) {
+                    const container = document.getElementById(`tier-${i}`);
+                    if (container && !container.innerHTML.trim()) {
+                        container.innerHTML = '<div class="empty-tier">Нет игроков</div>';
+                    }
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки тиров:', error);
+
+                for (let i = 1; i <= 5; i++) {
+                    const container = document.getElementById(`tier-${i}`);
+                    if (container) {
+                        container.innerHTML = '<div class="empty-tier">Не удалось загрузить данные</div>';
+                    }
+                }
+            }
+        }
+
+        // Загружаем данные после загрузки страницы
+        window.addEventListener('DOMContentLoaded', fetchAndDisplayTiers);
+
+        // Обновляем список каждые 30 секунд
+        setInterval(fetchAndDisplayTiers, 30000);
+</script>
 </body>
 </html>
