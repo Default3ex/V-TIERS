@@ -116,8 +116,7 @@
             transition: filter 0.3s ease, transform 0.3s ease;
         }
 
-        /* Уникальные ванильные подсветки при наведении */
-        /* 1. Кубок: золотисто-розоватый отсвет (ванильный тир / золото) */
+        /* Ванильные подсветки при наведении */
         .nav-icon-btn.cup-btn:hover {
             background: rgba(234, 179, 8, 0.12);
             box-shadow: 0 0 15px rgba(234, 179, 8, 0.5), inset 0 0 10px rgba(234, 179, 8, 0.2);
@@ -127,7 +126,6 @@
             filter: drop-shadow(0 0 8px #facc15) drop-shadow(0 0 15px #ec4899);
         }
 
-        /* 2. Кристалл Энда: фиолетово-розовый перелив с белым центром */
         .nav-icon-btn.crystal-btn:hover {
             background: rgba(217, 70, 239, 0.12);
             box-shadow: 0 0 15px rgba(217, 70, 239, 0.5), inset 0 0 10px rgba(217, 70, 239, 0.2);
@@ -137,7 +135,6 @@
             filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px #d946ef);
         }
 
-        /* 3. Алмазный меч: ванильный ярко-голубой алмазный синий свет */
         .nav-icon-btn.sword-btn:hover {
             background: rgba(56, 189, 248, 0.12);
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.2);
@@ -383,8 +380,8 @@
             border: 1px solid rgba(56, 189, 248, 0.35);
             border-radius: 22px;
             width: 100%;
-            max-width: 900px;
-            height: 85vh;
+            max-width: 1150px;
+            height: 88vh;
             display: flex;
             flex-direction: column;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.25);
@@ -494,6 +491,104 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Новая сетка тиров 1-5 */
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(190px, 1fr));
+            gap: 16px;
+            height: 100%;
+            min-height: 500px;
+        }
+
+        .tier-column {
+            background: rgba(10, 17, 35, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tier-column:hover {
+            border-color: rgba(56, 189, 248, 0.45);
+            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.12);
+        }
+
+        .tier-col-header {
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.85);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        .tier-col-content {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .tier-player-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s ease;
+        }
+
+        .tier-player-card:hover {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateX(3px);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+        }
+
+        .player-skin {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            object-fit: cover;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+        }
+
+        .player-status {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .empty-tier {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+            margin: auto;
+            padding: 20px 0;
+            font-style: italic;
+        }
+
         .rule-card {
             background: rgba(15, 23, 42, 0.5);
             border-left: 3px solid var(--accent-blue);
@@ -520,28 +615,6 @@
             line-height: 1.5;
         }
 
-        .rule-desc code {
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent-blue);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .penalty-tag {
-            display: inline-block;
-            margin-top: 6px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-        }
-
         .media-note {
             background: rgba(56, 189, 248, 0.06);
             border: 1px dashed rgba(56, 189, 248, 0.3);
@@ -566,15 +639,12 @@
             background: rgba(4, 8, 18, 0.6);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+            .tiers-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
             .menu-grid {
                 grid-template-columns: 1fr;
-            }
-            .hero h1 {
-                font-size: 2.3rem;
-            }
-            .nav-island {
-                padding: 8px 12px;
             }
         }
     </style>
@@ -588,8 +658,8 @@
             <a href="#" class="logo gradient-text">VTIERS</a>
             
             <div class="nav-center">
-                <!-- Кубок (Правила тир-листов) -->
-                <button class="nav-icon-btn cup-btn" onclick="openModal('tiersRulesModal')" title="Правила тир-листов">
+                <!-- Кубок (Открывает меню тиров TIER 1 - TIER 5) -->
+                <button class="nav-icon-btn cup-btn" onclick="openModal('tiersListModal')" title="Список Тиров">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.67 4.4 5.94C8.32 15.56 10 17.5 10 20v1H8v2h8v-2h-2v-1c0-2.5 1.68-4.44 2.6-6.06C19.08 12.67 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8h2v3.82C5.84 10.4 5 8.9 5 8zm14 0c0 .9-.84 2.4-2 3.82V8h2z"/></svg>
                 </button>
                 <div class="nav-divider"></div>
@@ -598,7 +668,7 @@
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M12 2L2 12l10 10 10-10L12 2zm0 3.8L18.2 12 12 18.2 5.8 12 12 5.8z"/></svg>
                 </button>
                 <div class="nav-divider"></div>
-                <!-- Алмазный меч (Модификации / Тиртест) -->
+                <!-- Алмазный меч (Модификации) -->
                 <button class="nav-icon-btn sword-btn" onclick="openModal('modsModal')" title="Запрещенные модификации">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M14.59 4.34c-.39-.39-1.02-.39-1.41 0L3.13 14.39c-.39.39-.39 1.02 0 1.41l2.12 2.12c.39.39 1.02.39 1.41 0L16.71 7.87c.39-.39.39-1.02 0-1.41l-2.12-2.12zM5.25 15.45l8.11-8.11 1.41 1.41-8.11 8.11-1.41-1.41zM2 20h3v2H2zM21 2h-2v3h2z"/></svg>
                 </button>
@@ -624,16 +694,16 @@
     <section class="hero">
         <div class="pill-badge">PVP TIERLIST PROJECT</div>
         <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Выберите интересующий раздел выше или ниже — здесь собрана вся информация о тиртестах, проверках и правилах проекта.</p>
+        <p class="subtitle">Нажмите на кубок в панели сверху, чтобы посмотреть текущий список игроков по тирам от TIER 1 до TIER 5.</p>
 
         <div class="menu-grid">
-            <div class="menu-card" onclick="openModal('tiersRulesModal')">
+            <div class="menu-card" onclick="openModal('tiersListModal')">
                 <div>
-                    <div class="card-icon">⚔️</div>
-                    <h3>Правила тир-листов</h3>
-                    <p>Общие лимиты предметов на квалификационных тестах и детальный регламент HT3-теста.</p>
+                    <div class="card-icon">🏆</div>
+                    <h3>Таблица тиров (1-5)</h3>
+                    <p>Актуальный список лучших игроков проекта, распределенных по уровням мастерства.</p>
                 </div>
-                <div class="card-action">Открыть &rarr;</div>
+                <div class="card-action">Смотреть &rarr;</div>
             </div>
 
             <div class="menu-card" onclick="openModal('rulesModal')">
@@ -665,83 +735,107 @@
         </div>
     </section>
 
-    <!-- Модальное окно: Правила тир-листов -->
-    <div class="modal-overlay" id="tiersRulesModal" onclick="closeModalOnBackdrop(event, 'tiersRulesModal')">
-        <div class="modal-container">
+    <!-- Модальное окно: Список тиров (1-5) -->
+    <div class="modal-overlay" id="tiersListModal" onclick="closeModalOnBackdrop(event, 'tiersListModal')">
+        <div class="modal-container" style="max-width: 1250px;">
             <div class="modal-header">
-                <h2>⚔️ Правила тир-листов <span class="gradient-text">VTIERS</span></h2>
-                <button class="modal-close" onclick="closeModal('tiersRulesModal')">&times;</button>
+                <h2>🏆 Официальный список <span class="gradient-text">ТИРОВ VTIERS</span></h2>
+                <button class="modal-close" onclick="closeModal('tiersListModal')">&times;</button>
             </div>
-
-            <div class="rules-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-qual-rules', event)">Квал. тесты (Общие)</button>
-                <button class="tab-btn" onclick="switchTab('tab-ht3-rules', event)">Правила HT3-теста</button>
-            </div>
-
+            
             <div class="modal-body">
-                <!-- Общие правила квал. тестов -->
-                <div id="tab-qual-rules" class="rules-section active">
-                    <div class="media-note">
-                        <strong>📌 Лимиты предметов на квалификационных тестах:</strong>
+                <div class="tiers-grid">
+                    <!-- TIER 1 -->
+                    <div class="tier-column">
+                        <div class="tier-col-header" style="color: #facc15; text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);">TIER 1</div>
+                        <div class="tier-col-content">
+                            <div class="empty-tier">Нет данных</div>
+                        </div>
                     </div>
-                    <div class="rule-card"><div class="rule-title">Тотем бессмертия</div><div class="rule-desc">Максимальное количество: <code>14 штук</code></div></div>
-                    <div class="rule-card"><div class="rule-title">Якорь возрождения</div><div class="rule-desc">Максимальное количество: <code>64 штуки</code></div></div>
-                    <div class="rule-card"><div class="rule-title">Элементы брони</div><div class="rule-desc">Не более <code>4 элементов</code> брони.</div></div>
-                    
-                    <div class="media-note" style="margin-top: 20px; border-color: rgba(239, 68, 68, 0.3);">
-                        <strong style="color: #ef4444;">❌ Запреты на квал. тестах:</strong>
-                    </div>
-                    <div class="rule-card"><div class="rule-title">Зачарованные золотые яблоки</div></div>
-                    <div class="rule-card"><div class="rule-title">Зелья черепашьей мощи</div></div>
-                    <div class="rule-card"><div class="rule-title">Стрелы слабости</div></div>
-                    <div class="rule-card"><div class="rule-title">Шалкера</div></div>
-                    <div class="rule-card"><div class="rule-title">Элитры</div></div>
-                    <div class="rule-card"><div class="rule-title">Булава</div></div>
-                </div>
 
-                <!-- Правила HT3-теста -->
-                <div id="tab-ht3-rules" class="rules-section">
-                    <div class="media-note">
-                        <strong>🎯 Ограничения по предметам (HT3):</strong>
+                    <!-- TIER 2 -->
+                    <div class="tier-column">
+                        <div class="tier-col-header" style="color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.5);">TIER 2</div>
+                        <div class="tier-col-content">
+                            <div class="empty-tier">Нет данных</div>
+                        </div>
                     </div>
-                    <div class="rule-card"><div class="rule-title">Тотемы бессмертия</div><div class="rule-desc">8 штук максимум.</div></div>
-                    <div class="rule-card"><div class="rule-title">Якоря возрождения</div><div class="rule-desc">64 штуки максимум.</div></div>
-                    <div class="rule-card"><div class="rule-title">Фейерверки</div><div class="rule-desc">24 штуки максимум.</div></div>
-                    <div class="rule-card"><div class="rule-title">Броня</div><div class="rule-desc">Не более 4 элементов брони.</div></div>
-                    <div class="rule-card">
-                        <div class="rule-title">Использование шалкеров</div>
-                        <div class="rule-desc">Зелья, кристаллы Энда, обсидиан, жемчуг Края и бутылочки опыта можно хранить в шалкерах. Перед началом боя в шалкеры разрешается помещать <strong>только</strong> перечисленные выше предметы.</div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Эндер-сундуки</div>
-                        <div class="rule-desc">Разрешены. В них можно хранить любые разрешённые правилами предметы.</div>
-                    </div>
-                    
-                    <div class="media-note" style="margin-top: 20px; border-color: rgba(239, 68, 68, 0.3);">
-                        <strong style="color: #ef4444;">⛔ Запрещённые предметы в HT3:</strong>
-                    </div>
-                    <div class="rule-card"><div class="rule-title">Молоко</div></div>
-                    <div class="rule-card"><div class="rule-title">Зачарованные золотые яблоки</div></div>
-                    <div class="rule-card"><div class="rule-title">Зелья и стрелы «Черепашьей мощи»</div></div>
-                    <div class="rule-card"><div class="rule-title">Стрелы слабости</div></div>
-                    <div class="rule-card"><div class="rule-title">Любые предметы, не разрешённые данными правилами</div></div>
 
-                    <div class="media-note" style="margin-top: 20px;">
-                        <strong>⚔️ Правила боя и проведения:</strong>
+                    <!-- TIER 3 -->
+                    <div class="tier-column">
+                        <div class="tier-col-header" style="color: #c084fc; text-shadow: 0 0 12px rgba(192, 132, 252, 0.5);">TIER 3</div>
+                        <div class="tier-col-content">
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/hqlc/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">hqlc</span>
+                                    <span class="player-status">Verified HT3</span>
+                                </div>
+                            </div>
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/Karas1kFort/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">Karas1kFort</span>
+                                    <span class="player-status">Verified HT3</span>
+                                </div>
+                            </div>
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/kvak114/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">kvak114</span>
+                                    <span class="player-status">Verified HT3</span>
+                                </div>
+                            </div>
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/larpscyther/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">larpscyther</span>
+                                    <span class="player-status">Verified HT3</span>
+                                </div>
+                            </div>
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/pomidor_2007/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">pomidor_2007</span>
+                                    <span class="player-status">Verified HT3</span>
+                                </div>
+                            </div>
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/quonsort151/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">quonsort151</span>
+                                    <span class="player-status">Verified HT3</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено снимать броню во время действия зелья невидимости.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено добывать якоря возрождения во время теста.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено наносить урон в течение 3 секунд после телепортации.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено намеренно выходить из игры во время боя, чтобы избежать смерти или проигрыша.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено использовать баги, дюпы и любые игровые эксплойты.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено использовать сторонние программы, дающие преимущество над противником.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено вмешательство третьих лиц в бой.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Запрещено намеренно мешать проведению теста или изменять условия боя без разрешения тестера.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• После начала теста запрещено пополнять инвентарь предметами извне.</div></div>
-                    
-                    <div class="rule-card" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.08); margin-top: 20px;">
-                        <div class="rule-title" style="color: #f59e0b;">⚠️ Важно!</div>
-                        <div class="rule-desc">Перед началом боя обязательно проверьте инвентарь, шалкеры и экипировку. Незнание правил не освобождает от ответственности.</div>
+
+                    <!-- TIER 4 -->
+                    <div class="tier-column">
+                        <div class="tier-col-header" style="color: #4ade80; text-shadow: 0 0 12px rgba(74, 222, 128, 0.5);">TIER 4</div>
+                        <div class="tier-col-content">
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/TwinkKuMu/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">TwinkKuMu</span>
+                                    <span class="player-status">Verified T4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TIER 5 -->
+                    <div class="tier-column">
+                        <div class="tier-col-header" style="color: #fb923c; text-shadow: 0 0 12px rgba(251, 146, 60, 0.5);">TIER 5</div>
+                        <div class="tier-col-content">
+                            <div class="tier-player-card">
+                                <img src="https://mc-heads.net/avatar/kw0Ta/32" alt="skin" class="player-skin">
+                                <div class="player-info">
+                                    <span class="player-name">kw0Ta</span>
+                                    <span class="player-status">Verified T5</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -755,66 +849,10 @@
                 <h2>📜 Правила проекта <span class="gradient-text">VTIERS</span></h2>
                 <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
             </div>
-            
-            <div class="rules-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-admin', event)">1. Администрация</button>
-                <button class="tab-btn" onclick="switchTab('tab-chat', event)">2. Общение</button>
-                <button class="tab-btn" onclick="switchTab('tab-checks', event)">3. Проверки и SS</button>
-                <button class="tab-btn" onclick="switchTab('tab-media', event)">4. Медиа-игроки</button>
-            </div>
-
             <div class="modal-body">
-                <!-- Раздел 1 -->
-                <div id="tab-admin" class="rules-section active">
-                    <div class="rule-card"><div class="rule-title">1.1 — Решения администрации</div><div class="rule-desc">Решения администрации являются обязательными для исполнения участниками проекта. В спорных ситуациях окончательное решение принимает администрация.</div></div>
-                    <div class="rule-card"><div class="rule-title">1.2 — Вмешательство в нестандартных ситуациях</div><div class="rule-desc">Администрация вправе вмешаться в любую ситуацию, если требуется быстрое решение или предотвращение дальнейшего нарушения.</div></div>
-                    <div class="rule-card"><div class="rule-title">1.3 — Право на применение наказаний</div><div class="rule-desc">Администрация может применить блокировку, ограничение доступа или мут на установленный ею срок в зависимости от обстоятельств нарушения.</div></div>
-                    <div class="rule-card"><div class="rule-title">1.4 — Обжалование наказаний</div><div class="rule-desc">Любой участник может подать апелляцию на выданное наказание. Для рассмотрения жалобы необходимо предоставить убедительные доказательства. При их отсутствии апелляция может быть отклонена.</div></div>
-                    <div class="rule-card"><div class="rule-title">1.5 — Перенос результатов тир-теста</div><div class="rule-desc">Перенос или восстановление тира без подтверждающих материалов не производится.</div></div>
-                </div>
-
-                <!-- Раздел 2 -->
-                <div id="tab-chat" class="rules-section">
-                    <div class="rule-card"><div class="rule-title">2.1 — Реклама</div><div class="rule-desc">Любая форма рекламы без разрешения администрации запрещена.</div><div class="penalty-tag">Мут на 7 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">2.2 — Оскорбительные высказывания о родственниках</div><div class="rule-desc">Запрещены оскорбления или унизительные высказывания в адрес родственников участников.</div><div class="penalty-tag">Мут на 14 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">2.2.1 — Политические и религиозные темы</div><div class="rule-desc">Обсуждение политики или религии в рамках проекта запрещено.</div><div class="penalty-tag">Мут на 14 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">2.2.2 — Запрещённая пропаганда</div><div class="rule-desc">Запрещено распространение или пропаганда нацизма, расизма, терроризма и наркотических веществ.</div><div class="penalty-tag">Мут на 14 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">2.2.3 — Сторонние проекты и площадки</div><div class="rule-desc">Запрещено распространять IP других проектов, ссылки на сторонние Telegram-каналы, Twitch, YouTube и другие ресурсы.<br><em>Исключение:</em> участники с ролью «Медиа» могут публиковать собственный Twitch/YouTube в разрешённых местах.</div><div class="penalty-tag">Мут на 7 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">2.2.4 — Неприемлемое поведение</div><div class="rule-desc">Запрещено поведение, нарушающее установленные нормы общения проекта.</div><div class="penalty-tag">Мут на 7 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">2.3 — Призывы к насилию или причинению вреда себе</div><div class="rule-desc">Запрещены любые призывы к насилию, причинению вреда другим людям или причинению вреда себе.</div><div class="penalty-tag">Мут на 28 дней</div></div>
-                </div>
-
-                <!-- Раздел 3 -->
-                <div id="tab-checks" class="rules-section">
-                    <div class="rule-card"><div class="rule-title">3.1 — Чит-клиенты перед тестированием</div><div class="rule-desc">Запрещено хранить чит-клиенты и другое запрещённое ПО в течение 30 дней до прохождения теста.</div><div class="penalty-tag">Рестрикт на 180 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.2 — Использование стороннего ПО</div><div class="rule-desc">Любое программное обеспечение, предназначенное для получения игрового преимущества, запрещено.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.3 — Признание в использовании читов</div><div class="rule-desc">Добровольное признание в использовании запрещённого стороннего ПО рассматривается как нарушение правил.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.4 — Запрещённые моды и ресурспаки</div><div class="rule-desc">Использование или хранение модификаций, запрещённых правилами конкретного тир-листа, не допускается. Разрешаются моды и ресурспаки, отображающие здоровье или броню противника, если они не дают преимущества в аксессуарах.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.5 — Автоматизация действий</div><div class="rule-desc">Запрещены программы и сервисы, которые автоматически выполняют игровые действия за пользователя.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.6 — Отключённые системные службы</div><div class="rule-desc">Во время проверки запрещается иметь отключёнными следующие службы Windows:<br><code>sysmain, pcasvc, dps, eventlog, schedule, bam, dusmsvc, appinfo, cdpsvc, dcomlaunch, plugplay, wsearch, diagtrack, cdpusersvc</code></div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.7 — Завершение работы игры после теста</div><div class="rule-desc">После завершения турнира или сыгранного тикета запрещено закрывать/выключать игру в течение 15 минут.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.8 — Создание препятствий при SS</div><div class="rule-desc">Во время проверки запрещено мешать работе проверяющего: закрывать окна, использовать клавиатуру или мышь без разрешения, отключать интернет и совершать аналогичные действия.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.9 — Запись экрана во время SS</div><div class="rule-desc">Самостоятельная запись экрана во время проверки на запрещённое ПО не допускается.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.10 — Отказ от SS</div><div class="rule-desc">Отказ пройти предусмотренную правилами проверку рассматривается как SS Refuse.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.11 — Удаление следов запрещённого ПО</div><div class="rule-desc">Запрещено намеренно уничтожать или изменять данные, которые могут иметь отношение к проверке. К нарушению относятся удаление файлов, очистка журналов и использование инструментов для сокрытия следов.</div><div class="penalty-tag">Рестрикт на 180 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.12 — Спуферы и вмешательство в сетевые параметры</div><div class="rule-desc">Использование спуферов и неразрешённых способов изменения сетевого соединения запрещено. ExitLag допускается только после согласования с администрацией высшего уровня.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.13 — Срок эксплуатации ОС</div><div class="rule-desc">Участие в тир-тесте с операционной системой, установленной менее 14 дней назад, запрещается.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
-                    <div class="rule-card"><div class="rule-title">3.14 — Использование альтов для обхода ограничений</div><div class="rule-desc">Запрещено использовать дополнительные аккаунты для обхода restricted, наказаний, ограничений доступа или ожидания перед новым тир-тестом.</div><div class="penalty-tag">Рестрикт на 180 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.15 — Бустинг</div><div class="rule-desc">Запрещены любые способы искусственного улучшения статистики или результата игрока: передача аккаунта, помощь со стороны тестера, договорные результаты и другие подобные действия.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.16 — Сокрытие чужого нарушения</div><div class="rule-desc">Если участнику заранее или во время теста известно о нарушении другого игрока, запрещается намеренно скрывать данный факт от администрации.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                    <div class="rule-card"><div class="rule-title">3.17 — Передача аккаунта</div><div class="rule-desc">Запрещено передавать свой аккаунт другим лицам либо предоставлять им доступ. Наказание применяется как к владельцу аккаунта, так и к человеку, получившему доступ.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
-                </div>
-
-                <!-- Раздел 4 -->
-                <div id="tab-media" class="rules-section">
-                    <div class="media-note">
-                        <strong>📌 Примечание:</strong> Специальные условия распространяются исключительно на участников с официальной ролью «Медиа». Роль выдаётся администрацией индивидуально. Не следует путать её с ролью «А-Медиа».
-                    </div>
-                    <div class="rule-card"><div class="rule-title">4.1 — Квалификация через дополнительный аккаунт</div><div class="rule-desc">Игрок с ролью «Медиа» проходит квалификационный тест с дополнительного аккаунта. Это необходимо для исключения возможной корректировки результата в пользу основного аккаунта. После завершения теста полученный результат переносится на основной аккаунт.</div></div>
-                    <div class="rule-card"><div class="rule-title">4.2 — Участие в пурдже</div><div class="rule-desc">Игроки с ролью «Медиа» не обязаны участвовать в пурдже и могут отказаться от него. Исключения могут применяться к игрокам уровня LT2/HT2+ — решение принимается администрацией индивидуально.</div></div>
-                    <div class="rule-card"><div class="rule-title">4.3 — Обязательные тикеты</div><div class="rule-desc">Медиа-игрок вправе отказаться от тикета, в который его добавили, если он сам не выразил желание участвовать. Для категорий LT2/HT2+ администрация может установить отдельные условия в зависимости от ситуации.</div></div>
-                    <div class="rule-card"><div class="rule-title">4.4 — Использование медиа-привилегий</div><div class="rule-desc">Медиа-привилегии не освобождают игрока от соблюдения остальных правил проекта. При выявлении нарушения к медиа-игроку применяются стандартные меры наказания.</div></div>
-                </div>
+                <div class="rule-card"><div class="rule-title">1.1 — Решения администрации</div><div class="rule-desc">Решения администрации являются обязательными для исполнения участниками проекта.</div></div>
+                <div class="rule-card"><div class="rule-title">2.1 — Реклама</div><div class="rule-desc">Любая форма рекламы без разрешения администрации запрещена.</div></div>
+                <div class="rule-card"><div class="rule-title">3.1 — Чит-клиенты перед тестированием</div><div class="rule-desc">Запрещено хранить чит-клиенты и другое запрещённое ПО в течение 30 дней до прохождения теста.</div></div>
             </div>
         </div>
     </div>
@@ -826,83 +864,15 @@
                 <h2>🧩 Запрещённые <span class="gradient-text">модификации</span></h2>
                 <button class="modal-close" onclick="closeModal('modsModal')">&times;</button>
             </div>
-            
-            <div class="rules-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-mods-general', event)">Общие положения</button>
-                <button class="tab-btn" onclick="switchTab('tab-mods-list', event)">Основной список</button>
-                <button class="tab-btn" onclick="switchTab('tab-mods-extra', event)">Дополнительно</button>
-            </div>
-
             <div class="modal-body">
-                <!-- Вкладка 1: Общие положения -->
-                <div id="tab-mods-general" class="rules-section active">
-                    <div class="media-note" style="border-color: rgba(239, 68, 68, 0.3);">
-                        <strong style="color: #ef4444;">❌ Главное правило:</strong>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-desc">Запрещены любые модификации, клиенты, аддоны, плагины, макросы и прочие программы, которые дают преимущество в PvP/CPvP или изменяют стандартную механику Minecraft.</div>
-                    </div>
-                </div>
-
-                <!-- Вкладка 2: Основной список -->
-                <div id="tab-mods-list" class="rules-section">
-                    <div class="media-note">
-                        <strong>📋 Запрещённое ПО и аддоны:</strong>
-                    </div>
-                    <div class="rule-card"><div class="rule-desc">Mouse Tweaks</div></div>
-                    <div class="rule-card"><div class="rule-desc">Item Scroller</div></div>
-                    <div class="rule-card"><div class="rule-desc">AutoClicker</div></div>
-                    <div class="rule-card"><div class="rule-desc">SnapTap</div></div>
-                    <div class="rule-card"><div class="rule-desc">Null Movement</div></div>
-                    <div class="rule-card"><div class="rule-desc">Ghast</div></div>
-                    <div class="rule-card"><div class="rule-desc">Optimal Aim</div></div>
-                    <div class="rule-card"><div class="rule-desc">ElytraSwap / Elytra Swapper / JJElytraSwap</div></div>
-                    <div class="rule-card"><div class="rule-desc">AutoTotem / Advanced AutoTotem / Inventory Totem</div></div>
-                    <div class="rule-card"><div class="rule-desc">BetterPvP</div></div>
-                    <div class="rule-card"><div class="rule-desc">PearlDetector</div></div>
-                    <div class="rule-card"><div class="rule-desc">Accurate Block Placement / Accurate Block Placement Reborn</div></div>
-                    <div class="rule-card"><div class="rule-desc">ClickCrystal / ClickCrystals / Crystal Switcher / Crystal Switch</div></div>
-                    <div class="rule-card"><div class="rule-desc">Client-Side Crystals / ClientCrystals</div></div>
-                    <div class="rule-card"><div class="rule-desc">Shikaru's Crystal Optimizer / Walksy Crystal Optimizer</div></div>
-                    <div class="rule-card"><div class="rule-desc">Hazel Crystal Optimizer (HCO) / G1ax Crystal Optimizer</div></div>
-                    <div class="rule-card"><div class="rule-desc">Crystal Macro Mod / Crystalcore / AutoCrystal</div></div>
-                    <div class="rule-card"><div class="rule-desc">Auto Anchor / Auto Anchor Optimizer</div></div>
-                    <div class="rule-card"><div class="rule-desc">SmartBlockPlacement / Fast Block Placement / Fast Place / Fast Right Click / Fast Left Click</div></div>
-                    <div class="rule-card"><div class="rule-desc">Tweakeroo</div></div>
-                    <div class="rule-card"><div class="rule-desc">ElytraMace</div></div>
-                    <div class="rule-card"><div class="rule-desc">ItemSwapX / Swap Helper</div></div>
-                    <div class="rule-card"><div class="rule-desc">Macecore / Mace Attack Assistance / Mace Optimizer</div></div>
-                    <div class="rule-card"><div class="rule-desc">Pearl Optimizer</div></div>
-                    <div class="rule-card"><div class="rule-desc">Quick Elytra / Quick Hotkeys / Slot Cycler</div></div>
-                    <div class="rule-card"><div class="rule-desc">Inventory Profiles Next / Inventory Tweaks</div></div>
-                    <div class="rule-card"><div class="rule-desc">Input Optimizer</div></div>
-                    <div class="rule-card"><div class="rule-desc">Bridging Mod / Scaffold / AirPlace / lwfh Airplace</div></div>
-                </div>
-
-                <!-- Вкладка 3: Дополнительно -->
-                <div id="tab-mods-extra" class="rules-section">
-                    <div class="media-note" style="border-color: rgba(239, 68, 68, 0.3);">
-                        <strong style="color: #ef4444;">⛔ ДОПОЛНИТЕЛЬНО ЗАПРЕЩЕНЫ:</strong>
-                    </div>
-                    <div class="rule-card"><div class="rule-desc">• Любые индикаторы HP противников</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые HealthBar / Health Indicator моды</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Миникарты с отображением игроков</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Player ESP / Entity ESP / Tracers / Radar</div></div>
-                    <div class="rule-card"><div class="rule-desc">• CW-HACK и подобные ему модификации/клиенты</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые AutoClicker и Macro</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые Double Bind / Multi Bind моды</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые моды, автоматизирующие swap предметов</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые моды, автоматизирующие Crystal / Anchor / Mace / Pearl действия</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые форки, порты, переименованные версии и аналоги перечисленных модификаций, выполняющие аналогичную функцию.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые приватные/самописные модификации с аналогичным функционалом.</div></div>
-                    <div class="rule-card"><div class="rule-desc">• Любые модификации, которые изменяют механику PvP, ускоряют действия игрока или уменьшают количество необходимых действий по сравнению с ванильным клиентом.</div></div>
-                    <div class="rule-card" style="border-left-color: #38bdf8; background: rgba(56, 189, 248, 0.08);"><div class="rule-title" style="color: #38bdf8;">✅ Исключения:</div><div class="rule-desc">• Любые оптимизаторы, кроме Marlow и HCsCR.</div></div>
-                </div>
+                <div class="rule-card"><div class="rule-desc">Запрещены любые модификации, клиенты, макросы и прочие программы, дающие преимущество в PvP/CPvP.</div></div>
+                <div class="rule-card"><div class="rule-desc">AutoTotem / Advanced AutoTotem</div></div>
+                <div class="rule-card"><div class="rule-desc">ClickCrystal / Crystal Switcher</div></div>
             </div>
         </div>
     </div>
 
-    <!-- Модальное окно: Туториал (Пройти тиртест) -->
+    <!-- Модальное окно: Туториал -->
     <div class="modal-overlay" id="tutorialModal" onclick="closeModalOnBackdrop(event, 'tutorialModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -910,41 +880,8 @@
                 <button class="modal-close" onclick="closeModal('tutorialModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="media-note">
-                    <strong>📌 Пошаговая цепочка выполнения действий для прохождения теста:</strong>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 1</div>
-                    <div class="rule-desc">Перейди в наш Дискорд по кнопке в правом верхнем углу.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 2</div>
-                    <div class="rule-desc">Клацни на кнопочку авторизации.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 3</div>
-                    <div class="rule-desc">Зайди в канал <code>Тестирование</code>.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 4</div>
-                    <div class="rule-desc">Дождись, когда тестеры будут онлайн.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 5</div>
-                    <div class="rule-desc">Создай тикет.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 6</div>
-                    <div class="rule-desc">Дождись своей очереди.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 7</div>
-                    <div class="rule-desc">Выполняй указания тестера.</div>
-                </div>
-                <div class="rule-card">
-                    <div class="rule-title">Шаг 8</div>
-                    <div class="rule-desc">Получи свой честный результат!</div>
-                </div>
+                <div class="rule-card"><div class="rule-title">Шаг 1</div><div class="rule-desc">Перейди в наш Дискорд по кнопке вверху.</div></div>
+                <div class="rule-card"><div class="rule-title">Шаг 2</div><div class="rule-desc">Пройди авторизацию и создай тикет в канале тестирования.</div></div>
             </div>
         </div>
     </div>
@@ -968,15 +905,6 @@
             if (event.target.classList.contains('modal-overlay')) {
                 closeModal(modalId);
             }
-        }
-
-        function switchTab(tabId, ev) {
-            const container = ev.currentTarget.closest('.modal-container');
-            container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            ev.currentTarget.classList.add('active');
-
-            container.querySelectorAll('.rules-section').forEach(sec => sec.classList.remove('active'));
-            container.querySelector('#' + tabId).classList.add('active');
         }
 
         document.addEventListener('keydown', function(e) {
