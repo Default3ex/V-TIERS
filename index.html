@@ -34,8 +34,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 10%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -44,21 +44,69 @@
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 800;
             color: var(--accent-color);
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         nav a {
             color: var(--text-color);
             text-decoration: none;
-            margin-left: 20px;
+            font-weight: 500;
             transition: color 0.3s;
         }
 
         nav a:hover {
             color: var(--accent-color);
+        }
+
+        /* Градиентная анимация */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Стильные переливающиеся кнопки */
+        .btn {
+            display: inline-block;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #39FF14, #0b450c, #16a34a, #39FF14);
+            background-size: 300% 300%;
+            animation: gradientShift 4s ease infinite;
+            color: #031204;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(57, 255, 20, 0.35);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 30px rgba(57, 255, 20, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Небольшая кнопка для ссылки Discord в шапке */
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            border-radius: 20px;
         }
 
         .hero {
@@ -68,39 +116,25 @@
             justify-content: center;
             text-align: center;
             padding: 100px 20px;
-            background: radial-gradient(circle at center, rgba(57, 255, 20, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(57, 255, 20, 0.08) 0%, transparent 70%);
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.2rem;
             margin-bottom: 20px;
+            font-weight: 800;
         }
 
         .hero h1 span {
             color: var(--accent-color);
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
         }
 
         .hero p {
             font-size: 1.2rem;
             color: var(--text-muted);
             max-width: 600px;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--accent-color);
-            color: #000;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+            margin-bottom: 35px;
         }
 
         .features {
@@ -113,18 +147,20 @@
         .card {
             background-color: var(--card-bg);
             padding: 30px;
-            border-radius: 12px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s;
+            transition: transform 0.3s, border-color 0.3s;
         }
 
         .card:hover {
             transform: translateY(-5px);
+            border-color: rgba(57, 255, 20, 0.3);
         }
 
         .card h3 {
             color: var(--accent-color);
             margin-bottom: 10px;
+            font-size: 1.25rem;
         }
 
         .card p {
@@ -149,7 +185,7 @@
         <nav>
             <a href="#features">Возможности</a>
             <a href="#about">О нас</a>
-            <a href="https://discord.gg/YOUR_LINK" target="_blank">Discord</a>
+            <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="btn btn-small">Discord</a>
         </nav>
     </header>
 
