@@ -32,21 +32,13 @@
             overflow-x: hidden;
         }
 
-        #starTrailCanvas, #snowCanvas {
+        #starTrailCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            pointer-events: none; /* Чтобы снег и курсор не блокировали нажатия мышкой */
-        }
-
-        /* Снег теперь выше модальных окон, чтобы падать прямо поверх них */
-        #snowCanvas {
-            z-index: 2000;
-        }
-
-        #starTrailCanvas {
+            pointer-events: none;
             z-index: 99999;
         }
 
@@ -194,7 +186,6 @@
             position: relative;
             flex-grow: 1;
             justify-content: center;
-            z-index: 2;
         }
 
         .pill-badge {
@@ -496,6 +487,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* Красивое оформление правил и модов */
         .rule-category {
             font-size: 1.2rem;
             font-weight: 700;
@@ -586,6 +578,7 @@
             font-size: 0.8rem;
         }
 
+        /* Цепочка шагов для туториала */
         .step-timeline {
             display: flex;
             flex-direction: column;
@@ -644,8 +637,6 @@
             color: var(--text-muted);
             font-size: 0.9rem;
             background: rgba(4, 8, 18, 0.6);
-            z-index: 2;
-            position: relative;
         }
 
         @media (max-width: 1024px) {
@@ -660,7 +651,6 @@
 </head>
 <body>
 
-    <canvas id="snowCanvas"></canvas>
     <canvas id="starTrailCanvas"></canvas>
 
     <header>
@@ -996,4 +986,236 @@
                     <div class="mod-item">SmartBlockPlacement</div>
                     <div class="mod-item">Fast Block Placement</div>
                     <div class="mod-item">Fast Place</div>
-                    <div class="mod-item">Fast R... (осталось: 14 кб)
+                    <div class="mod-item">Fast Right Click</div>
+                    <div class="mod-item">Fast Left Click</div>
+                    <div class="mod-item">Tweakeroo</div>
+                    <div class="mod-item">ElytraMace</div>
+                    <div class="mod-item">ItemSwapX</div>
+                    <div class="mod-item">Swap Helper</div>
+                    <div class="mod-item">Macecore</div>
+                    <div class="mod-item">Mace Attack Assistance</div>
+                    <div class="mod-item">Mace Optimizer</div>
+                    <div class="mod-item">Pearl Optimizer</div>
+                    <div class="mod-item">Quick Elytra</div>
+                    <div class="mod-item">Quick Hotkeys</div>
+                    <div class="mod-item">Slot Cycler</div>
+                    <div class="mod-item">Inventory Profiles Next</div>
+                    <div class="mod-item">Inventory Tweaks</div>
+                    <div class="mod-item">Input Optimizer</div>
+                    <div class="mod-item">Bridging Mod</div>
+                    <div class="mod-item">Scaffold</div>
+                    <div class="mod-item">AirPlace</div>
+                    <div class="mod-item">lwfh Airplace</div>
+                </div>
+
+                <div class="rule-category" style="margin-top: 30px;">Дополнительно запрещены</div>
+                <div class="rule-card">
+                    <div class="rule-desc">
+                        • Любые индикаторы HP противников<br>
+                        • Любые HealthBar / Health Indicator моды<br>
+                        • Миникарты с отображением игроков<br>
+                        • Player ESP / Entity ESP / Tracers / Radar<br>
+                        • CW-HACK и подобные ему модификации/клиенты<br>
+                        • Любые AutoClicker и Macro<br>
+                        • Любые Double Bind / Multi Bind моды<br>
+                        • Любые моды, автоматизирующие swap предметов<br>
+                        • Любые моды, автоматизирующие Crystal / Anchor / Mace / Pearl действия<br>
+                        • Любые форки, порты, переименованные версии и аналоги перечисленных модификаций, выполняющие аналогичную функцию.<br>
+                        • Любые приватные/самописные модификации с аналогичным функционалом.<br>
+                        • Любые модификации, которые изменяют механику PvP, ускоряют действия игрока или уменьшают количество необходимых действий по сравнению с ванильным клиентом<br>
+                        • Любые оптимизаторы, кроме Marlow и HCsCR
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Туториал (Как пройти тиртест) -->
+    <div class="modal-overlay" id="tutorialModal" onclick="closeModalOnBackdrop(event, 'tutorialModal')">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>🎯 Как пройти <span class="gradient-text">тиртест</span></h2>
+                <button class="modal-close" onclick="closeModal('tutorialModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="step-timeline">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Перейди в наш Дискорд</h4>
+                            <p>Воспользуйся кнопкой перехода в правом верхнем углу сайта.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Авторизуйся</h4>
+                            <p>Клацни на кнопочку авторизации на сервере.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Найди канал «Тестирование»</h4>
+                            <p>Зайди в нужный канал для ознакомления со статусом тестеров.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Дождись тестеров онлайн</h4>
+                            <p>Убедитесь, что уполномоченные проверяющие находятся в сети.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Создай тикет</h4>
+                            <p>Откройте тикет для связи с тестером.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Дождись своей очереди</h4>
+                            <p>Ожидайте вызова в тикете.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <h4>Выполняй указания тестера</h4>
+                            <p>Строго следуйте всем инструкциям проверяющего во время проверки и теста.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <h4>Получи результат</h4>
+                            <p>Получи свой честный и заслуженный результат по итогам проверки.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 VTIERS. Все права защищены.
+    </footer>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModalOnBackdrop(event, modalId) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(modalId);
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    closeModal(modal.id);
+                });
+            }
+        });
+
+        const canvas = document.getElementById('starTrailCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Star {
+            constructor(x, y) {
+                this.x = x + (Math.random() - 0.5) * 8;
+                this.y = y + (Math.random() - 0.5) * 8;
+                this.size = Math.random() * 2.5 + 2.2; 
+                this.alpha = 1;
+                this.decay = Math.random() * 0.008 + 0.006; 
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5 + 0.2;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.04;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+                this.rotation += this.rotSpeed;
+            }
+
+            draw(ctx) {
+                if (this.alpha <= 0) return;
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = '#60A5FA';
+                ctx.shadowColor = '#2563EB';
+                ctx.shadowBlur = 6;
+                drawStarShape(ctx, 0, 0, 5, this.size, this.size / 2.2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function drawStarShape(ctx, cx, cy, spikes, outerRadius, innerRadius) {
+            let rot = Math.PI / 2 * 3;
+            let x = cx;
+            let y = cy;
+            let step = Math.PI / spikes;
+
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - outerRadius);
+            for (let i = 0; i < spikes; i++) {
+                x = cx + Math.cos(rot) * outerRadius;
+                y = cy + Math.sin(rot) * outerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                ctx.lineTo(x, y);
+                rot += step;
+            }
+            ctx.lineTo(cx, cy - outerRadius);
+            ctx.closePath();
+        }
+
+        window.addEventListener('mousemove', function(e) {
+            for (let i = 0; i < 2; i++) {
+                particles.push(new Star(e.clientX, e.clientY));
+            }
+        });
+
+        function animateTrail() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw(ctx);
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateTrail);
+        }
+        animateTrail();
+    </script>
+</body>
+</html>
