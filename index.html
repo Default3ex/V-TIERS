@@ -57,68 +57,136 @@
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 8%;
-            background: rgba(4, 8, 18, 0.85);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            padding: 20px 6%;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-island {
+            width: 100%;
+            max-width: 1300px;
+            background: rgba(8, 14, 30, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.1);
         }
 
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2.5px;
-            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+            text-decoration: none;
         }
 
-        nav {
+        .nav-center {
             display: flex;
             align-items: center;
-            gap: 24px;
-            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--accent-blue);
-        }
-
-        .btn-header {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 22px;
-            background: linear-gradient(135deg, #1d4ed8, #0284c7, #38bdf8, #1e40af);
-            background-size: 300% 300%;
-            animation: gradientShift 6s ease infinite;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 0.92rem;
-            text-decoration: none;
-            border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        .nav-icon-btn {
+            background: transparent;
             border: none;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
         }
 
-        .btn-header:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 6px 25px rgba(56, 189, 248, 0.55);
+        .nav-icon-btn img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Уникальные ванильные подсветки при наведении */
+        /* 1. Кубок: золотисто-розоватый отсвет (ванильный тир / золото) */
+        .nav-icon-btn.cup-btn:hover {
+            background: rgba(234, 179, 8, 0.12);
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.5), inset 0 0 10px rgba(234, 179, 8, 0.2);
+        }
+        .nav-icon-btn.cup-btn:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px #facc15) drop-shadow(0 0 15px #ec4899);
+        }
+
+        /* 2. Кристалл Энда: фиолетово-розовый перелив с белым центром */
+        .nav-icon-btn.crystal-btn:hover {
+            background: rgba(217, 70, 239, 0.12);
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.5), inset 0 0 10px rgba(217, 70, 239, 0.2);
+        }
+        .nav-icon-btn.crystal-btn:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 14px #d946ef);
+        }
+
+        /* 3. Алмазный меч: ванильный ярко-голубой алмазный синий свет */
+        .nav-icon-btn.sword-btn:hover {
+            background: rgba(56, 189, 248, 0.12);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+        .nav-icon-btn.sword-btn:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 8px #38bdf8) drop-shadow(0 0 16px #0284c7);
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            margin: 0 6px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: rgba(56, 189, 248, 0.15);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .action-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
         .hero {
@@ -126,7 +194,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 70px 20px 90px;
+            padding: 50px 20px 90px;
             background: radial-gradient(circle at 50% 15%, rgba(14, 165, 233, 0.12), transparent 65%),
                         linear-gradient(to bottom, rgba(4, 8, 18, 0.75), rgba(4, 8, 18, 0.98));
             position: relative;
@@ -505,8 +573,8 @@
             .hero h1 {
                 font-size: 2.3rem;
             }
-            header {
-                padding: 15px 5%;
+            .nav-island {
+                padding: 8px 12px;
             }
         }
     </style>
@@ -516,18 +584,47 @@
     <canvas id="starTrailCanvas"></canvas>
 
     <header>
-        <div class="logo gradient-text">VTIERS</div>
-        <nav>
-            <a href="javascript:void(0)" onclick="openModal('tiersRulesModal')">Правила тир-листов</a>
-            <a href="javascript:void(0)" onclick="openModal('rulesModal')">Правила проекта</a>
-            <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="btn-header">Discord</a>
-        </nav>
+        <div class="nav-island">
+            <a href="#" class="logo gradient-text">VTIERS</a>
+            
+            <div class="nav-center">
+                <!-- Кубок (Правила тир-листов) -->
+                <button class="nav-icon-btn cup-btn" onclick="openModal('tiersRulesModal')" title="Правила тир-листов">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.67 4.4 5.94C8.32 15.56 10 17.5 10 20v1H8v2h8v-2h-2v-1c0-2.5 1.68-4.44 2.6-6.06C19.08 12.67 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8h2v3.82C5.84 10.4 5 8.9 5 8zm14 0c0 .9-.84 2.4-2 3.82V8h2z"/></svg>
+                </button>
+                <div class="nav-divider"></div>
+                <!-- Кристалл Энда (Правила проекта) -->
+                <button class="nav-icon-btn crystal-btn" onclick="openModal('rulesModal')" title="Правила проекта">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M12 2L2 12l10 10 10-10L12 2zm0 3.8L18.2 12 12 18.2 5.8 12 12 5.8z"/></svg>
+                </button>
+                <div class="nav-divider"></div>
+                <!-- Алмазный меч (Модификации / Тиртест) -->
+                <button class="nav-icon-btn sword-btn" onclick="openModal('modsModal')" title="Запрещенные модификации">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M14.59 4.34c-.39-.39-1.02-.39-1.41 0L3.13 14.39c-.39.39-.39 1.02 0 1.41l2.12 2.12c.39.39 1.02.39 1.41 0L16.71 7.87c.39-.39.39-1.02 0-1.41l-2.12-2.12zM5.25 15.45l8.11-8.11 1.41 1.41-8.11 8.11-1.41-1.41zM2 20h3v2H2zM21 2h-2v3h2z"/></svg>
+                </button>
+            </div>
+
+            <div class="nav-right">
+                <a href="javascript:void(0)" onclick="openModal('tutorialModal')" class="action-btn" title="Как пройти тиртест">
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                </a>
+                <button class="action-btn" onclick="document.body.classList.toggle('light-theme')" title="Переключить тему">
+                    <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
+                </button>
+                <button class="action-btn" onclick="openModal('tutorialModal')" title="Поиск">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </button>
+                <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="action-btn" title="Discord">
+                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                </a>
+            </div>
+        </div>
     </header>
 
     <section class="hero">
         <div class="pill-badge">PVP TIERLIST PROJECT</div>
         <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Выберите интересующий раздел ниже — здесь собрана вся информация о тиртестах, проверках и правилах проекта.</p>
+        <p class="subtitle">Выберите интересующий раздел выше или ниже — здесь собрана вся информация о тиртестах, проверках и правилах проекта.</p>
 
         <div class="menu-grid">
             <div class="menu-card" onclick="openModal('tiersRulesModal')">
