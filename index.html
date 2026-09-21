@@ -439,18 +439,11 @@
             background: rgba(15, 23, 42, 0.85);
         }
 
-        .rule-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 6px;
-        }
-
         .rule-title {
             font-weight: 700;
             font-size: 1rem;
             color: #ffffff;
+            margin-bottom: 4px;
         }
 
         .rule-desc {
@@ -469,22 +462,13 @@
 
         .penalty-tag {
             display: inline-block;
+            margin-top: 6px;
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .tag-mute {
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.4);
-        }
-
-        .tag-restrict {
             background: rgba(239, 68, 68, 0.15);
             color: #ef4444;
             border: 1px solid rgba(239, 68, 68, 0.4);
@@ -534,8 +518,8 @@
     <header>
         <div class="logo gradient-text">VTIERS</div>
         <nav>
-            <a href="#features">Возможности</a>
             <a href="javascript:void(0)" onclick="openModal('tiersRulesModal')">Правила тир-листов</a>
+            <a href="javascript:void(0)" onclick="openModal('rulesModal')">Правила проекта</a>
             <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="btn-header">Discord</a>
         </nav>
     </header>
@@ -543,7 +527,7 @@
     <section class="hero">
         <div class="pill-badge">PVP TIERLIST PROJECT</div>
         <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Выберите интересующий раздел ниже — здесь собрана вся информация о тиртестах, модификациях и правилах проекта.</p>
+        <p class="subtitle">Выберите интересующий раздел ниже — здесь собрана вся информация о тиртестах, проверках и правилах проекта.</p>
 
         <div class="menu-grid">
             <div class="menu-card" onclick="openModal('tiersRulesModal')">
@@ -551,6 +535,15 @@
                     <div class="card-icon">⚔️</div>
                     <h3>Правила тир-листов</h3>
                     <p>Общие лимиты предметов на квалификационных тестах и детальный регламент HT3-теста.</p>
+                </div>
+                <div class="card-action">Открыть &rarr;</div>
+            </div>
+
+            <div class="menu-card" onclick="openModal('rulesModal')">
+                <div>
+                    <div class="card-icon">📜</div>
+                    <h3>Правила проекта</h3>
+                    <p>Администрация, правила общения, регламент проверок (SS) и условия для медиа-игроков.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -572,19 +565,10 @@
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
-
-            <div class="menu-card" onclick="openModal('rulesModal')">
-                <div>
-                    <div class="card-icon">📜</div>
-                    <h3>Правила проекта</h3>
-                    <p>Администрация, правила чата и модерации. Незнание правил не освобождает от ответственности.</p>
-                </div>
-                <div class="card-action">Открыть &rarr;</div>
-            </div>
         </div>
     </section>
 
-    <!-- Модальное окно: Правила тир-листов (Добавлено на основе вашего запроса) -->
+    <!-- Модальное окно: Правила тир-листов -->
     <div class="modal-overlay" id="tiersRulesModal" onclick="closeModalOnBackdrop(event, 'tiersRulesModal')">
         <div class="modal-container">
             <div class="modal-header">
@@ -603,18 +587,10 @@
                     <div class="media-note">
                         <strong>📌 Лимиты предметов на квалификационных тестах:</strong>
                     </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Тотем бессмертия</div>
-                        <div class="rule-desc">Максимальное количество: <code>14 штук</code></div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Якорь возрождения</div>
-                        <div class="rule-desc">Максимальное количество: <code>64 штуки</code></div>
-                    </div>
-                    <div class="rule-card">
-                        <div class="rule-title">Элементы брони</div>
-                        <div class="rule-desc">Не более <code>4 элементов</code> брони.</div>
-                    </div>
+                    <div class="rule-card"><div class="rule-title">Тотем бессмертия</div><div class="rule-desc">Максимальное количество: <code>14 штук</code></div></div>
+                    <div class="rule-card"><div class="rule-title">Якорь возрождения</div><div class="rule-desc">Максимальное количество: <code>64 штуки</code></div></div>
+                    <div class="rule-card"><div class="rule-title">Элементы брони</div><div class="rule-desc">Не более <code>4 элементов</code> брони.</div></div>
+                    
                     <div class="media-note" style="margin-top: 20px; border-color: rgba(239, 68, 68, 0.3);">
                         <strong style="color: #ef4444;">❌ Запреты на квал. тестах:</strong>
                     </div>
@@ -643,6 +619,7 @@
                         <div class="rule-title">Эндер-сундуки</div>
                         <div class="rule-desc">Разрешены. В них можно хранить любые разрешённые правилами предметы.</div>
                     </div>
+                    
                     <div class="media-note" style="margin-top: 20px; border-color: rgba(239, 68, 68, 0.3);">
                         <strong style="color: #ef4444;">⛔ Запрещённые предметы в HT3:</strong>
                     </div>
@@ -655,15 +632,15 @@
                     <div class="media-note" style="margin-top: 20px;">
                         <strong>⚔️ Правила боя и проведения:</strong>
                     </div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено снимать броню во время действия зелья невидимости.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено добывать якоря возрождения во время теста.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено наносить урон в течение 3 секунд после телепортации.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено намеренно выходить из игры во время боя, чтобы избежать смерти или проигрыша.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено использовать баги, дюпы и любые игровые эксплойты.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено использовать сторонние программы, дающие преимущество над противником.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено вмешательство третьих лиц в бой.</div></div>
-                    <div class="rule-card"><div class="rule-title">• Запрещено намеренно мешать проведению теста или изменять условия боя без разрешения тестера.</div></div>
-                    <div class="rule-card"><div class="rule-title">• После начала теста запрещено пополнять инвентарь предметами извне.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено снимать броню во время действия зелья невидимости.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено добывать якоря возрождения во время теста.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено наносить урон в течение 3 секунд после телепортации.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено намеренно выходить из игры во время боя, чтобы избежать смерти или проигрыша.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено использовать баги, дюпы и любые игровые эксплойты.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено использовать сторонние программы, дающие преимущество над противником.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено вмешательство третьих лиц в бой.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• Запрещено намеренно мешать проведению теста или изменять условия боя без разрешения тестера.</div></div>
+                    <div class="rule-card"><div class="rule-desc">• После начала теста запрещено пополнять инвентарь предметами извне.</div></div>
                     
                     <div class="rule-card" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.08); margin-top: 20px;">
                         <div class="rule-title" style="color: #f59e0b;">⚠️ Важно!</div>
@@ -674,23 +651,72 @@
         </div>
     </div>
 
-    <!-- Модальное окно: Правила проекта -->
+    <!-- Модальное окно: Правила проекта (Все разделы) -->
     <div class="modal-overlay" id="rulesModal" onclick="closeModalOnBackdrop(event, 'rulesModal')">
         <div class="modal-container">
             <div class="modal-header">
                 <h2>📜 Правила проекта <span class="gradient-text">VTIERS</span></h2>
                 <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
             </div>
+            
             <div class="rules-tabs">
                 <button class="tab-btn active" onclick="switchTab('tab-admin', event)">1. Администрация</button>
                 <button class="tab-btn" onclick="switchTab('tab-chat', event)">2. Общение</button>
+                <button class="tab-btn" onclick="switchTab('tab-checks', event)">3. Проверки и SS</button>
+                <button class="tab-btn" onclick="switchTab('tab-media', event)">4. Медиа-игроки</button>
             </div>
+
             <div class="modal-body">
+                <!-- Раздел 1 -->
                 <div id="tab-admin" class="rules-section active">
-                    <div class="rule-card"><div class="rule-title">1.1 — Решения администрации</div><div class="rule-desc">Решения администрации являются обязательными для исполнения.</div></div>
+                    <div class="rule-card"><div class="rule-title">1.1 — Решения администрации</div><div class="rule-desc">Решения администрации являются обязательными для исполнения участниками проекта. В спорных ситуациях окончательное решение принимает администрация.</div></div>
+                    <div class="rule-card"><div class="rule-title">1.2 — Вмешательство в нестандартных ситуациях</div><div class="rule-desc">Администрация вправе вмешаться в любую ситуацию, если требуется быстрое решение или предотвращение дальнейшего нарушения.</div></div>
+                    <div class="rule-card"><div class="rule-title">1.3 — Право на применение наказаний</div><div class="rule-desc">Администрация может применить блокировку, ограничение доступа или мут на установленный ею срок в зависимости от обстоятельств нарушения.</div></div>
+                    <div class="rule-card"><div class="rule-title">1.4 — Обжалование наказаний</div><div class="rule-desc">Любой участник может подать апелляцию на выданное наказание. Для рассмотрения жалобы необходимо предоставить убедительные доказательства. При их отсутствии апелляция может быть отклонена.</div></div>
+                    <div class="rule-card"><div class="rule-title">1.5 — Перенос результатов тир-теста</div><div class="rule-desc">Перенос или восстановление тира без подтверждающих материалов не производится.</div></div>
                 </div>
+
+                <!-- Раздел 2 -->
                 <div id="tab-chat" class="rules-section">
-                    <div class="rule-card"><div class="rule-title">2.1 — Реклама</div><div class="rule-desc">Запрещена любая несанкционированная реклама.</div></div>
+                    <div class="rule-card"><div class="rule-title">2.1 — Реклама</div><div class="rule-desc">Любая форма рекламы без разрешения администрации запрещена.</div><div class="penalty-tag">Мут на 7 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">2.2 — Оскорбительные высказывания о родственниках</div><div class="rule-desc">Запрещены оскорбления или унизительные высказывания в адрес родственников участников.</div><div class="penalty-tag">Мут на 14 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">2.2.1 — Политические и религиозные темы</div><div class="rule-desc">Обсуждение политики или религии в рамках проекта запрещено.</div><div class="penalty-tag">Мут на 14 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">2.2.2 — Запрещённая пропаганда</div><div class="rule-desc">Запрещено распространение или пропаганда нацизма, расизма, терроризма и наркотических веществ.</div><div class="penalty-tag">Мут на 14 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">2.2.3 — Сторонние проекты и площадки</div><div class="rule-desc">Запрещено распространять IP других проектов, ссылки на сторонние Telegram-каналы, Twitch, YouTube и другие ресурсы.<br><em>Исключение:</em> участники с ролью «Медиа» могут публиковать собственный Twitch/YouTube в разрешённых местах.</div><div class="penalty-tag">Мут на 7 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">2.2.4 — Неприемлемое поведение</div><div class="rule-desc">Запрещено поведение, нарушающее установленные нормы общения проекта.</div><div class="penalty-tag">Мут на 7 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">2.3 — Призывы к насилию или причинению вреда себе</div><div class="rule-desc">Запрещены любые призывы к насилию, причинению вреда другим людям или причинению вреда себе.</div><div class="penalty-tag">Мут на 28 дней</div></div>
+                </div>
+
+                <!-- Раздел 3 -->
+                <div id="tab-checks" class="rules-section">
+                    <div class="rule-card"><div class="rule-title">3.1 — Чит-клиенты перед тестированием</div><div class="rule-desc">Запрещено хранить чит-клиенты и другое запрещённое ПО в течение 30 дней до прохождения теста.</div><div class="penalty-tag">Рестрикт на 180 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.2 — Использование стороннего ПО</div><div class="rule-desc">Любое программное обеспечение, предназначенное для получения игрового преимущества, запрещено.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.3 — Признание в использовании читов</div><div class="rule-desc">Добровольное признание в использовании запрещённого стороннего ПО рассматривается как нарушение правил.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.4 — Запрещённые моды и ресурспаки</div><div class="rule-desc">Использование или хранение модификаций, запрещённых правилами конкретного тир-листа, не допускается. Разрешаются моды и ресурспаки, отображающие здоровье или броню противника, если они не дают преимущества в аксессуарах.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.5 — Автоматизация действий</div><div class="rule-desc">Запрещены программы и сервисы, которые автоматически выполняют игровые действия за пользователя.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.6 — Отключённые системные службы</div><div class="rule-desc">Во время проверки запрещается иметь отключёнными следующие службы Windows:<br><code>sysmain, pcasvc, dps, eventlog, schedule, bam, dusmsvc, appinfo, cdpsvc, dcomlaunch, plugplay, wsearch, diagtrack, cdpusersvc</code></div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.7 — Завершение работы игры после теста</div><div class="rule-desc">После завершения турнира или сыгранного тикета запрещено закрывать/выключать игру в течение 15 минут.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.8 — Создание препятствий при SS</div><div class="rule-desc">Во время проверки запрещено мешать работе проверяющего: закрывать окна, использовать клавиатуру или мышь без разрешения, отключать интернет и совершать аналогичные действия.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.9 — Запись экрана во время SS</div><div class="rule-desc">Самостоятельная запись экрана во время проверки на запрещённое ПО не допускается.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.10 — Отказ от SS</div><div class="rule-desc">Отказ пройти предусмотренную правилами проверку рассматривается как SS Refuse.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.11 — Удаление следов запрещённого ПО</div><div class="rule-desc">Запрещено намеренно уничтожать или изменять данные, которые могут иметь отношение к проверке. К нарушению относятся удаление файлов, очистка журналов и использование инструментов для сокрытия следов.</div><div class="penalty-tag">Рестрикт на 180 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.12 — Спуферы и вмешательство в сетевые параметры</div><div class="rule-desc">Использование спуферов и неразрешённых способов изменения сетевого соединения запрещено. ExitLag допускается только после согласования с администрацией высшего уровня.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.13 — Срок эксплуатации ОС</div><div class="rule-desc">Участие в тир-тесте с операционной системой, установленной менее 14 дней назад, запрещается.</div><div class="penalty-tag">Рестрикт на 31 день</div></div>
+                    <div class="rule-card"><div class="rule-title">3.14 — Использование альтов для обхода ограничений</div><div class="rule-desc">Запрещено использовать дополнительные аккаунты для обхода restricted, наказаний, ограничений доступа или ожидания перед новым тир-тестом.</div><div class="penalty-tag">Рестрикт на 180 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.15 — Бустинг</div><div class="rule-desc">Запрещены любые способы искусственного улучшения статистики или результата игрока: передача аккаунта, помощь со стороны тестера, договорные результаты и другие подобные действия.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.16 — Сокрытие чужого нарушения</div><div class="rule-desc">Если участнику заранее или во время теста известно о нарушении другого игрока, запрещается намеренно скрывать данный факт от администрации.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                    <div class="rule-card"><div class="rule-title">3.17 — Передача аккаунта</div><div class="rule-desc">Запрещено передавать свой аккаунт другим лицам либо предоставлять им доступ. Наказание применяется как к владельцу аккаунта, так и к человеку, получившему доступ.</div><div class="penalty-tag">Рестрикт на 90 дней</div></div>
+                </div>
+
+                <!-- Раздел 4 -->
+                <div id="tab-media" class="rules-section">
+                    <div class="media-note">
+                        <strong>📌 Примечание:</strong> Специальные условия распространяются исключительно на участников с официальной ролью «Медиа». Роль выдаётся администрацией индивидуально. Не следует путать её с ролью «А-Медиа».
+                    </div>
+                    <div class="rule-card"><div class="rule-title">4.1 — Квалификация через дополнительный аккаунт</div><div class="rule-desc">Игрок с ролью «Медиа» проходит квалификационный тест с дополнительного аккаунта. Это необходимо для исключения возможной корректировки результата в пользу основного аккаунта. После завершения теста полученный результат переносится на основной аккаунт.</div></div>
+                    <div class="rule-card"><div class="rule-title">4.2 — Участие в пурдже</div><div class="rule-desc">Игроки с ролью «Медиа» не обязаны участвовать в пурдже и могут отказаться от него. Исключения могут применяться к игрокам уровня LT2/HT2+ — решение принимается администрацией индивидуально.</div></div>
+                    <div class="rule-card"><div class="rule-title">4.3 — Обязательные тикеты</div><div class="rule-desc">Медиа-игрок вправе отказаться от тикета, в который его добавили, если он сам не выразил желание участвовать. Для категорий LT2/HT2+ администрация может установить отдельные условия в зависимости от ситуации.</div></div>
+                    <div class="rule-card"><div class="rule-title">4.4 — Использование медиа-привилегий</div><div class="rule-desc">Медиа-привилегии не освобождают игрока от соблюдения остальных правил проекта. При выявлении нарушения к медиа-игроку применяются стандартные меры наказания.</div></div>
                 </div>
             </div>
         </div>
@@ -704,7 +730,7 @@
                 <button class="modal-close" onclick="closeModal('modsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-title">Автокликеры, макросы и чит-клиенты строго запрещены.</div></div>
+                <div class="rule-card"><div class="rule-title">Автокликеры, чит-клиенты, макросы и стороннее ПО строго запрещены.</div></div>
             </div>
         </div>
     </div>
@@ -717,7 +743,7 @@
                 <button class="modal-close" onclick="closeModal('tutorialModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="rule-card"><div class="rule-title">Шаги прохождения</div><div class="rule-desc">Зайдите в Discord и создайте тикет на прохождение теста.</div></div>
+                <div class="rule-card"><div class="rule-title">Как пройти тест?</div><div class="rule-desc">Зайдите в наш Discord-сервер, ознакомьтесь с правилами и создайте тикет в соответствующем канале для прохождения квалификации.</div></div>
             </div>
         </div>
     </div>
