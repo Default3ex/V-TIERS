@@ -7,14 +7,12 @@
     <style>
         :root {
             --bg-color: #060c1a;
-            --card-bg: rgba(15, 23, 42, 0.75);
+            --card-bg: rgba(10, 18, 36, 0.45);
             --card-border: rgba(56, 189, 248, 0.15);
             --accent-blue: #38bdf8;
             --accent-glow: rgba(56, 189, 248, 0.35);
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
-            --badge-mute: #f59e0b;
-            --badge-restrict: #ef4444;
         }
 
         * {
@@ -167,7 +165,7 @@
             margin-bottom: 50px;
         }
 
-        /* --- 4 Кнопки / Карточки Главного Меню --- */
+        /* --- 4 Прозрачные карточки / Кнопки Главного Меню --- */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(280px, 460px));
@@ -179,20 +177,22 @@
 
         .menu-card {
             background-color: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.18);
             border-radius: 18px;
             padding: 30px;
             text-align: left;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
             cursor: pointer;
         }
 
+        /* Фоновый слой для анимации насыщенных волн */
         .menu-card::before {
             content: '';
             position: absolute;
@@ -200,25 +200,35 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 60%);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(2, 132, 199, 0.4), rgba(56, 189, 248, 0.45), rgba(6, 182, 212, 0.35));
+            background-size: 300% 300%;
             opacity: 0;
-            transition: opacity 0.35s ease;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 12px 35px rgba(2, 6, 23, 0.7), 0 0 25px rgba(56, 189, 248, 0.2);
+            transition: opacity 0.4s ease;
+            z-index: 0;
         }
 
         .menu-card:hover::before {
             opacity: 1;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        /* Поднимаем содержимое карточки над анимированным фоном */
+        .menu-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.7);
+            box-shadow: 0 15px 40px rgba(2, 6, 23, 0.8), 0 0 30px rgba(56, 189, 248, 0.35);
+            background-color: rgba(10, 18, 36, 0.65);
         }
 
         .card-icon {
             width: 48px;
             height: 48px;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 12px;
             display: flex;
@@ -227,6 +237,12 @@
             font-size: 1.4rem;
             margin-bottom: 20px;
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.15);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .menu-card:hover .card-icon {
+            background: rgba(15, 23, 42, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .menu-card h3 {
@@ -234,6 +250,11 @@
             font-weight: 700;
             margin-bottom: 10px;
             color: #ffffff;
+            transition: text-shadow 0.3s ease;
+        }
+
+        .menu-card:hover h3 {
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
         }
 
         .menu-card p {
@@ -242,6 +263,11 @@
             line-height: 1.5;
             margin-bottom: 25px;
             flex-grow: 1;
+            transition: color 0.3s ease;
+        }
+
+        .menu-card:hover p {
+            color: #e2e8f0;
         }
 
         .card-action {
@@ -254,12 +280,13 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             text-decoration: none;
-            transition: gap 0.3s ease, text-shadow 0.3s ease;
+            transition: gap 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
         }
 
         .menu-card:hover .card-action {
             gap: 14px;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+            color: #ffffff;
+            text-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
         }
 
         /* --- Modal Window (Правила) --- */
