@@ -12,12 +12,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg-color: #040812;
-            --card-bg: rgba(8, 14, 30, 0.55);
-            --card-border: rgba(56, 189, 248, 0.18);
-            --accent-blue: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.4);
-            --text-color: #f8fafc;
+            --bg-color: #030712;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --card-border: rgba(14, 165, 233, 0.25);
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-glow: rgba(6, 182, 212, 0.35);
+            --text-color: #f1f5f9;
             --text-muted: #94a3b8;
         }
 
@@ -25,7 +26,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -36,6 +37,9 @@
             flex-direction: column;
             min-height: 100vh;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
         }
 
         #starTrailCanvas, #snowCanvas {
@@ -62,15 +66,16 @@
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #3b82f6, #38bdf8, #60a5fa, #06b6d4, #3b82f6);
+            background: linear-gradient(135deg, #22d3ee, #38bdf8, #818cf8, #c084fc);
             background-size: 300% 300%;
-            animation: gradientShift 8s ease infinite;
+            animation: gradientShift 6s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        /* --- НОВЫЙ ХУД И НАВИГАЦИЯ --- */
         header {
-            padding: 20px 6%;
+            padding: 24px 6%;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -81,91 +86,76 @@
         .nav-island {
             width: 100%;
             max-width: 1300px;
-            background: rgba(8, 14, 30, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 16px;
-            padding: 10px 20px;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            border-radius: 20px;
+            padding: 12px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.12);
         }
 
         .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+            letter-spacing: 3px;
             text-decoration: none;
+            filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.6));
         }
 
         .nav-center {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
-        .nav-icon-btn {
-            background: transparent;
-            border: none;
+        /* Новые стилизованные неоновые кнопки меню */
+        .nav-pill-btn {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 10px;
+            gap: 8px;
             transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            position: relative;
         }
 
-        .nav-icon-btn.cup-btn:hover {
-            background: rgba(234, 179, 8, 0.12);
-            box-shadow: 0 0 15px rgba(234, 179, 8, 0.5), inset 0 0 10px rgba(234, 179, 8, 0.2);
-        }
-        .nav-icon-btn.cup-btn:hover svg {
-            transform: scale(1.1);
-        }
-
-        .nav-icon-btn.crystal-btn:hover {
-            background: rgba(217, 70, 239, 0.12);
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.5), inset 0 0 10px rgba(217, 70, 239, 0.2);
-        }
-        .nav-icon-btn.crystal-btn:hover svg {
-            transform: scale(1.1);
+        .nav-pill-btn:hover {
+            background: rgba(6, 182, 212, 0.15);
+            color: #ffffff;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            transform: translateY(-2px);
         }
 
-        .nav-icon-btn.sword-btn:hover {
-            background: rgba(56, 189, 248, 0.12);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.2);
-        }
-        .nav-icon-btn.sword-btn:hover svg {
-            transform: scale(1.1);
-        }
-
-        .nav-divider {
-            width: 1px;
-            height: 24px;
-            background: rgba(255, 255, 255, 0.12);
-            margin: 0 6px;
+        .nav-pill-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .action-btn {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.2);
             color: var(--text-muted);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -175,27 +165,26 @@
         }
 
         .action-btn:hover {
-            background: rgba(56, 189, 248, 0.15);
+            background: rgba(6, 182, 212, 0.2);
             color: #ffffff;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
             transform: translateY(-2px);
         }
 
         .action-btn svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             fill: currentColor;
         }
 
+        /* --- ГЕРОЙ-СЕКЦИЯ --- */
         .hero {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 50px 20px 90px;
-            background: radial-gradient(circle at 50% 15%, rgba(14, 165, 233, 0.12), transparent 65%),
-                        linear-gradient(to bottom, rgba(4, 8, 18, 0.75), rgba(4, 8, 18, 0.98));
+            padding: 60px 20px 100px;
             position: relative;
             flex-grow: 1;
             justify-content: center;
@@ -204,50 +193,50 @@
 
         .pill-badge {
             display: inline-block;
-            padding: 6px 18px;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: var(--accent-blue);
+            padding: 6px 20px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            color: var(--accent-cyan);
             border-radius: 30px;
             font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-weight: 800;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            margin-bottom: 20px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+            margin-bottom: 24px;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
         }
 
         .hero h1 {
-            font-size: 3.2rem;
-            margin-bottom: 12px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
         .hero p.subtitle {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
-            max-width: 620px;
-            margin-bottom: 45px;
+            max-width: 650px;
+            margin-bottom: 50px;
         }
 
+        /* Карточки главного меню */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(240px, 320px));
-            gap: 22px;
+            grid-template-columns: repeat(3, minmax(260px, 340px));
+            gap: 24px;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1060px;
             margin: 0 auto;
         }
 
         .menu-card {
             background-color: var(--card-bg);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 28px;
+            border-radius: 24px;
+            padding: 32px;
             text-align: left;
             display: flex;
             flex-direction: column;
@@ -265,7 +254,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(29, 78, 216, 0.4), rgba(2, 132, 199, 0.45), rgba(56, 189, 248, 0.5), rgba(14, 165, 233, 0.4));
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.35), rgba(147, 51, 234, 0.35));
             background-size: 300% 300%;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -283,86 +272,81 @@
         }
 
         .menu-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(56, 189, 248, 0.8);
-            box-shadow: 0 15px 40px rgba(2, 6, 23, 0.9), 0 0 35px rgba(56, 189, 248, 0.4);
-            background-color: rgba(8, 14, 30, 0.75);
+            transform: translateY(-8px);
+            border-color: rgba(6, 182, 212, 0.8);
+            box-shadow: 0 20px 45px rgba(2, 6, 23, 0.9), 0 0 40px rgba(6, 182, 212, 0.35);
         }
 
         .card-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 14px;
+            width: 56px;
+            height: 56px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 18px;
-            box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.15);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 15px rgba(6, 182, 212, 0.15);
             transition: all 0.3s ease;
         }
 
         .menu-card:hover .card-icon {
-            background: rgba(15, 23, 42, 0.3);
-            border-color: rgba(255, 255, 255, 0.6);
-            transform: scale(1.05);
+            background: rgba(15, 23, 42, 0.4);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.08);
         }
 
         .menu-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 10px;
             color: #ffffff;
-            transition: text-shadow 0.3s ease;
-        }
-
-        .menu-card:hover h3 {
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
         }
 
         .menu-card p {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             line-height: 1.5;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
             flex-grow: 1;
             transition: color 0.3s ease;
         }
 
         .menu-card:hover p {
-            color: #e2e8f0;
+            color: #f8fafc;
         }
 
         .card-action {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--accent-blue);
+            color: var(--accent-cyan);
             font-weight: 800;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             text-decoration: none;
-            transition: gap 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+            transition: gap 0.3s ease, text-shadow 0.3s ease;
         }
 
         .menu-card:hover .card-action {
             gap: 14px;
             color: #ffffff;
-            text-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+            text-shadow: 0 0 12px rgba(6, 182, 212, 0.9);
         }
 
+        /* --- МОДАЛЬНЫЕ ОКНА --- */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -370,7 +354,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            padding: 15px;
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -379,15 +363,15 @@
         }
 
         .modal-container {
-            background: #070e20;
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            border-radius: 22px;
+            background: #070e1b;
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: 24px;
             width: 100%;
-            max-width: 1000px;
-            height: 85vh;
+            max-width: 1100px;
+            height: 88vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.25);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 50px rgba(6, 182, 212, 0.2);
             transform: scale(0.95) translateY(20px);
             transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             overflow: hidden;
@@ -398,9 +382,9 @@
         }
 
         .modal-header {
-            padding: 22px 28px;
-            background: rgba(12, 20, 38, 0.8);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+            padding: 24px 32px;
+            background: rgba(10, 17, 35, 0.9);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -408,7 +392,7 @@
         }
 
         .modal-header h2 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -419,10 +403,10 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-muted);
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
@@ -437,10 +421,78 @@
         }
 
         .modal-body {
-            padding: 28px;
+            padding: 32px;
             overflow-y: auto;
             flex-grow: 1;
             scroll-behavior: smooth;
+        }
+
+        /* --- СИСТЕМА ТИРОВ И ПОИСК ИГРОКА (`systembase`) --- */
+        .tiers-search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .tiers-search-input {
+            flex-grow: 1;
+            background: rgba(3, 7, 18, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 12px 18px;
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .tiers-search-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .tiers-search-btn {
+            background: linear-gradient(135deg, #0891b2, #06b6d4);
+            border: none;
+            color: white;
+            padding: 0 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .tiers-search-btn:hover {
+            background: linear-gradient(135deg, #0e7490, #0891b2);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.7);
+            transform: translateY(-1px);
+        }
+
+        .search-result-box {
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: 14px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .search-result-box.active {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .tiers-grid {
@@ -451,39 +503,38 @@
         }
 
         .tier-column {
-            background: rgba(10, 17, 35, 0.65);
+            background: rgba(10, 17, 35, 0.75);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            border-radius: 16px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 18px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: inset 0 0 20px rgba(2, 6, 23, 0.5);
+            box-shadow: inset 0 0 25px rgba(2, 6, 23, 0.6);
         }
 
         .tier-column:hover {
-            border-color: rgba(56, 189, 248, 0.45);
-            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.15), inset 0 0 20px rgba(56, 189, 248, 0.05);
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 10px 35px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(6, 182, 212, 0.08);
         }
 
         .tier-col-header {
-            padding: 16px;
-            background: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
             text-align: center;
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 1.5px;
+            font-weight: 900;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
         }
 
         .tier-col-content {
             padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             flex-grow: 1;
-            background: radial-gradient(circle at center, rgba(56, 189, 248, 0.03) 0%, transparent 70%);
             overflow-y: auto;
         }
 
@@ -492,191 +543,204 @@
             font-size: 0.88rem;
             text-align: center;
             font-style: italic;
-            background: rgba(15, 23, 42, 0.4);
-            border: 1px dashed rgba(56, 189, 248, 0.15);
-            padding: 14px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px dashed rgba(6, 182, 212, 0.2);
+            padding: 16px;
             border-radius: 12px;
             width: 100%;
-            letter-spacing: 0.5px;
         }
 
         .player {
             display: flex;
             align-items: center;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(56, 189, 248, 0.1);
-            font-size: 0.85rem;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            font-size: 0.9rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .player:hover {
+            transform: translateX(3px);
+            border-color: rgba(6, 182, 212, 0.5);
         }
 
         .player img {
             border-radius: 50%;
-            margin-right: 10px;
-            width: 30px;
-            height: 30px;
+            margin-right: 12px;
+            width: 32px;
+            height: 32px;
             object-fit: cover;
             flex-shrink: 0;
+            border: 1px solid rgba(6, 182, 212, 0.4);
         }
 
         .player span {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color: #e2e8f0;
-            font-size: 0.85rem;
+            color: #f8fafc;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
+            font-weight: 600;
         }
 
+        /* Общие правила и категории стили */
         .rule-category {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            margin: 25px 0 15px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin: 30px 0 16px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.25);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .rule-category:first-of-type {
             margin-top: 5px;
         }
 
         .rule-card {
-            background: rgba(15, 23, 42, 0.5);
-            border-left: 3px solid var(--accent-blue);
-            border-radius: 0 12px 12px 0;
-            padding: 16px 20px;
-            margin-bottom: 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 0 14px 14px 0;
+            padding: 18px 22px;
+            margin-bottom: 16px;
             transition: background 0.2s ease, transform 0.2s ease;
+            border-top: 1px solid rgba(6, 182, 212, 0.1);
+            border-right: 1px solid rgba(6, 182, 212, 0.1);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.1);
         }
 
         .rule-card:hover {
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.9);
             transform: translateX(4px);
+            border-color: rgba(6, 182, 212, 0.35);
         }
 
         .rule-title {
-            font-weight: 700;
-            font-size: 1.05rem;
+            font-weight: 800;
+            font-size: 1.1rem;
             color: #ffffff;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .rule-desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.96rem;
             line-height: 1.6;
             white-space: pre-line;
         }
 
         .restrict-badge {
             display: inline-block;
-            margin-top: 10px;
-            padding: 4px 10px;
+            margin-top: 12px;
+            padding: 6px 12px;
             background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.35);
+            border: 1px solid rgba(239, 68, 68, 0.4);
             color: #f87171;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .mute-badge {
             display: inline-block;
-            margin-top: 10px;
-            padding: 4px 10px;
+            margin-top: 12px;
+            padding: 6px 12px;
             background: rgba(251, 191, 36, 0.15);
-            border: 1px solid rgba(251, 191, 36, 0.35);
+            border: 1px solid rgba(251, 191, 36, 0.4);
             color: #fbbf24;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .mods-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 10px;
-            margin-top: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
 
         .mod-item {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.92rem;
             color: #e2e8f0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-weight: 500;
         }
         .mod-item::before {
             content: '❌';
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
 
         .step-timeline {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
         }
 
         .step-item {
             display: flex;
-            gap: 18px;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 18px 22px;
-            border-radius: 14px;
+            gap: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            padding: 20px 24px;
+            border-radius: 16px;
             align-items: flex-start;
             transition: all 0.3s ease;
         }
 
         .step-item:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            background: rgba(15, 23, 42, 0.8);
-            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.1);
+            border-color: rgba(6, 182, 212, 0.5);
+            background: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 6px 25px rgba(6, 182, 212, 0.15);
         }
 
         .step-number {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0891b2, #3b82f6);
             color: white;
-            font-weight: 800;
-            border-radius: 10px;
+            font-weight: 900;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
         }
 
         .step-content h4 {
             color: #ffffff;
-            font-size: 1.05rem;
-            margin-bottom: 4px;
-            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            font-weight: 800;
         }
 
         .step-content p {
             color: var(--text-muted);
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             line-height: 1.5;
         }
 
         footer {
             margin-top: auto;
             text-align: center;
-            padding: 20px;
-            border-top: 1px solid rgba(56, 189, 248, 0.12);
+            padding: 24px;
+            border-top: 1px solid rgba(6, 182, 212, 0.15);
             color: var(--text-muted);
-            font-size: 0.9rem;
-            background: rgba(4, 8, 18, 0.6);
+            font-size: 0.92rem;
+            background: rgba(3, 7, 18, 0.8);
             z-index: 2;
             position: relative;
         }
@@ -687,6 +751,9 @@
             }
             .menu-grid {
                 grid-template-columns: 1fr;
+            }
+            .nav-center {
+                display: none;
             }
         }
     </style>
@@ -701,19 +768,18 @@
             <a href="#" class="logo gradient-text">VTIERS</a>
             
             <div class="nav-center">
-                <!-- Кубок (Открывает модальное окно с динамическими тирами из Supabase) -->
-                <button class="nav-icon-btn cup-btn" onclick="openModal('tiersListModal')" title="Список Тиров">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.67 4.4 5.94C8.32 15.56 10 17.5 10 20v1H8v2h8v-2h-2v-1c0-2.5 1.68-4.44 2.6-6.06C19.08 12.67 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8h2v3.82C5.84 10.4 5 8.9 5 8zm14 0c0 .9-.84 2.4-2 3.82V8h2z"/></svg>
+                <!-- Кнопки хедера -->
+                <button class="nav-pill-btn" onclick="openModal('tiersListModal')">
+                    <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.67 4.4 5.94C8.32 15.56 10 17.5 10 20v1H8v2h8v-2h-2v-1c0-2.5 1.68-4.44 2.6-6.06C19.08 12.67 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8h2v3.82C5.84 10.4 5 8.9 5 8zm14 0c0 .9-.84 2.4-2 3.82V8h2z"/></svg>
+                    Система тиров
                 </button>
-                <div class="nav-divider"></div>
-                <!-- Кристалл Энда (Правила проекта) -->
-                <button class="nav-icon-btn crystal-btn" onclick="openModal('rulesModal')" title="Правила проекта">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M12 2L2 12l10 10 10-10L12 2zm0 3.8L18.2 12 12 18.2 5.8 12 12 5.8z"/></svg>
+                <button class="nav-pill-btn" onclick="openModal('rulesModal')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 3.8L18.2 12 12 18.2 5.8 12 12 5.8z"/></svg>
+                    Правила
                 </button>
-                <div class="nav-divider"></div>
-                <!-- Алмазный меч (Запрещенные модификации) -->
-                <button class="nav-icon-btn sword-btn" onclick="openModal('modsModal')" title="Запрещенные модификации">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: #cbd5e1;"><path d="M14.59 4.34c-.39-.39-1.02-.39-1.41 0L3.13 14.39c-.39.39-.39 1.02 0 1.41l2.12 2.12c.39.39 1.02.39 1.41 0L16.71 7.87c.39-.39.39-1.02 0-1.41l-2.12-2.12zM5.25 15.45l8.11-8.11 1.41 1.41-8.11 8.11-1.41-1.41zM2 20h3v2H2zM21 2h-2v3h2z"/></svg>
+                <button class="nav-pill-btn" onclick="openModal('modsModal')">
+                    <svg viewBox="0 0 24 24"><path d="M14.59 4.34c-.39-.39-1.02-.39-1.41 0L3.13 14.39c-.39.39-.39 1.02 0 1.41l2.12 2.12c.39.39 1.02.39 1.41 0L16.71 7.87c.39-.39.39-1.02 0-1.41l-2.12-2.12zM5.25 15.45l8.11-8.11 1.41 1.41-8.11 8.11-1.41-1.41zM2 20h3v2H2zM21 2h-2v3h2z"/></svg>
+                    Модификации
                 </button>
             </div>
 
@@ -721,7 +787,7 @@
                 <a href="javascript:void(0)" onclick="openModal('tutorialModal')" class="action-btn" title="Как пройти тиртест">
                     <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 </a>
-                <button class="action-btn" onclick="openModal('tutorialModal')" title="Поиск">
+                <button class="action-btn" onclick="openModal('tiersListModal')" title="Поиск игрока в базе">
                     <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 </button>
                 <a href="https://discord.gg/u65QGz2Nk" target="_blank" class="action-btn" title="Discord">
@@ -732,9 +798,9 @@
     </header>
 
     <section class="hero">
-        <div class="pill-badge">PVP TIERLIST PROJECT</div>
-        <h1>Добро пожаловать в <span class="gradient-text">VTIERS</span></h1>
-        <p class="subtitle">Используйте верхнюю панель или карточки ниже для доступа к правилам, туториалам и модам.</p>
+        <div class="pill-badge">PREMIUM TIERLIST & PVP BASE</div>
+        <h1>Инновационный проект <span class="gradient-text">VTIERS</span></h1>
+        <p class="subtitle">Используйте интерактивную систему тиров с поиском игроков, изучайте регламент и правила проекта в обновленном интерфейсе.</p>
 
         <!-- Главное меню (3 карточки) -->
         <div class="menu-grid">
@@ -747,11 +813,11 @@
                 <div class="card-action">Открыть &rarr;</div>
             </div>
 
-            <div class="menu-card" onclick="openModal('tutorialModal')">
+            <div class="menu-card" onclick="openModal('tiersListModal')">
                 <div>
-                    <div class="card-icon">🎯</div>
-                    <h3>Пройти тиртест</h3>
-                    <p>Пошаговый туториал для получения заветной роли.</p>
+                    <div class="card-icon">🏆</div>
+                    <h3>Система Тиров</h3>
+                    <p>Актуальный список игроков и мгновенный поиск по нику.</p>
                 </div>
                 <div class="card-action">Открыть &rarr;</div>
             </div>
@@ -767,14 +833,26 @@
         </div>
     </section>
 
-    <!-- Модальное окно: Список тиров из Supabase (открывается по клику на кубок) -->
+    <!-- Модальное окно: Система тиров + Поиск игрока (`systembase`) -->
     <div class="modal-overlay" id="tiersListModal" onclick="closeModalOnBackdrop(event, 'tiersListModal')">
         <div class="modal-container" style="max-width: 1250px;">
             <div class="modal-header">
-                <h2>🏆 Официальные <span class="gradient-text">УРОВНИ ТИРОВ</span></h2>
+                <h2>🏆 База Данных <span class="gradient-text">Системы Тиров</span></h2>
                 <button class="modal-close" onclick="closeModal('tiersListModal')">&times;</button>
             </div>
             <div class="modal-body">
+                <!-- Блок поиска игрока -->
+                <div class="tiers-search-bar">
+                    <input type="text" id="playerSearchInput" class="tiers-search-input" placeholder="Введите ник игрока для поиска тира...">
+                    <button class="tiers-search-btn" onclick="searchPlayerInBase()">Найти игрока</button>
+                </div>
+
+                <!-- Результат поиска -->
+                <div class="search-result-box" id="searchResultBox">
+                    <div id="searchResultText" style="font-weight: 600; color: #ffffff;">Результат поиска появится здесь</div>
+                    <button onclick="clearSearch()" style="background: none; border: none; color: var(--accent-cyan); cursor: pointer; font-weight: 700;">Сбросить</button>
+                </div>
+
                 <div class="tiers-grid" id="supabase-tiers-container">
                     <div class="tier-column">
                         <div class="tier-col-header" style="color: #facc15;">TIER 1</div>
@@ -1155,6 +1233,8 @@
         const { createClient } = supabase;
         const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        let globalPlayersCache = [];
+
         async function loadSupabaseTiers() {
             const container = document.getElementById('supabase-tiers-container');
             
@@ -1163,9 +1243,11 @@
                 .select('*');
 
             if (error) {
-                container.innerHTML = `<p class="empty">Ошибка загрузки базы: ${error.message}</p>`;
+                container.innerHTML = `<p class="empty" style="color:#ef4444; text-align:center;">Ошибка загрузки базы: ${error.message}</p>`;
                 return;
             }
+
+            globalPlayersCache = players || [];
 
             // Стандартные цвета для тиров
             const tierColors = {
@@ -1180,7 +1262,6 @@
             const groupedTiers = {};
             standardTiers.forEach(t => groupedTiers[t] = []);
 
-            // Функция нормализации LT/HT в соответствующие TIER
             function normalizeTier(tierStr) {
                 if (!tierStr) return 'TIER 5';
                 const clean = tierStr.toString().trim().toUpperCase();
@@ -1192,8 +1273,8 @@
                 return 'TIER 5';
             }
 
-            if (players && players.length > 0) {
-                players.forEach(p => {
+            if (globalPlayersCache.length > 0) {
+                globalPlayersCache.forEach(p => {
                     const normTier = normalizeTier(p.tier);
                     if (groupedTiers[normTier]) {
                         groupedTiers[normTier].push(p);
@@ -1234,6 +1315,45 @@
             }
         }
 
+        // Функция поиска игрока по нику в системе тиров
+        function searchPlayerInBase() {
+            const query = document.getElementById('playerSearchInput').value.trim().toLowerCase();
+            const resultBox = document.getElementById('searchResultBox');
+            const resultText = document.getElementById('searchResultText');
+
+            if (!query) {
+                resultBox.classList.remove('active');
+                return;
+            }
+
+            const found = globalPlayersCache.find(p => {
+                const username = (p.username || '').toLowerCase();
+                const displayName = (p.display_name || '').toLowerCase();
+                return username.includes(query) || displayName.includes(query);
+            });
+
+            resultBox.classList.add('active');
+            if (found) {
+                const name = found.display_name || found.username || 'Игрок';
+                const tier = found.tier ? found.tier.toUpperCase() : 'Не указан';
+                resultText.innerHTML = `✅ Найден игрок: <strong style="color: #38bdf8;">${name}</strong> имеет тир: <span style="color: #facc15; font-weight: 800;">${tier}</span>`;
+            } else {
+                resultText.innerHTML = `❌ Игрок с ником "<span style="color: #ef4444;">${query}</span>" не найден в базе данных.`;
+            }
+        }
+
+        // Поиск по нажатию Enter
+        document.getElementById('playerSearchInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchPlayerInBase();
+            }
+        });
+
+        function clearSearch() {
+            document.getElementById('playerSearchInput').value = '';
+            document.getElementById('searchResultBox').classList.remove('active');
+        }
+
         // Загружаем тиры при запуске страницы
         loadSupabaseTiers();
 
@@ -1241,7 +1361,7 @@
             document.getElementById(modalId).classList.add('active');
             document.body.style.overflow = 'hidden';
             if (modalId === 'tiersListModal') {
-                loadSupabaseTiers(); // Обновляем данные при открытии
+                loadSupabaseTiers();
             }
         }
 
@@ -1307,7 +1427,7 @@
                 ctx.save();
                 ctx.globalAlpha = this.opacity;
                 ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = '#38bdf8';
+                ctx.shadowColor = '#06b6d4';
                 ctx.shadowBlur = 4;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -1371,8 +1491,8 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotation);
                 ctx.globalAlpha = Math.max(0, this.alpha);
-                ctx.fillStyle = '#60A5FA';
-                ctx.shadowColor = '#2563EB';
+                ctx.fillStyle = '#22d3ee';
+                ctx.shadowColor = '#0891b2';
                 ctx.shadowBlur = 6;
                 drawStarShape(ctx, 0, 0, 5, this.size, this.size / 2.2);
                 ctx.fill();
@@ -1405,7 +1525,7 @@
 
         window.addEventListener('mousemove', function(e) {
             for (let i = 0; i < 2; i++) {
-                particles.push(new Star(e.clientX, e.clientY));
+                particles.push(newStar(e.clientX, e.clientY));
             }
         });
 
