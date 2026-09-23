@@ -1,842 +1,2394 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTIERS | Minecraft PvP Tiering Platform</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#090d0b',
-                        cardBg: '#0e1612',
-                        cardHover: '#13221a',
-                        neonGreen: '#10b981',
-                        neonEmerald: '#059669',
-                        darkGreen: '#042f1e',
-                        graphite: '#18241f',
-                        borderGreen: 'rgba(16, 185, 129, 0.2)'
-                    },
-                    boxShadow: {
-                        'neon': '0 0 25px rgba(16, 185, 129, 0.25)',
-                        'neon-lg': '0 0 40px rgba(16, 185, 129, 0.4)',
-                        'card': '0 8px 30px rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts & Lucide Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;850&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #090d0b;
-            color: #f3f4f6;
-            overflow-x: hidden;
-        }
-        .glass {
-            background: rgba(14, 22, 18, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(16, 185, 129, 0.12);
-        }
-        .glass-nav {
-            background: rgba(9, 13, 11, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d0b;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #18241f;
-            border-radius: 4px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #10b981;
-        }
-        /* Leaf particle styling */
-        .leaf-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            background: #10b981;
-            border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
-            opacity: 0.8;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            animation: fall linear forwards;
-        }
-        @keyframes fall {
-            0% {
-                transform: translate(0, 0) rotate(0deg) scale(1);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translate(var(--end-x), 120vh) rotate(360deg) scale(0.4);
-                opacity: 0;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="VTIERS — Minecraft PvP Tiering Platform">
+<title>VTIERS — Minecraft PvP Tiering</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#050806;
+    --bg2:#07100b;
+    --panel:rgba(10,18,13,.72);
+    --panel2:rgba(14,25,18,.82);
+    --green:#22c55e;
+    --green2:#16a34a;
+    --emerald:#10b981;
+    --text:#f5f7f6;
+    --muted:#89948d;
+    --border:rgba(255,255,255,.065);
+    --green-border:rgba(34,197,94,.18);
+    --shadow:0 20px 70px rgba(0,0,0,.45);
+    --radius:18px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at 50% -10%,rgba(34,197,94,.13),transparent 35%),
+        radial-gradient(circle at 10% 40%,rgba(16,185,129,.04),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,Arial,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+    background-size:70px 70px;
+    mask-image:linear-gradient(to bottom,black,transparent 80%);
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-track{
+    background:#050806;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#193d27;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#22c55e;
+}
+
+/* CURSOR */
+
+.cursor-glow{
+    position:fixed;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(34,197,94,.075),transparent 68%);
+    z-index:9997;
+}
+
+/* LEAVES */
+
+.leaf{
+    position:fixed;
+    width:7px;
+    height:12px;
+    background:linear-gradient(135deg,#22c55e,#166534);
+    border-radius:2px 8px 2px 8px;
+    pointer-events:none;
+    z-index:9998;
+    animation:leafFall linear forwards;
+    opacity:.75;
+}
+
+@keyframes leafFall{
+    0%{
+        transform:translate(0,0) rotate(0deg);
+        opacity:.75;
+    }
+    60%{
+        opacity:.5;
+    }
+    100%{
+        transform:translate(var(--x),var(--y)) rotate(var(--r));
+        opacity:0;
+    }
+}
+
+/* NAVBAR */
+
+.navbar{
+    position:fixed;
+    top:15px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(1240px,calc(100% - 30px));
+    height:68px;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    gap:30px;
+    padding:0 18px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:rgba(5,10,7,.52);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    transition:.3s ease;
+}
+
+.navbar.scrolled{
+    background:rgba(5,10,7,.88);
+    box-shadow:0 15px 50px rgba(0,0,0,.35);
+    border-color:rgba(34,197,94,.12);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:700;
+    font-size:21px;
+    letter-spacing:-.5px;
+    white-space:nowrap;
+}
+
+.logo-mark{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#22c55e,#087a3c);
+    box-shadow:0 0 25px rgba(34,197,94,.3);
+}
+
+.logo-mark:before{
+    content:"V";
+    font-weight:800;
+    color:#031006;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    flex:1;
+    justify-content:center;
+}
+
+.nav-link{
+    position:relative;
+    color:#9ba59f;
+    font-size:13px;
+    font-weight:600;
+    padding:10px 12px;
+    border-radius:10px;
+    transition:.2s;
+}
+
+.nav-link:hover,
+.nav-link.active{
+    color:#fff;
+    background:rgba(255,255,255,.04);
+}
+
+.nav-link.active:after{
+    content:"";
+    position:absolute;
+    bottom:-1px;
+    left:50%;
+    width:18px;
+    height:2px;
+    transform:translateX(-50%);
+    background:#22c55e;
+    border-radius:10px;
+    box-shadow:0 0 10px #22c55e;
+}
+
+.nav-actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    padding:10px 15px;
+    border-radius:11px;
+    font-weight:700;
+    font-size:12px;
+    transition:.25s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    border-color:rgba(34,197,94,.3);
+    background:rgba(34,197,94,.08);
+}
+
+.btn-green{
+    border-color:rgba(34,197,94,.35);
+    background:linear-gradient(135deg,#22c55e,#138b43);
+    color:#041007;
+    box-shadow:0 8px 25px rgba(34,197,94,.18);
+}
+
+.btn-green:hover{
+    box-shadow:0 12px 35px rgba(34,197,94,.3);
+}
+
+.menu-btn{
+    display:none;
+    border:0;
+    background:none;
+    color:#fff;
+    font-size:23px;
+}
+
+/* HERO */
+
+.hero{
+    min-height:780px;
+    padding:180px 20px 100px;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    width:700px;
+    height:500px;
+    top:90px;
+    left:50%;
+    transform:translateX(-50%);
+    background:radial-gradient(circle,rgba(34,197,94,.13),transparent 65%);
+    filter:blur(20px);
+    pointer-events:none;
+}
+
+.hero-content{
+    position:relative;
+    max-width:950px;
+    z-index:2;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid rgba(34,197,94,.18);
+    background:rgba(34,197,94,.055);
+    color:#72e89a;
+    font-size:11px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+.badge-dot{
+    width:6px;
+    height:6px;
+    background:#22c55e;
+    border-radius:50%;
+    box-shadow:0 0 10px #22c55e;
+}
+
+.hero h1{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:clamp(65px,11vw,145px);
+    line-height:.85;
+    letter-spacing:-7px;
+    font-weight:700;
+    background:linear-gradient(180deg,#fff 15%,#a5b5aa 55%,#22c55e 130%);
+    -webkit-background-clip:text;
+    color:transparent;
+    text-shadow:0 0 70px rgba(34,197,94,.08);
+}
+
+.hero h2{
+    margin-top:28px;
+    font-size:clamp(20px,3vw,34px);
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:600;
+}
+
+.hero p{
+    max-width:600px;
+    margin:17px auto 0;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.8;
+}
+
+.hero-buttons{
+    margin-top:32px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.hero-buttons .btn{
+    padding:14px 22px;
+}
+
+.stats{
+    max-width:850px;
+    margin:70px auto 0;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.018);
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.stat{
+    padding:23px 10px;
+    border-right:1px solid var(--border);
+}
+
+.stat:last-child{
+    border-right:0;
+}
+
+.stat strong{
+    display:block;
+    font-family:"Space Grotesk";
+    font-size:23px;
+}
+
+.stat span{
+    color:#6e7a72;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+
+/* SECTIONS */
+
+.section{
+    width:min(1200px,calc(100% - 40px));
+    margin:0 auto;
+    padding:90px 0;
+}
+
+.section-head{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    margin-bottom:30px;
+    gap:20px;
+}
+
+.section-label{
+    color:#3ee57b;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+}
+
+.section-title{
+    font-family:"Space Grotesk";
+    font-size:36px;
+    letter-spacing:-1.5px;
+}
+
+.section-desc{
+    color:var(--muted);
+    font-size:13px;
+    max-width:550px;
+    line-height:1.7;
+}
+
+/* TIER PREVIEW */
+
+.tier-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+
+.tier-card{
+    position:relative;
+    padding:22px 15px;
+    min-height:270px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+    overflow:hidden;
+    transition:.3s;
+}
+
+.tier-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(34,197,94,.25);
+    box-shadow:0 20px 50px rgba(0,0,0,.3),0 0 35px rgba(34,197,94,.05);
+}
+
+.tier-card:before{
+    content:"";
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:-50px;
+    top:-50px;
+    background:#22c55e;
+    opacity:.08;
+    filter:blur(25px);
+    border-radius:50%;
+}
+
+.tier-number{
+    font-family:"Space Grotesk";
+    color:#59665e;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+.tier-card h3{
+    font-family:"Space Grotesk";
+    margin-top:12px;
+    font-size:27px;
+}
+
+.tier-sub{
+    margin-top:3px;
+    color:#79857d;
+    font-size:11px;
+}
+
+.tier-player{
+    margin-top:27px;
+    padding:9px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    border-radius:10px;
+    background:rgba(255,255,255,.025);
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:8px;
+    object-fit:cover;
+    image-rendering:auto;
+    background:#101914;
+}
+
+.tier-player-name{
+    font-size:11px;
+    font-weight:700;
+}
+
+.tier-player-rank{
+    font-size:9px;
+    color:#65736a;
+    margin-top:2px;
+}
+
+.view-all{
+    color:#54e889;
+    font-size:11px;
+    font-weight:700;
+}
+
+/* FEATURE GRID */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.feature{
+    min-height:190px;
+    padding:25px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:18px;
+    transition:.25s;
+}
+
+.feature:hover{
+    border-color:var(--green-border);
+    transform:translateY(-3px);
+}
+
+.feature-icon{
+    width:40px;
+    height:40px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    background:rgba(34,197,94,.09);
+    border:1px solid rgba(34,197,94,.13);
+    color:#3ee57b;
+    margin-bottom:25px;
+    font-size:18px;
+}
+
+.feature h3{
+    font-size:15px;
+    margin-bottom:8px;
+}
+
+.feature p{
+    color:#7d8881;
+    font-size:12px;
+    line-height:1.7;
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+    padding-top:120px;
+    min-height:100vh;
+}
+
+.page.active{
+    display:block;
+}
+
+#home{
+    display:block;
+}
+
+body.page-mode #home{
+    display:none;
+}
+
+/* SEARCH */
+
+.search-bar{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.search-input{
+    flex:1;
+    min-width:0;
+    padding:14px 17px;
+    background:rgba(255,255,255,.035);
+    border:1px solid var(--border);
+    border-radius:12px;
+    outline:0;
+    color:#fff;
+}
+
+.search-input:focus{
+    border-color:rgba(34,197,94,.35);
+    box-shadow:0 0 0 3px rgba(34,197,94,.05);
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.filter{
+    padding:9px 13px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:rgba(255,255,255,.025);
+    color:#87938b;
+    font-size:11px;
+}
+
+.filter.active{
+    color:#75e99b;
+    border-color:rgba(34,197,94,.25);
+    background:rgba(34,197,94,.07);
+}
+
+/* PLAYER GRID */
+
+.player-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.player-card{
+    padding:17px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--panel);
+    transition:.25s;
+    cursor:pointer;
+}
+
+.player-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(34,197,94,.24);
+}
+
+.player-top{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.player-avatar{
+    width:48px;
+    height:48px;
+    border-radius:11px;
+}
+
+.player-name{
+    font-weight:700;
+    font-size:13px;
+}
+
+.verified{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:15px;
+    height:15px;
+    margin-left:4px;
+    border-radius:50%;
+    background:#22c55e;
+    color:#061209;
+    font-size:9px;
+    font-weight:900;
+}
+
+.player-region{
+    color:#69756d;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.player-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:17px;
+    padding-top:13px;
+    border-top:1px solid var(--border);
+}
+
+.info-label{
+    color:#66736b;
+    font-size:9px;
+    text-transform:uppercase;
+}
+
+.info-value{
+    font-size:12px;
+    font-weight:700;
+    margin-top:3px;
+}
+
+.tier-badge{
+    display:inline-flex;
+    padding:4px 7px;
+    border-radius:6px;
+    color:#67e891;
+    background:rgba(34,197,94,.08);
+    border:1px solid rgba(34,197,94,.12);
+    font-size:9px;
+    font-weight:800;
+}
+
+/* LEADERBOARD */
+
+.leaderboard{
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.rank-row{
+    display:grid;
+    grid-template-columns:70px 1fr 120px 100px 100px;
+    align-items:center;
+    gap:15px;
+    padding:15px 20px;
+    border-bottom:1px solid var(--border);
+    transition:.2s;
+}
+
+.rank-row:last-child{
+    border-bottom:0;
+}
+
+.rank-row:hover{
+    background:rgba(34,197,94,.035);
+}
+
+.rank{
+    font-family:"Space Grotesk";
+    font-weight:700;
+    color:#59655d;
+}
+
+.rank-player{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.rank-name{
+    font-weight:700;
+    font-size:12px;
+}
+
+.rank-region{
+    color:#657169;
+    font-size:9px;
+    margin-top:3px;
+}
+
+/* RULES */
+
+.rules-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.rule{
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--panel);
+    padding:19px;
+}
+
+.rule summary{
+    cursor:pointer;
+    list-style:none;
+    font-weight:700;
+    font-size:13px;
+}
+
+.rule summary::-webkit-details-marker{
+    display:none;
+}
+
+.rule p{
+    margin-top:13px;
+    color:#7f8b83;
+    font-size:12px;
+    line-height:1.8;
+}
+
+/* TESTS */
+
+.tests-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.test-card{
+    padding:20px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:16px;
+}
+
+.test-status{
+    display:inline-flex;
+    padding:5px 8px;
+    border-radius:7px;
+    background:rgba(34,197,94,.08);
+    color:#61e990;
+    font-size:9px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+
+.test-versus{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.test-user{
+    text-align:center;
+}
+
+.test-user img{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+}
+
+.test-user strong{
+    display:block;
+    font-size:10px;
+    margin-top:7px;
+}
+
+.vs{
+    color:#536057;
+    font-size:10px;
+    font-weight:800;
+}
+
+.test-mode{
+    text-align:center;
+    margin-top:20px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+    color:#758078;
+    font-size:10px;
+}
+
+/* PROFILE */
+
+.profile{
+    display:grid;
+    grid-template-columns:270px 1fr;
+    gap:14px;
+}
+
+.profile-card{
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:var(--panel);
+    padding:25px;
+    text-align:center;
+}
+
+.profile-skin{
+    width:110px;
+    height:110px;
+    border-radius:20px;
+    margin:0 auto 20px;
+}
+
+.profile-card h2{
+    font-family:"Space Grotesk";
+}
+
+.profile-card p{
+    color:#738078;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.profile-main{
+    display:grid;
+    gap:14px;
+}
+
+.profile-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.profile-stat{
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:15px;
+    padding:18px;
+}
+
+.profile-stat span{
+    color:#69756d;
+    font-size:9px;
+    text-transform:uppercase;
+}
+
+.profile-stat strong{
+    display:block;
+    font-family:"Space Grotesk";
+    font-size:22px;
+    margin-top:7px;
+}
+
+.history{
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:18px;
+    padding:22px;
+}
+
+.history h3{
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.timeline{
+    border-left:1px solid rgba(34,197,94,.2);
+    margin-left:8px;
+    padding-left:25px;
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:25px;
+}
+
+.timeline-item:last-child{
+    margin-bottom:0;
+}
+
+.timeline-item:before{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:#22c55e;
+    border-radius:50%;
+    left:-30px;
+    top:4px;
+    box-shadow:0 0 12px rgba(34,197,94,.6);
+}
+
+.timeline-tier{
+    font-family:"Space Grotesk";
+    font-size:17px;
+    font-weight:700;
+}
+
+.timeline-date{
+    color:#69756d;
+    font-size:10px;
+    margin-top:4px;
+}
+
+/* SERVERS */
+
+.server-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.server{
+    padding:18px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--panel);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:.2s;
+}
+
+.server:hover{
+    border-color:rgba(34,197,94,.2);
+}
+
+.server-name{
+    font-weight:700;
+    font-size:12px;
+}
+
+.server-region{
+    color:#68746c;
+    font-size:10px;
+    margin-top:5px;
+}
+
+.online{
+    width:8px;
+    height:8px;
+    background:#22c55e;
+    border-radius:50%;
+    box-shadow:0 0 10px #22c55e;
+}
+
+/* BANNED */
+
+.mod-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:13px;
+}
+
+.mod{
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--panel);
+    padding:20px;
+}
+
+.mod-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.mod h3{
+    font-size:14px;
+}
+
+.mod-status{
+    font-size:9px;
+    padding:5px 8px;
+    border-radius:6px;
+    font-weight:800;
+}
+
+.allowed{
+    color:#68e996;
+    background:rgba(34,197,94,.08);
+}
+
+.banned{
+    color:#ff8a8a;
+    background:rgba(255,70,70,.07);
+}
+
+.mod p{
+    color:#748078;
+    font-size:11px;
+    line-height:1.7;
+    margin-top:12px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(12px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(550px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#09100c;
+    border:1px solid rgba(34,197,94,.16);
+    border-radius:20px;
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:rgba(255,255,255,.03);
+    color:#fff;
+}
+
+.discord-box{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:17px;
+    background:rgba(88,101,242,.08);
+    border:1px solid rgba(88,101,242,.18);
+    border-radius:14px;
+}
+
+.discord-icon{
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:#5865f2;
+    font-weight:800;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--border);
+    margin-top:80px;
+    padding:40px 20px;
+}
+
+.footer-inner{
+    width:min(1200px,100%);
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.footer-copy{
+    color:#59645d;
+    font-size:10px;
+}
+
+.footer-links{
+    display:flex;
+    gap:20px;
+}
+
+.footer-links a{
+    color:#79847d;
+    font-size:10px;
+}
+
+.footer-links a:hover{
+    color:#42df79;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .nav-links{
+        display:none;
+    }
+
+    .menu-btn{
+        display:block;
+        margin-left:auto;
+    }
+
+    .nav-actions{
+        display:none;
+    }
+
+    .tier-grid{
+        grid-template-columns:repeat(5,210px);
+        overflow-x:auto;
+        padding-bottom:8px;
+    }
+
+    .player-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .tests-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .server-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:700px){
+    .navbar{
+        top:8px;
+        width:calc(100% - 16px);
+    }
+
+    .hero{
+        padding-top:145px;
+        min-height:700px;
+    }
+
+    .hero h1{
+        letter-spacing:-4px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stat:nth-child(2){
+        border-right:0;
+    }
+
+    .stat:nth-child(-n+2){
+        border-bottom:1px solid var(--border);
+    }
+
+    .section{
+        width:min(100% - 28px,1200px);
+        padding:65px 0;
+    }
+
+    .section-title{
+        font-size:29px;
+    }
+
+    .section-head{
+        display:block;
+    }
+
+    .section-desc{
+        margin-top:10px;
+    }
+
+    .features,
+    .player-grid,
+    .tests-grid,
+    .server-grid,
+    .rules-grid,
+    .mod-grid{
+        grid-template-columns:1fr;
+    }
+
+    .profile{
+        grid-template-columns:1fr;
+    }
+
+    .profile-stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .rank-row{
+        grid-template-columns:35px 1fr 65px;
+    }
+
+    .rank-row > div:nth-child(4),
+    .rank-row > div:nth-child(5){
+        display:none;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .footer-links{
+        flex-wrap:wrap;
+    }
+
+    .cursor-glow{
+        display:none;
+    }
+}
+</style>
 </head>
-<body class="bg-darkBg text-gray-100 min-h-screen relative selection:bg-neonGreen selection:text-black">
 
-    <!-- Leaf Trail Container -->
-    <div id="leaf-container"></div>
+<body>
 
-    <!-- Background Ambient Glows -->
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-neonGreen/10 blur-[150px] rounded-full pointer-events-none -z-10"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-emerald-900/10 blur-[180px] rounded-full pointer-events-none -z-10"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
-    <!-- NAVBAR -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-neonGreen to-emerald-800 flex items-center justify-center shadow-neon group-hover:scale-105 transition-transform">
-                    <i data-lucide="shield" class="w-6 h-6 text-black"></i>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xl font-extrabold tracking-wider text-white">VTIERS</span>
-                    <span class="text-[10px] text-neonGreen tracking-widest font-semibold uppercase">PvP Rankings</span>
-                </div>
-            </a>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
 
-            <!-- Center Nav Links -->
-            <div class="hidden md:flex items-center gap-1 bg-graphite/40 p-1.5 rounded-full border border-borderGreen">
-                <a href="#hero" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-all">Главная</a>
-                <a href="#tiers-section" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-neonGreen bg-neonGreen/10 shadow-sm transition-all">Tiers</a>
-                <a href="#leaderboard" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-all">Players</a>
-                <a href="#rules" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-all">Rules</a>
-                <a href="#banned-mods" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-all">Banned Mods</a>
-                <a href="#tests" class="nav-link px-5 py-2 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-all">Tests</a>
-            </div>
+    <a class="logo" href="#" onclick="showPage('home');return false;">
+        <span class="logo-mark"></span>
+        VTIERS
+    </a>
 
-            <!-- Right Actions -->
-            <div class="flex items-center gap-4">
-                <a href="https://discord.gg/vtiers" target="_blank" class="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] font-semibold text-sm transition-all">
-                    <i data-lucide="disc" class="w-4 h-4"></i>
-                    Discord
-                </a>
-                <button onclick="openAuthModal()" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-neonGreen hover:bg-emerald-400 text-black font-bold text-sm shadow-neon hover:shadow-neon-lg transition-all transform hover:-translate-y-0.5">
-                    <i data-lucide="log-in" class="w-4 h-4"></i>
-                    Login with Discord
-                </button>
-            </div>
-        </div>
-    </nav>
+    <div class="nav-links">
 
-    <!-- HERO SECTION -->
-    <section id="hero" class="relative pt-36 pb-20 px-6 overflow-hidden">
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-borderGreen mb-6 shadow-sm animate-pulse">
-                <span class="w-2 h-2 rounded-full bg-neonGreen"></span>
-                <span class="text-xs font-semibold tracking-wider text-neonGreen uppercase">Season 4 • Active PvP Testing</span>
-            </div>
-            
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 uppercase">
-                VTIERS <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonGreen via-emerald-400 to-teal-200">
-                    Minecraft PvP Tiering
-                </span>
-            </h1>
+        <a class="nav-link active" data-page="home" href="#" onclick="showPage('home');return false;">Home</a>
 
-            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light">
-                Тестируй свои навыки. Получай престижный тир. Поднимайся на вершину рейтинговой таблицы лучших игроков.
-            </p>
+        <a class="nav-link" data-page="tiers" href="#" onclick="showPage('tiers');return false;">Tiers</a>
 
-            <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="#tiers-section" class="px-8 py-4 rounded-2xl bg-neonGreen hover:bg-emerald-400 text-black font-bold text-base shadow-neon hover:shadow-neon-lg transition-all transform hover:-translate-y-1 flex items-center gap-3">
-                    <i data-lucide="shield-check" class="w-5 h-5"></i>
-                    View Tiers
-                </a>
-                <button onclick="openAuthModal()" class="px-8 py-4 rounded-2xl glass hover:bg-emerald-950/40 border border-borderGreen text-white font-bold text-base transition-all transform hover:-translate-y-1 flex items-center gap-3">
-                    <i data-lucide="sword" class="w-5 h-5 text-neonGreen"></i>
-                    Get Tested
-                </button>
-                <a href="https://discord.gg/vtiers" target="_blank" class="px-8 py-4 rounded-2xl glass hover:bg-emerald-950/40 border border-borderGreen text-white font-bold text-base transition-all transform hover:-translate-y-1 flex items-center gap-3">
-                    <i data-lucide="message-square" class="w-5 h-5 text-indigo-400"></i>
-                    Join Discord
-                </a>
-            </div>
+        <a class="nav-link" data-page="players" href="#" onclick="showPage('players');return false;">Players</a>
 
-            <!-- Stats Bar -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20">
-                <div class="glass p-5 rounded-2xl border border-borderGreen text-center">
-                    <div class="text-3xl font-extrabold text-white mb-1">1,420+</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider">Tested Players</div>
-                </div>
-                <div class="glass p-5 rounded-2xl border border-borderGreen text-center">
-                    <div class="text-3xl font-extrabold text-neonGreen mb-1">5 Tiers</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider">Competitive Ranks</div>
-                </div>
-                <div class="glass p-5 rounded-2xl border border-borderGreen text-center">
-                    <div class="text-3xl font-extrabold text-white mb-1">8 Modes</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider">Crystal, Sword, UHC</div>
-                </div>
-                <div class="glass p-5 rounded-2xl border border-borderGreen text-center">
-                    <div class="text-3xl font-extrabold text-neonGreen mb-1">98.4%</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider">Accuracy Rate</div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <a class="nav-link" data-page="leaderboard" href="#" onclick="showPage('leaderboard');return false;">Leaderboard</a>
 
-    <!-- TIERS SECTION -->
-    <section id="tiers-section" class="py-20 px-6 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div>
-                <span class="text-neonGreen text-sm font-semibold tracking-widest uppercase mb-2 block">Competitive Ranks</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white">Официальные Тиры Игроков</h2>
-            </div>
-            
-            <!-- Filters & Mode Selection -->
-            <div class="flex flex-wrap items-center gap-3">
-                <div class="glass px-4 py-2.5 rounded-xl border border-borderGreen flex items-center gap-2">
-                    <i data-lucide="search" class="w-4 h-4 text-neonGreen"></i>
-                    <input type="text" id="player-search" placeholder="Search player..." class="bg-transparent text-sm text-white placeholder-gray-500 focus:outline-none w-36 sm:w-48">
-                </div>
-                
-                <select id="mode-filter" class="glass px-4 py-2.5 rounded-xl border border-borderGreen text-sm text-white bg-darkBg focus:outline-none cursor-pointer">
-                    <option value="all">All Modes</option>
-                    <option value="Crystal PvP">Crystal PvP</option>
-                    <option value="Netherite PvP">Netherite PvP</option>
-                    <option value="Sword PvP">Sword PvP</option>
-                    <option value="UHC">UHC</option>
-                </select>
+        <a class="nav-link" data-page="tests" href="#" onclick="showPage('tests');return false;">Tests</a>
 
-                <select id="region-filter" class="glass px-4 py-2.5 rounded-xl border border-borderGreen text-sm text-white bg-darkBg focus:outline-none cursor-pointer">
-                    <option value="all">All Regions</option>
-                    <option value="RU">RU / CIS</option>
-                    <option value="EU">Europe</option>
-                    <option value="NA">North America</option>
-                </select>
+        <a class="nav-link" data-page="rules" href="#" onclick="showPage('rules');return false;">Rules</a>
 
-                <!-- HT/LT Toggle Switch -->
-                <div class="glass p-1 rounded-xl border border-borderGreen flex items-center">
-                    <button onclick="setTierMode('all')" id="btn-tier-all" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-neonGreen text-black transition-all">All</button>
-                    <button onclick="setTierMode('HT')" id="btn-tier-ht" class="px-3 py-1.5 rounded-lg text-xs font-bold text-gray-300 hover:text-white transition-all">HT</button>
-                    <button onclick="setTierMode('LT')" id="btn-tier-lt" class="px-3 py-1.5 rounded-lg text-xs font-bold text-gray-300 hover:text-white transition-all">LT</button>
-                </div>
-            </div>
-        </div>
+        <a class="nav-link" data-page="mods" href="#" onclick="showPage('mods');return false;">Banned Mods</a>
 
-        <!-- 5 Tiers Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-6" id="tiers-grid-container">
-            <!-- TIER 1 -->
-            <div class="glass rounded-2xl border border-borderGreen flex flex-col overflow-hidden shadow-card">
-                <div class="bg-gradient-to-r from-emerald-950/80 to-darkGreen p-4 border-b border-borderGreen text-center">
-                    <span class="text-xs font-extrabold tracking-widest text-neonGreen uppercase block mb-1">Rank I</span>
-                    <h3 class="text-xl font-black text-white">TIER 1</h3>
-                </div>
-                <div class="p-3 flex flex-col gap-3 overflow-y-auto max-h-[600px]" id="column-tier-1">
-                    <!-- Cards will be injected via JS -->
-                </div>
-            </div>
-
-            <!-- TIER 2 -->
-            <div class="glass rounded-2xl border border-borderGreen flex flex-col overflow-hidden shadow-card">
-                <div class="bg-gradient-to-r from-emerald-950/60 to-darkGreen p-4 border-b border-borderGreen text-center">
-                    <span class="text-xs font-extrabold tracking-widest text-emerald-400 uppercase block mb-1">Rank II</span>
-                    <h3 class="text-xl font-black text-white">TIER 2</h3>
-                </div>
-                <div class="p-3 flex flex-col gap-3 overflow-y-auto max-h-[600px]" id="column-tier-2">
-                    <!-- Cards will be injected via JS -->
-                </div>
-            </div>
-
-            <!-- TIER 3 -->
-            <div class="glass rounded-2xl border border-borderGreen flex flex-col overflow-hidden shadow-card">
-                <div class="bg-gradient-to-r from-graphite to-darkGreen p-4 border-b border-borderGreen text-center">
-                    <span class="text-xs font-extrabold tracking-widest text-teal-400 uppercase block mb-1">Rank III</span>
-                    <h3 class="text-xl font-black text-white">TIER 3</h3>
-                </div>
-                <div class="p-3 flex flex-col gap-3 overflow-y-auto max-h-[600px]" id="column-tier-3">
-                    <!-- Cards will be injected via JS -->
-                </div>
-            </div>
-
-            <!-- TIER 4 -->
-            <div class="glass rounded-2xl border border-borderGreen flex flex-col overflow-hidden shadow-card">
-                <div class="bg-gradient-to-r from-graphite to-emerald-950/40 p-4 border-b border-borderGreen text-center">
-                    <span class="text-xs font-extrabold tracking-widest text-gray-400 uppercase block mb-1">Rank IV</span>
-                    <h3 class="text-xl font-black text-white">TIER 4</h3>
-                </div>
-                <div class="p-3 flex flex-col gap-3 overflow-y-auto max-h-[600px]" id="column-tier-4">
-                    <!-- Cards will be injected via JS -->
-                </div>
-            </div>
-
-            <!-- TIER 5 -->
-            <div class="glass rounded-2xl border border-borderGreen flex flex-col overflow-hidden shadow-card">
-                <div class="bg-gradient-to-r from-graphite to-darkBg p-4 border-b border-borderGreen text-center">
-                    <span class="text-xs font-extrabold tracking-widest text-gray-500 uppercase block mb-1">Rank V</span>
-                    <h3 class="text-xl font-black text-white">TIER 5</h3>
-                </div>
-                <div class="p-3 flex flex-col gap-3 overflow-y-auto max-h-[600px]" id="column-tier-5">
-                    <!-- Cards will be injected via JS -->
-                </div>
-            </div>
-        </div>
-        
-        <div id="no-players-msg" class="hidden text-center py-16 glass rounded-2xl border border-borderGreen mt-6">
-            <i data-lucide="user-x" class="w-12 h-12 text-gray-500 mx-auto mb-3"></i>
-            <h3 class="text-lg font-bold text-white">No players found</h3>
-            <p class="text-sm text-gray-400">Попробуйте изменить параметры поиска или фильтры режимов.</p>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="border-t border-borderGreen bg-darkBg/95 py-12 px-6 mt-20">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-neonGreen flex items-center justify-center text-black font-bold">V</div>
-                <span class="font-bold text-white tracking-wide">VTIERS PLATFORM</span>
-            </div>
-            <p class="text-xs text-gray-500 text-center">
-                © 2026 VTIERS. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.
-            </p>
-            <div class="flex items-center gap-4 text-sm text-gray-400">
-                <a href="#" class="hover:text-neonGreen transition-colors">Privacy</a>
-                <a href="#" class="hover:text-neonGreen transition-colors">Terms</a>
-                <a href="https://discord.gg/vtiers" target="_blank" class="hover:text-neonGreen transition-colors">Discord</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- MODAL: PLAYER PROFILE -->
-    <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden p-4">
-        <div class="glass max-w-2xl w-full rounded-3xl border border-borderGreen p-8 relative shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto" id="profile-modal-content">
-            <button onclick="closeProfileModal()" class="absolute top-6 right-6 p-2 rounded-xl bg-graphite/80 hover:bg-neonGreen hover:text-black text-gray-300 transition-all">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            
-            <div id="modal-body">
-                <!-- Injected dynamically -->
-            </div>
-        </div>
     </div>
 
-    <!-- MODAL: DISCORD LOGIN & VERIFICATION -->
-    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden p-4">
-        <div class="glass max-w-md w-full rounded-3xl border border-borderGreen p-8 relative shadow-2xl">
-            <button onclick="closeAuthModal()" class="absolute top-6 right-6 p-2 rounded-xl bg-graphite/80 hover:bg-neonGreen hover:text-black text-gray-300 transition-all">
-                <i data-lucide="x" class="w-5 h-5"></i>
+    <div class="nav-actions">
+        <button class="btn" onclick="openDiscord()">Discord</button>
+        <button class="btn btn-green" onclick="openDiscord()">Login with Discord</button>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMobile()">☰</button>
+
+</nav>
+
+
+<!-- HOME -->
+<main id="home">
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            <span class="badge-dot"></span>
+            MINECRAFT PVP TIERING PLATFORM
+        </div>
+
+        <h1>VTIERS</h1>
+
+        <h2>Competitive Minecraft PvP Tiering</h2>
+
+        <p>
+            Тестируй свои навыки, получай тир и поднимайся в рейтинге.
+            VTIERS объединяет игроков, тестеров и Minecraft PvP community
+            в единую рейтинговую платформу.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="btn btn-green" onclick="showPage('tiers')">
+                View Tiers
             </button>
 
-            <div class="text-center mb-6">
-                <div class="w-14 h-14 rounded-2xl bg-[#5865F2]/20 border border-[#5865F2]/40 flex items-center justify-center mx-auto mb-4 text-[#5865F2]">
-                    <i data-lucide="disc" class="w-8 h-8"></i>
-                </div>
-                <h3 class="text-2xl font-black text-white mb-1">Discord Verification</h3>
-                <p class="text-xs text-gray-400">Свяжите Discord с вашим Minecraft аккаунтом для получения тира.</p>
+            <button class="btn" onclick="showPage('tests')">
+                Get Tested
+            </button>
+
+            <button class="btn" onclick="openDiscord()">
+                Join Discord
+            </button>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>1,284</strong>
+                <span>Players</span>
             </div>
 
-            <div class="space-y-4" id="auth-step-1">
+            <div class="stat">
+                <strong>3,921</strong>
+                <span>Tests</span>
+            </div>
+
+            <div class="stat">
+                <strong>5</strong>
+                <span>Tiers</span>
+            </div>
+
+            <div class="stat">
+                <strong>24/7</strong>
+                <span>Community</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Ranking System</div>
+            <h2 class="section-title">Tier System</h2>
+        </div>
+
+        <p class="section-desc">
+            Пять основных уровней соревновательного Minecraft PvP.
+            Каждый уровень разделён на High Tier и Low Tier.
+        </p>
+
+    </div>
+
+    <div class="tier-grid" id="homeTiers"></div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Platform</div>
+            <h2 class="section-title">Everything in one place</h2>
+        </div>
+
+    </div>
+
+    <div class="features">
+
+        <div class="feature">
+            <div class="feature-icon">⚔</div>
+            <h3>Competitive Testing</h3>
+            <p>
+                Система тестирования игроков с историей матчей,
+                результатами и изменениями рейтинга.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">◆</div>
+            <h3>Player Rankings</h3>
+            <p>
+                Просматривай игроков, их тиры, регионы,
+                статистику и достижения.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">✓</div>
+            <h3>Discord Verification</h3>
+            <p>
+                Связывай Minecraft аккаунт с Discord
+                и получай подтверждённый профиль.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">◈</div>
+            <h3>Test History</h3>
+            <p>
+                Полная timeline истории тиров:
+                LT → HT → повышение или изменение уровня.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">⌁</div>
+            <h3>Global Leaderboard</h3>
+            <p>
+                Сравнивай игроков по режимам,
+                регионам и текущему рейтингу.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">◇</div>
+            <h3>Community</h3>
+            <p>
+                Единая система для Discord community,
+                тестеров и PvP игроков.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- TIERS PAGE -->
+<section class="page" id="tiers">
+
+<div class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Ranking</div>
+            <h1 class="section-title">Player Tiers</h1>
+        </div>
+
+        <p class="section-desc">
+            Все игроки распределены по пяти основным уровням.
+        </p>
+
+    </div>
+
+    <div class="filters">
+        <button class="filter active">All Modes</button>
+        <button class="filter">Crystal PvP</button>
+        <button class="filter">Netherite</button>
+        <button class="filter">Sword</button>
+        <button class="filter">Axe</button>
+        <button class="filter">UHC</button>
+        <button class="filter">Pot PvP</button>
+    </div>
+
+    <div class="tier-grid" id="fullTiers"></div>
+
+</div>
+
+</section>
+
+
+<!-- PLAYERS -->
+<section class="page" id="players">
+
+<div class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Database</div>
+            <h1 class="section-title">Players</h1>
+        </div>
+
+        <p class="section-desc">
+            Поиск игроков и просмотр их рейтинга.
+        </p>
+
+    </div>
+
+    <div class="search-bar">
+
+        <input
+            class="search-input"
+            id="playerSearch"
+            placeholder="Search player..."
+            oninput="searchPlayers()"
+        >
+
+    </div>
+
+    <div class="filters">
+        <button class="filter active">All Regions</button>
+        <button class="filter">🇷🇺 RU</button>
+        <button class="filter">🇩🇪 DE</button>
+        <button class="filter">🇫🇷 FR</button>
+        <button class="filter">🇫🇮 FI</button>
+    </div>
+
+    <div class="player-grid" id="playerGrid"></div>
+
+</div>
+
+</section>
+
+
+<!-- LEADERBOARD -->
+<section class="page" id="leaderboard">
+
+<div class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Competitive</div>
+            <h1 class="section-title">Global Leaderboard</h1>
+        </div>
+
+        <p class="section-desc">
+            Рейтинг игроков VTIERS.
+        </p>
+
+    </div>
+
+    <div class="filters">
+        <button class="filter active">Global</button>
+        <button class="filter">Crystal PvP</button>
+        <button class="filter">Netherite</button>
+        <button class="filter">Sword</button>
+        <button class="filter">Axe</button>
+    </div>
+
+    <div class="leaderboard" id="leaderboardList"></div>
+
+</div>
+
+</section>
+
+
+<!-- TESTS -->
+<section class="page" id="tests">
+
+<div class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Testing</div>
+            <h1 class="section-title">PvP Tests</h1>
+        </div>
+
+        <p class="section-desc">
+            Запланированные и активные тестирования игроков.
+        </p>
+
+    </div>
+
+    <div class="tests-grid" id="testsGrid"></div>
+
+</div>
+
+</section>
+
+
+<!-- RULES -->
+<section class="page" id="rules">
+
+<div class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Information</div>
+            <h1 class="section-title">Rules</h1>
+        </div>
+
+    </div>
+
+    <div class="rules-grid">
+
+        <details class="rule" open>
+            <summary>General Rules</summary>
+            <p>
+                Участники должны соблюдать правила VTIERS,
+                Discord сервера и конкретного тестирования.
+                Запрещено намеренно мешать проведению тестов.
+            </p>
+        </details>
+
+        <details class="rule">
+            <summary>Testing Rules</summary>
+            <p>
+                Результаты теста должны фиксироваться тестером.
+                Изменение тира производится после завершения
+                соответствующей процедуры тестирования.
+            </p>
+        </details>
+
+        <details class="rule">
+            <summary>Player Rules</summary>
+            <p>
+                Игрок обязан использовать разрешённую версию Minecraft,
+                соблюдать ограничения режима и предоставлять корректные данные.
+            </p>
+        </details>
+
+        <details class="rule">
+            <summary>Tester Rules</summary>
+            <p>
+                Тестер обязан проводить матч объективно,
+                сохранять результаты и не изменять результат
+                без основания.
+            </p>
+        </details>
+
+        <details class="rule">
+            <summary>Tier Rules</summary>
+            <p>
+                HT и LT являются подуровнями одного основного Tier.
+                История изменений должна сохраняться в профиле игрока.
+            </p>
+        </details>
+
+        <details class="rule">
+            <summary>Discord Rules</summary>
+            <p>
+                Участники должны соблюдать правила Discord community
+                и указания администрации проекта.
+            </p>
+        </details>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- BANNED MODS -->
+<section class="page" id="mods">
+
+<div class="section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">Fair Play</div>
+            <h1 class="section-title">Mods</h1>
+        </div>
+
+        <p class="section-desc">
+            Список разрешённых и запрещённых модификаций.
+        </p>
+
+    </div>
+
+    <div class="mod-grid">
+
+        <div class="mod">
+            <div class="mod-title">
+                <h3>OptiFine</h3>
+                <span class="mod-status allowed">ALLOWED</span>
+            </div>
+            <p>Разрешён для оптимизации графики и производительности.</p>
+        </div>
+
+        <div class="mod">
+            <div class="mod-title">
+                <h3>Sodium</h3>
+                <span class="mod-status allowed">ALLOWED</span>
+            </div>
+            <p>Разрешён.</p>
+        </div>
+
+        <div class="mod">
+            <div class="mod-title">
+                <h3>Replay Mod</h3>
+                <span class="mod-status allowed">ALLOWED</span>
+            </div>
+            <p>Разрешён для записи и анализа матчей.</p>
+        </div>
+
+        <div class="mod">
+            <div class="mod-title">
+                <h3>Auto Clicker</h3>
+                <span class="mod-status banned">BANNED</span>
+            </div>
+            <p>Запрещён из-за автоматизации игровых действий.</p>
+        </div>
+
+        <div class="mod">
+            <div class="mod-title">
+                <h3>Kill Aura</h3>
+                <span class="mod-status banned">BANNED</span>
+            </div>
+            <p>Запрещён.</p>
+        </div>
+
+        <div class="mod">
+            <div class="mod-title">
+                <h3>Reach</h3>
+                <span class="mod-status banned">BANNED</span>
+            </div>
+            <p>Запрещён.</p>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section class="page" id="profile">
+
+<div class="section">
+
+    <button class="btn" onclick="showPage('players')" style="margin-bottom:20px;">
+        ← Back to Players
+    </button>
+
+    <div class="profile">
+
+        <div class="profile-card">
+
+            <img class="profile-skin" id="profileSkin">
+
+            <h2 id="profileName">PlayerName</h2>
+
+            <p id="profileRegion">🇷🇺 RU · Crystal PvP</p>
+
+            <div style="margin-top:18px">
+                <span class="tier-badge" id="profileTier">HT2</span>
+            </div>
+
+            <div style="margin-top:20px">
+
+                <button
+                    class="btn btn-green"
+                    style="width:100%;"
+                    onclick="openDiscord()"
+                >
+                    ✓ Verified
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="profile-main">
+
+            <div class="profile-stats">
+
+                <div class="profile-stat">
+                    <span>Current Tier</span>
+                    <strong id="pTier">HT2</strong>
+                </div>
+
+                <div class="profile-stat">
+                    <span>Highest Tier</span>
+                    <strong>HT1</strong>
+                </div>
+
+                <div class="profile-stat">
+                    <span>Tests</span>
+                    <strong>24</strong>
+                </div>
+
+                <div class="profile-stat">
+                    <span>Winrate</span>
+                    <strong>78.4%</strong>
+                </div>
+
+            </div>
+
+            <div class="history">
+
+                <h3>Tier History</h3>
+
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <div class="timeline-tier">HT2</div>
+                        <div class="timeline-date">
+                            23 Sep 2026 · Crystal PvP · TesterName
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-tier">LT2</div>
+                        <div class="timeline-date">
+                            14 Sep 2026 · Crystal PvP · TesterName
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-tier">HT3</div>
+                        <div class="timeline-date">
+                            03 Aug 2026 · Crystal PvP · TesterName
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-tier">LT3</div>
+                        <div class="timeline-date">
+                            11 Jul 2026 · Crystal PvP · TesterName
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="footer-inner">
+
+    <div>
+        <div class="logo">
+            <span class="logo-mark"></span>
+            VTIERS
+        </div>
+
+        <div class="footer-copy" style="margin-top:10px;">
+            Minecraft PvP Tiering Platform · © 2026 VTIERS
+        </div>
+
+    </div>
+
+    <div class="footer-links">
+        <a href="#" onclick="showPage('tiers');return false;">Tiers</a>
+        <a href="#" onclick="showPage('players');return false;">Players</a>
+        <a href="#" onclick="showPage('leaderboard');return false;">Leaderboard</a>
+        <a href="#" onclick="showPage('rules');return false;">Rules</a>
+        <a href="#" onclick="openDiscord()">Discord</a>
+    </div>
+
+</div>
+
+</footer>
+
+
+<!-- DISCORD MODAL -->
+
+<div class="modal" id="discordModal">
+
+<div class="modal-box">
+
+    <div class="modal-header">
+
+        <h2 style="font-family:'Space Grotesk';">
+            Login with Discord
+        </h2>
+
+        <button class="close" onclick="closeModal()">×</button>
+
+    </div>
+
+    <div class="discord-box">
+
+        <div class="discord-icon">D</div>
+
+        <div>
+            <strong>Discord OAuth2</strong>
+            <p style="color:#7d8981;font-size:11px;margin-top:4px;">
+                Connect your Discord account with VTIERS.
+            </p>
+        </div>
+
+    </div>
+
+    <div style="margin-top:20px;color:#78847c;font-size:12px;line-height:1.8;">
+        Здесь необходимо подключить настоящий Discord OAuth2 backend.
+        Этот frontend уже подготовлен под интеграцию.
+    </div>
+
+    <button
+        class="btn btn-green"
+        style="width:100%;margin-top:20px;"
+        onclick="closeModal()"
+    >
+        Continue
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+const players = [
+
+    {
+        name:"CrystalGod",
+        tier:"HT1",
+        region:"🇷🇺 RU",
+        mode:"Crystal PvP",
+        tests:48,
+        winrate:"94.2%",
+        skin:"https://mc-heads.net/avatar/CrystalGod/100"
+    },
+
+    {
+        name:"xNexon",
+        tier:"LT1",
+        region:"🇩🇪 DE",
+        mode:"Crystal PvP",
+        tests:42,
+        winrate:"91.8%",
+        skin:"https://mc-heads.net/avatar/xNexon/100"
+    },
+
+    {
+        name:"Krypton",
+        tier:"HT2",
+        region:"🇷🇺 RU",
+        mode:"Crystal PvP",
+        tests:35,
+        winrate:"87.4%",
+        skin:"https://mc-heads.net/avatar/Krypton/100"
+    },
+
+    {
+        name:"Vexor",
+        tier:"LT2",
+        region:"🇫🇷 FR",
+        mode:"Netherite",
+        tests:31,
+        winrate:"84.6%",
+        skin:"https://mc-heads.net/avatar/Vexor/100"
+    },
+
+    {
+        name:"Marlow",
+        tier:"HT2",
+        region:"🇩🇪 DE",
+        mode:"Crystal PvP",
+        tests:28,
+        winrate:"82.1%",
+        skin:"https://mc-heads.net/avatar/Marlow/100"
+    },
+
+    {
+        name:"Aster",
+        tier:"LT3",
+        region:"🇫🇮 FI",
+        mode:"Sword",
+        tests:26,
+        winrate:"79.4%",
+        skin:"https://mc-heads.net/avatar/Aster/100"
+    },
+
+    {
+        name:"Raven",
+        tier:"HT3",
+        region:"🇷🇺 RU",
+        mode:"Crystal PvP",
+        tests:24,
+        winrate:"77.8%",
+        skin:"https://mc-heads.net/avatar/Raven/100"
+    },
+
+    {
+        name:"Nero",
+        tier:"LT3",
+        region:"🇩🇪 DE",
+        mode:"Axe",
+        tests:21,
+        winrate:"74.2%",
+        skin:"https://mc-heads.net/avatar/Nero/100"
+    },
+
+    {
+        name:"Frost",
+        tier:"HT4",
+        region:"🇷🇺 RU",
+        mode:"Sword",
+        tests:19,
+        winrate:"71.4%",
+        skin:"https://mc-heads.net/avatar/Frost/100"
+    },
+
+    {
+        name:"Void",
+        tier:"LT4",
+        region:"🇫🇷 FR",
+        mode:"UHC",
+        tests:17,
+        winrate:"69.3%",
+        skin:"https://mc-heads.net/avatar/Void/100"
+    },
+
+    {
+        name:"Pulse",
+        tier:"HT5",
+        region:"🇩🇪 DE",
+        mode:"Pot PvP",
+        tests:13,
+        winrate:"64.1%",
+        skin:"https://mc-heads.net/avatar/Pulse/100"
+    },
+
+    {
+        name:"Ghost",
+        tier:"LT5",
+        region:"🇷🇺 RU",
+        mode:"Sword",
+        tests:10,
+        winrate:"59.8%",
+        skin:"https://mc-heads.net/avatar/Ghost/100"
+    }
+
+];
+
+
+const tiers = [
+
+    {
+        tier:"TIER 1",
+        sub:"HT1 / LT1",
+        players:["CrystalGod","xNexon"]
+    },
+
+    {
+        tier:"TIER 2",
+        sub:"HT2 / LT2",
+        players:["Krypton","Vexor","Marlow"]
+    },
+
+    {
+        tier:"TIER 3",
+        sub:"HT3 / LT3",
+        players:["Aster","Raven","Nero"]
+    },
+
+    {
+        tier:"TIER 4",
+        sub:"HT4 / LT4",
+        players:["Frost","Void"]
+    },
+
+    {
+        tier:"TIER 5",
+        sub:"HT5 / LT5",
+        players:["Pulse","Ghost"]
+    }
+
+];
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(page){
+
+    document.querySelectorAll(".page").forEach(el=>{
+        el.classList.remove("active");
+    });
+
+    document.querySelectorAll(".nav-link").forEach(el=>{
+        el.classList.remove("active");
+    });
+
+    if(page === "home"){
+
+        document.body.classList.remove("page-mode");
+
+        document.querySelector("#home").style.display="block";
+
+    }else{
+
+        document.body.classList.add("page-mode");
+
+        const target=document.getElementById(page);
+
+        if(target){
+            target.classList.add("active");
+        }
+
+    }
+
+    const nav=document.querySelector(`[data-page="${page}"]`);
+
+    if(nav){
+        nav.classList.add("active");
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================
+   TIER CARDS
+========================= */
+
+function tierCardHTML(tier){
+
+    let html=`
+
+        <div class="tier-card">
+
+            <div class="tier-number">
+                RANKING
+            </div>
+
+            <h3>${tier.tier}</h3>
+
+            <div class="tier-sub">
+                ${tier.sub}
+            </div>
+    `;
+
+    tier.players.forEach(name=>{
+
+        const p=players.find(x=>x.name===name);
+
+        if(!p)return;
+
+        html+=`
+
+            <div class="tier-player" onclick="openProfile('${p.name}')">
+
+                <img
+                    class="avatar"
+                    src="${p.skin}"
+                    alt="${p.name}"
+                >
+
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Minecraft Username</label>
-                    <input type="text" id="mc-username-input" placeholder="например, xx_pvp_god_xx" class="w-full px-4 py-3 rounded-xl glass border border-borderGreen text-white text-sm focus:outline-none focus:border-neonGreen">
+                    <div class="tier-player-name">
+                        ${p.name}
+                    </div>
+
+                    <div class="tier-player-rank">
+                        ${p.region} · ${p.mode}
+                    </div>
                 </div>
-                <button onclick="startVerification()" class="w-full py-3.5 rounded-xl bg-neonGreen hover:bg-emerald-400 text-black font-extrabold text-sm shadow-neon transition-all">
-                    Сгенерировать код верификации
-                </button>
+
+            </div>
+        `;
+
+    });
+
+    html+=`</div>`;
+
+    return html;
+}
+
+
+function renderTiers(){
+
+    document.getElementById("homeTiers").innerHTML=
+        tiers.map(tierCardHTML).join("");
+
+    document.getElementById("fullTiers").innerHTML=
+        tiers.map(tierCardHTML).join("");
+
+}
+
+
+/* =========================
+   PLAYERS
+========================= */
+
+function renderPlayers(list=players){
+
+    const container=document.getElementById("playerGrid");
+
+    if(!list.length){
+
+        container.innerHTML=`
+
+            <div style="
+                grid-column:1/-1;
+                text-align:center;
+                padding:70px 20px;
+                color:#68736c;
+            ">
+
+                <div style="font-size:35px;margin-bottom:12px;">
+                    ◌
+                </div>
+
+                <strong style="color:#dce3df;">
+                    No players found
+                </strong>
+
+                <p style="margin-top:6px;font-size:11px;">
+                    Try changing your search query.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML=list.map(p=>`
+
+        <div class="player-card" onclick="openProfile('${p.name}')">
+
+            <div class="player-top">
+
+                <img
+                    class="avatar player-avatar"
+                    src="${p.skin}"
+                    alt="${p.name}"
+                >
+
+                <div>
+
+                    <div class="player-name">
+
+                        ${p.name}
+
+                        <span class="verified">✓</span>
+
+                    </div>
+
+                    <div class="player-region">
+                        ${p.region} · ${p.mode}
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="space-y-4 hidden" id="auth-step-2">
-                <div class="p-4 rounded-xl bg-graphite/60 border border-borderGreen text-center">
-                    <span class="text-xs text-gray-400 block mb-1">Ваш секретный код:</span>
-                    <span class="text-2xl font-mono font-bold text-neonGreen tracking-widest" id="verif-code">VTIERS-7892</span>
-                    <p class="text-[11px] text-gray-400 mt-2">Зайдите на сервер <code class="text-white">play.vtiers.net</code> и введите команду <code class="text-neonGreen">/verify VTIERS-7892</code> в чат.</p>
+            <div class="player-info">
+
+                <div>
+                    <div class="info-label">Tier</div>
+                    <div class="info-value">
+                        <span class="tier-badge">${p.tier}</span>
+                    </div>
                 </div>
-                <button onclick="finishVerification()" class="w-full py-3.5 rounded-xl bg-neonGreen hover:bg-emerald-400 text-black font-extrabold text-sm shadow-neon transition-all">
-                    Я ввел команду, проверить аккаунт
-                </button>
+
+                <div>
+                    <div class="info-label">Tests</div>
+                    <div class="info-value">${p.tests}</div>
+                </div>
+
+                <div>
+                    <div class="info-label">Winrate</div>
+                    <div class="info-value">${p.winrate}</div>
+                </div>
+
             </div>
 
-            <div class="space-y-4 hidden" id="auth-step-3">
-                <div class="p-5 rounded-xl bg-emerald-950/40 border border-borderGreen text-center">
-                    <i data-lucide="check-circle-2" class="w-12 h-12 text-neonGreen mx-auto mb-2"></i>
-                    <h4 class="text-lg font-bold text-white mb-1">Аккаунт успешно привязан!</h4>
-                    <p class="text-xs text-gray-300">Теперь вы можете подать заявку на прохождение тестов у официальных тестеров.</p>
-                </div>
-                <button onclick="closeAuthModal()" class="w-full py-3.5 rounded-xl bg-graphite hover:bg-emerald-950 text-white font-bold text-sm transition-all border border-borderGreen">
-                    Закрыть окно
-                </button>
-            </div>
         </div>
-    </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+    `).join("");
 
-        // Database of players across all Tiers
-        const playersData = [
-            {
-                id: 1,
-                name: "ClutchGod",
-                tier: 1,
-                subTier: "HT1",
-                region: "RU",
-                mode: "Crystal PvP",
-                tests: 34,
-                winrate: "89%",
-                date: "12 Фев 2026",
-                verified: true,
-                discord: "clutchgod#0001",
-                avatar: "https://api.mineatar.io/face/6b9b2b51-5126-43b8-9337-f4700742f56b?scale=32",
-                highestTier: "HT1",
-                wins: 154,
-                losses: 19,
-                lastTest: "2 дня назад",
-                tester: "Admin_Tester",
-                timeline: [
-                    { date: "Янв 2026", old: "LT1", new: "HT1", mode: "Crystal", tester: "Helper_01" },
-                    { date: "Дек 2025", old: "HT2", new: "LT1", mode: "Crystal", tester: "Senior_Test" }
-                ],
-                achievements: ["🏆 Season 3 Champion", "⚡ 30+ Winstreak", "👑 Crystal Master"]
-            },
-            {
-                id: 2,
-                name: "Vortex_FX",
-                tier: 1,
-                subTier: "LT1",
-                region: "EU",
-                mode: "Crystal PvP",
-                tests: 28,
-                winrate: "84%",
-                date: "04 Янв 2026",
-                verified: true,
-                discord: "vortex#9999",
-                avatar: "https://api.mineatar.io/face/069a79f4-44e9-4726-a5be-fca90135aaf4?scale=32",
-                highestTier: "HT1",
-                wins: 120,
-                losses: 23,
-                lastTest: "Неделю назад",
-                tester: "Admin_Tester",
-                timeline: [
-                    { date: "Ноя 2025", old: "LT2", new: "LT1", mode: "Crystal", tester: "Admin_Tester" }
-                ],
-                achievements: ["💎 EU Tournament Winner"]
-            },
-            {
-                id: 3,
-                name: "ReflexMC",
-                tier: 2,
-                subTier: "HT2",
-                region: "RU",
-                mode: "Netherite PvP",
-                tests: 19,
-                winrate: "78%",
-                date: "18 Янв 2026",
-                verified: true,
-                discord: "reflex#1234",
-                avatar: "https://api.mineatar.io/face/8531d044-3df6-43f0-8069-3803d4beb27f?scale=32",
-                highestTier: "HT2",
-                wins: 95,
-                losses: 27,
-                lastTest: "5 дней назад",
-                tester: "Mod_PvP",
-                timeline: [{ date: "Дек 2025", old: "LT3", new: "HT2", mode: "Netherite", tester: "Mod_PvP" }],
-                achievements: ["⚔️ Netherite Specialist"]
-            },
-            {
-                id: 4,
-                name: "Starlight",
-                tier: 2,
-                subTier: "LT2",
-                region: "NA",
-                mode: "Sword",
-                tests: 22,
-                winrate: "76%",
-                date: "01 Фев 2026",
-                verified: true,
-                discord: "starlight#4444",
-                avatar: "https://api.mineatar.io/face/1b234698-299f-4d43-b4cf-81b49f503c14?scale=32",
-                highestTier: "HT2",
-                wins: 88,
-                losses: 28,
-                lastTest: "Вчера",
-                tester: "Tester_Pro",
-                timeline: [{ date: "Янв 2026", old: "HT3", new: "LT2", mode: "Sword", tester: "Tester_Pro" }],
-                achievements: ["🗡️ Sword Prodigy"]
-            },
-            {
-                id: 5,
-                name: "Blaze_HD",
-                tier: 3,
-                subTier: "HT3",
-                region: "RU",
-                mode: "UHC",
-                tests: 15,
-                winrate: "70%",
-                date: "10 Фев 2026",
-                verified: false,
-                discord: "blaze#5555",
-                avatar: "https://api.mineatar.io/face/f8430725-b829-473d-9051-68b6cfd6a599?scale=32",
-                highestTier: "HT3",
-                wins: 60,
-                losses: 25,
-                lastTest: "3 дня назад",
-                tester: "Admin_Tester",
-                timeline: [{ date: "Янв 2026", old: "LT4", new: "HT3", mode: "UHC", tester: "Helper" }],
-                achievements: ["🔥 UHC Warrior"]
-            },
-            {
-                id: 6,
-                name: "ZefirPvP",
-                tier: 3,
-                subTier: "LT3",
-                region: "EU",
-                mode: "Crystal PvP",
-                tests: 12,
-                winrate: "67%",
-                date: "25 Янв 2026",
-                verified: true,
-                discord: "zefir#3333",
-                avatar: "https://api.mineatar.io/face/c0f86235-992a-4340-9a2c-4b53299c2794?scale=32",
-                highestTier: "LT3",
-                wins: 45,
-                losses: 22,
-                lastTest: "Неделю назад",
-                tester: "Mod_PvP",
-                timeline: [{ date: "Янв 2026", old: "HT4", new: "LT3", mode: "Crystal", tester: "Mod_PvP" }],
-                achievements: ["🧊 Crystal Fighter"]
-            },
-            {
-                id: 7,
-                name: "Frostbite",
-                tier: 4,
-                subTier: "HT4",
-                region: "RU",
-                mode: "Sword",
-                tests: 10,
-                winrate: "62%",
-                date: "02 Фев 2026",
-                verified: false,
-                discord: "frost#1111",
-                avatar: "https://api.mineatar.io/face/4a854d04-18e4-4a57-b08e-5b12ef81977e?scale=32",
-                highestTier: "HT4",
-                wins: 30,
-                losses: 18,
-                lastTest: "4 дня назад",
-                tester: "Tester_Pro",
-                timeline: [],
-                achievements: ["❄️ Rising Star"]
-            },
-            {
-                id: 8,
-                name: "ShadowX",
-                tier: 4,
-                subTier: "LT4",
-                region: "NA",
-                mode: "Netherite PvP",
-                tests: 8,
-                winrate: "58%",
-                date: "14 Янв 2026",
-                verified: true,
-                discord: "shadow#2222",
-                avatar: "https://api.mineatar.io/face/7c83289c-a2b1-4f1e-8e8f-7f7243c2c10b?scale=32",
-                highestTier: "LT4",
-                wins: 24,
-                losses: 17,
-                lastTest: "2 недели назад",
-                tester: "Admin_Tester",
-                timeline: [],
-                achievements: ["🌑 Shadow Fighter"]
-            },
-            {
-                id: 9,
-                name: "NoobKiller99",
-                tier: 5,
-                subTier: "HT5",
-                region: "RU",
-                mode: "Crystal PvP",
-                tests: 5,
-                winrate: "50%",
-                date: "20 Янв 2026",
-                verified: false,
-                discord: "noob#0000",
-                avatar: "https://api.mineatar.io/face/5d8b8241-115f-4a0b-b18c-36b1d4e08cf9?scale=32",
-                highestTier: "HT5",
-                wins: 15,
-                losses: 15,
-                lastTest: "Месяц назад",
-                tester: "Helper_01",
-                timeline: [],
-                achievements: ["🌱 Beginner Contender"]
-            },
-            {
-                id: 10,
-                name: "PixelMan",
-                tier: 5,
-                subTier: "LT5",
-                region: "EU",
-                mode: "UHC",
-                tests: 4,
-                winrate: "45%",
-                date: "05 Фев 2026",
-                verified: false,
-                discord: "pixel#8888",
-                avatar: "https://api.mineatar.io/face/9f3b1407-5e17-48f5-932b-42b781b01776?scale=32",
-                highestTier: "LT5",
-                wins: 10,
-                losses: 12,
-                lastTest: "Вчера",
-                tester: "Helper_01",
-                timeline: [],
-                achievements: ["🎮 Sandbox Rookie"]
-            }
-        ];
+}
 
-        let currentTierFilter = 'all'; // 'all', 'HT', 'LT'
 
-        // Render players to columns
-        function renderTiers() {
-            const searchQuery = document.getElementById('player-search').value.toLowerCase();
-            const modeFilter = document.getElementById('mode-filter').value;
-            const regionFilter = document.getElementById('region-filter').value;
+function searchPlayers(){
 
-            let totalVisible = 0;
+    const query=
+        document.getElementById("playerSearch")
+        .value
+        .toLowerCase()
+        .trim();
 
-            for (let i = 1; i <= 5; i++) {
-                const column = document.getElementById(`column-tier-${i}`);
-                const tierPlayers = playersData.filter(p => {
-                    let matchesTier = p.tier === i;
-                    let matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.discord.toLowerCase().includes(searchQuery);
-                    let matchesMode = modeFilter === 'all' || p.mode === modeFilter;
-                    let matchesRegion = regionFilter === 'all' || p.region === regionFilter;
-                    
-                    let matchesSubTierType = true;
-                    if (currentTierFilter === 'HT') matchesSubTierType = p.subTier.startsWith('HT');
-                    if (currentTierFilter === 'LT') matchesSubTierType = p.subTier.startsWith('LT');
+    const result=players.filter(p=>
+        p.name.toLowerCase().includes(query)
+    );
 
-                    return matchesTier && matchesSearch && matchesMode && matchesRegion && matchesSubTierType;
-                });
+    renderPlayers(result);
 
-                totalVisible += tierPlayers.length;
-                column.innerHTML = '';
+}
 
-                if (tierPlayers.length === 0) {
-                    column.innerHTML = `<div class="text-center py-6 text-gray-500 text-xs italic">Нет игроков</div>`;
-                    continue;
-                }
 
-                tierPlayers.forEach(player => {
-                    const card = document.createElement('div');
-                    card.className = `glass p-4 rounded-xl border border-borderGreen hover:border-neonGreen/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-neon cursor-pointer group`;
-                    card.onclick = () => openProfileModal(player.id);
-                    
-                    card.innerHTML = `
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="relative">
-                                <img src="${player.avatar}" alt="${player.name}" class="w-10 h-10 rounded-lg bg-graphite border border-borderGreen object-cover shadow-sm">
-                                ${player.verified ? '<div class="absolute -bottom-1 -right-1 bg-neonGreen text-black rounded-full p-0.5 shadow-sm"><svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>' : ''}
-                            </div>
-                            <div class="overflow-hidden">
-                                <div class="flex items-center gap-1.5">
-                                    <h4 class="text-sm font-bold text-white truncate group-hover:text-neonGreen transition-colors">${player.name}</h4>
-                                </div>
-                                <span class="text-[10px] text-gray-400 block">${player.discord}</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between text-xs pt-2 border-t border-borderGreen/50">
-                            <span class="px-2 py-0.5 rounded font-extrabold bg-neonGreen/10 text-neonGreen border border-neonGreen/20">${player.subTier}</span>
-                            <span class="text-gray-400 font-medium">🌐 ${player.region}</span>
-                            <span class="text-gray-400 font-medium">${player.mode}</span>
-                        </div>
-                    `;
-                    column.appendChild(card);
-                });
-            }
+/* =========================
+   LEADERBOARD
+========================= */
 
-            const noMsg = document.getElementById('no-players-msg');
-            if (totalVisible === 0) {
-                noMsg.classList.remove('hidden');
-            } else {
-                noMsg.classList.add('hidden');
-            }
-        }
+function renderLeaderboard(){
 
-        // Tier filter mode (HT / LT / All)
-        function setTierMode(mode) {
-            currentTierFilter = mode;
-            document.getElementById('btn-tier-all').className = mode === 'all' ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-neonGreen text-black transition-all' : 'px-3 py-1.5 rounded-lg text-xs font-bold text-gray-300 hover:text-white transition-all';
-            document.getElementById('btn-tier-ht').className = mode === 'HT' ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-neonGreen text-black transition-all' : 'px-3 py-1.5 rounded-lg text-xs font-bold text-gray-300 hover:text-white transition-all';
-            document.getElementById('btn-tier-lt').className = mode === 'LT' ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-neonGreen text-black transition-all' : 'px-3 py-1.5 rounded-lg text-xs font-bold text-gray-300 hover:text-white transition-all';
-            renderTiers();
-        }
+    const sorted=[...players].sort((a,b)=>
+        parseFloat(b.winrate)-parseFloat(a.winrate)
+    );
 
-        // Event listeners for filters
-        document.getElementById('player-search').addEventListener('input', renderTiers);
-        document.getElementById('mode-filter').addEventListener('change', renderTiers);
-        document.getElementById('region-filter').addEventListener('change', renderTiers);
+    document.getElementById("leaderboardList").innerHTML=
 
-        // Initial render
-        renderTiers();
+        sorted.map((p,index)=>`
 
-        // Profile Modal Logic
-        function openProfileModal(playerId) {
-            const player = playersData.find(p => p.id === playerId);
-            if (!player) return;
+            <div class="rank-row">
 
-            const modalBody = document.getElementById('modal-body');
-            
-            let timelineHtml = player.timeline.length > 0 ? player.timeline.map(t => `
-                <div class="flex items-center justify-between text-xs py-2 border-b border-borderGreen/40">
-                    <span class="text-gray-400">${t.date}</span>
-                    <span class="px-2 py-0.5 rounded bg-graphite text-gray-300">${t.old} → <strong class="text-neonGreen">${t.new}</strong></span>
-                    <span class="text-gray-400">Режим: ${t.mode}</span>
-                    <span class="text-emerald-400">Тестер: ${t.tester}</span>
-                </div>
-            `).join('') : '<p class="text-xs text-gray-500 italic">Изменений тиров не зафиксировано</p>';
-
-            let achievementsHtml = player.achievements.map(a => `<span class="px-3 py-1 rounded-xl bg-graphite border border-borderGreen text-xs text-gray-300 font-medium">${a}</span>`).join('');
-
-            modalBody.innerHTML = `
-                <div class="flex flex-col sm:flex-row items-center gap-5 mb-8">
-                    <img src="${player.avatar}" alt="${player.name}" class="w-20 h-20 rounded-2xl bg-graphite border-2 border-neonGreen shadow-neon object-cover">
-                    <div class="text-center sm:text-left">
-                        <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                            <h2 class="text-2xl font-black text-white">${player.name}</h2>
-                            ${player.verified ? '<span class="bg-neonGreen text-black p-1 rounded-full"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>' : ''}
-                        </div>
-                        <p class="text-xs text-gray-400 mb-2">Discord: <span class="text-white font-medium">${player.discord}</span></p>
-                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start">
-                            <span class="px-3 py-1 rounded-lg text-xs font-bold bg-neonGreen/20 text-neonGreen border border-neonGreen/30">${player.subTier} Tier</span>
-                            <span class="px-3 py-1 rounded-lg text-xs font-bold bg-graphite text-gray-300 border border-borderGreen">Region: ${player.region}</span>
-                            <span class="px-3 py-1 rounded-lg text-xs font-bold bg-graphite text-gray-300 border border-borderGreen">Mode: ${player.mode}</span>
-                        </div>
-                    </div>
+                <div class="rank">
+                    #${index+1}
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                    <div class="glass p-3 rounded-xl border border-borderGreen text-center">
-                        <span class="text-xs text-gray-400 block mb-1">Winrate</span>
-                        <span class="text-lg font-black text-neonGreen">${player.winrate}</span>
-                    </div>
-                    <div class="glass p-3 rounded-xl border border-borderGreen text-center">
-                        <span class="text-xs text-gray-400 block mb-1">Tests Done</span>
-                        <span class="text-lg font-black text-white">${player.tests}</span>
-                    </div>
-                    <div class="glass p-3 rounded-xl border border-borderGreen text-center">
-                        <span class="text-xs text-gray-400 block mb-1">Wins / Losses</span>
-                        <span class="text-lg font-black text-white">${player.wins} / ${player.losses}</span>
-                    </div>
-                    <div class="glass p-3 rounded-xl border border-borderGreen text-center">
-                        <span class="text-xs text-gray-400 block mb-1">Highest Tier</span>
-                        <span class="text-lg font-black text-emerald-400">${player.highestTier}</span>
-                    </div>
-                </div>
+                <div class="rank-player">
 
-                <div class="mb-6">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Достижения</h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${achievementsHtml}
-                    </div>
-                </div>
-
-                <div class="mb-6">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">История тиров (Timeline)</h4>
-                    <div class="glass p-4 rounded-xl border border-borderGreen space-y-2">
-                        ${timelineHtml}
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between text-xs text-gray-500 pt-4 border-t border-borderGreen">
-                    <span>Последний тест: <strong class="text-gray-300">${player.lastTest}</strong></span>
-                    <span>Ответственный тестер: <strong class="text-gray-300">${player.tester}</strong></span>
-                </div>
-            `;
-
-            document.getElementById('profile-modal').classList.remove('hidden');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profile-modal').classList.add('hidden');
-        }
-
-        // Auth & Verification Modal Logic
-        function openAuthModal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-            document.getElementById('auth-step-1').classList.remove('hidden');
-            document.getElementById('auth-step-2').classList.add('hidden');
-            document.getElementById('auth-step-3').classList.add('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-
-        function startVerification() {
-            const username = document.getElementById('mc-username-input').value.trim();
-            if(!username) {
-                alert('Пожалуйста, введите ваш Minecraft никнейм!');
-                return;
-            }
-            const randomCode = 'VTIERS-' + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('verif-code').innerText = randomCode;
-
-            document.getElementById('auth-step-1').classList.add('hidden');
-            document.getElementById('auth-step-2').classList.remove('hidden');
-        }
-
-        function finishVerification() {
-            document.getElementById('auth-step-2').classList.add('hidden');
-            document.getElementById('auth-step-3').classList.remove('hidden');
-        }
-
-        // Cursor Leaf Particles System
-        const leafContainer = document.getElementById('leaf-container');
-        let lastSpawnTime = 0;
-        const spawnInterval = 70; // Limit creation frequency for performance
-
-        window.addEventListener('mousemove', (e) => {
-            // Disable on mobile devices
-            if (window.innerWidth < 768) return;
-
-            const now = Date.now();
-            if (now - lastSpawnTime < spawnInterval) return;
-            lastSpawnTime = now;
-
-            const leaf = document.createElement('div');
-            leaf.className = 'leaf-particle';
-            
-            // Random size between 6px and 12px
-            const size = Math.floor(Math.random() * 7) + 6;
-            leaf.style.width = `${size}px`;
-            leaf.style.height = `${size * 0.7}px`;
-            
-            // Position at cursor
-            leaf.style.left = `${e.clientX}px`;
-            leaf.style.top = `${e.clientY}px`;
-
-            // Random fall trajectory
-            const endX = (Math.random() - 0.5) * 120;
-            const duration = Math.random() * 1.2 + 0.8; // 0.8s to 2s
-            leaf.style.setProperty('--end-x', `${endX}px`);
-            leaf.style.animationDuration = `${duration}s`;
-
-            leafContainer.appendChild(leaf);
-
-            // Remove leaf after animation completes
-            setTimeout(() => {
-                leaf.remove();
-            }, duration * 1000);
-        });
-    </script>
-</body>
-</html>
+        ... (осталось: 7 кб)
